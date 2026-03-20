@@ -1,0 +1,12 @@
+[
+  {
+    "identifier": "202603130001",
+    "caption": "Sample EPIC caption for tests",
+    "image": "epic_1b_202603130001",
+    "date": "2026-03-13 00:01:00",
+    "centroid_coordinates": {
+      "lat": 12.34,
+      "lon": -56.78
+    }
+  }
+]

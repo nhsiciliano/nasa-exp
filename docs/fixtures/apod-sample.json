@@ -1,0 +1,9 @@
+{
+  "date": "2026-03-13",
+  "explanation": "Sample APOD explanation for decoder tests.",
+  "media_type": "image",
+  "title": "Sample APOD",
+  "url": "https://apod.nasa.gov/apod/image/2603/sample.jpg",
+  "hdurl": "https://apod.nasa.gov/apod/image/2603/sample_hd.jpg",
+  "copyright": "NASA"
+}

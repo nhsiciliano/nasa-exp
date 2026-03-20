@@ -1,0 +1,4 @@
+// Shared config for all build variants
+
+NASA_API_KEY = XMnqpMPmJD4Oenhd6IU6CS6WSTMqALym1ZUEtOV1
+INFOPLIST_KEY_NASA_API_KEY = $(NASA_API_KEY)

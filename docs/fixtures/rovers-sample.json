@@ -1,0 +1,19 @@
+{
+  "photos": [
+    {
+      "id": 123456,
+      "img_src": "https://mars.nasa.gov/msl-raw-images/sample.jpg",
+      "earth_date": "2026-03-10",
+      "camera": {
+        "name": "NAVCAM",
+        "full_name": "Navigation Camera"
+      },
+      "rover": {
+        "name": "Curiosity",
+        "status": "active",
+        "launch_date": "2011-11-26",
+        "landing_date": "2012-08-06"
+      }
+    }
+  ]
+}
