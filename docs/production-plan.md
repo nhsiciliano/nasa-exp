@@ -49,11 +49,11 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | P1.7 | Corregir tildes en todo el copy ("Descripción", "cámara", "Crédito") y pasar formateadores de `es_ES` fijo a `Locale.current` | 🟢 Bajo | Hecho | Rovers ya usa tildes. Falta APOD, EPIC, Favoritos y errores. |
 | P1.8 | String Catalog con español como base e inglés como segundo idioma | 🟡 Medio | Hecho | `Localizable.xcstrings` con 172 claves y traducción al inglés completa; `InfoPlist.xcstrings`; la acción Test corre en es/ES. |
 | P1.9 | Pull to refresh sin vaciar el contenido (estado `refreshing` o mantener `loaded` mientras llega la respuesta) | 🟢 Bajo | Hecho | Hoy `refresh()` pone `.loading` y la pantalla parpadea. |
-| P1.10 | Aviso "App no oficial, no afiliada a NASA" en la app y en la ficha; revisar que el ícono no use insignias de NASA | 🟢 Bajo | En curso | Riesgo de rechazo por guías 5.2.5 de Apple y guías de medios de NASA. |
+| P1.10 | Aviso "App no oficial, no afiliada a NASA" en la app y en la ficha; revisar que el ícono no use insignias de NASA | 🟢 Bajo | Hecho | Pantalla "Acerca de" desde Favoritos con versión, aviso y enlaces a las fuentes; nota en `docs/app-metadata.md`. El ícono no usa el meatball ni el worm. |
 | P1.11 | Eliminar `ContentView.swift` (no se usa) | 🟢 Bajo | Hecho | |
 | P1.13 | Contraste del `DatePicker` en EPIC y de los controles de fecha de APOD sobre fondo oscuro | 🟢 Bajo | Hecho | APOD ya lo tenía; EPIC recibió tint, color de texto y esquema oscuro. Falta mirar el calendario emergente a mano. |
-| P1.14 | Tab bar en apariencia clara: las etiquetas (Hoy, Rovers, Favoritos) se ven negras sobre el cristal oscuro | 🟢 Bajo | En curso | Reportado por low-dev. Forzar `.toolbarColorScheme(.dark, for: .tabBar)` ya está; revisar `preferredColorScheme(.dark)` a nivel app, dado que todo el design system es oscuro. Sin asignar. |
-| P1.15 | Favoritos: formatear la fecha visible a partir de `originalDate` al mostrar, en vez del subtítulo guardado | 🟢 Bajo | Pendiente | Hoy una fecha guardada en español sigue en español al cambiar la app a inglés. Asignada a low-dev. |
+| P1.14 | Tab bar en apariencia clara: las etiquetas (Hoy, Rovers, Favoritos) se ven negras sobre el cristal oscuro | 🟢 Bajo | Hecho | Reportado por low-dev. Forzar `.toolbarColorScheme(.dark, for: .tabBar)` ya está; revisar `preferredColorScheme(.dark)` a nivel app, dado que todo el design system es oscuro. Sin asignar. |
+| P1.15 | Favoritos: formatear la fecha visible a partir de `originalDate` al mostrar, en vez del subtítulo guardado | 🟢 Bajo | Hecho | `FavoriteItem.displayDate()` con fallback al subtítulo guardado. `FavoriteDisplayDateTests`. |
 | P1.16 | Favoritos: `FavoriteStore.upsert` completa los campos nuevos de favoritos viejos al volver a ver el ítem vivo | 🟡 Medio | Hecho | Sin tocar `createdAt`; limpia `api_key` de toda URL persistida; no refresca al abrir desde Favoritos. `FavoriteStoreUpsertTests`. |
 | P1.17 | Archive de Release en seco (`xcodebuild archive`) para detectar problemas que solo aparecen en Release antes de TestFlight | 🟡 Medio | Hecho | ARCHIVE SUCCEEDED con firma automática del equipo. Bundle limpio (iPhone, Portrait, iOS 17, manifest, catálogos). Comando en `docs/testing.md`. Con el widget, el archive firma dos bundles. |
 | P1.12 | Smoke test de UI: abrir cada tab y un detalle | 🟡 Medio | Hecho | Requiere target `nasa.expUITests`. El launch argument `-initialTab` ya existe para QA. |
@@ -106,13 +106,12 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 
 - `main` = `22e9057`: todo lo integrado hasta la ola 2 de low-dev, suite 57/57.
 - `nhsiciliano/planner` = `d11131e`: `main` + P0.9, P1.13, P1.12, P2.10, P2.8, P1.8, I.4. Suite completa verde (84 unit tests, 3 UI tests). Pendiente de llevar a `main` cuando el usuario lo decida.
-- 2026-10-21, tarde: `main` avanzó a `planner` (todo integrado). Ola 3 asignada: low-dev P1.10, P1.14, P1.15; mid-dev P1.16, P1.17; high-dev P2.9 (retomar el widget sobre la fuente nueva de APOD).
+- 2026-10-21, tarde: ola 3 entregada e integrada (low-dev P1.10, P1.14, P1.15; mid-dev P1.16, P1.17; high-dev P2.9). Las tres sesiones quedaron sin tareas.
 
 ## Notas de integración
 
 - `FavoriteItemDetailView.swift` era código muerto (Favoritos navega a los detalles nativos, que ya tienen "Quitar de favoritos"). Borrado el 2026-10-21.
 - El detalle APOD reconstruido desde un favorito muestra la imagen estándar, no HD. Agregar la columna `hdurl` cuando entre P1.2.
-- Favoritos guarda el subtítulo ya formateado: una fecha guardada con la app en español sigue en español al cambiar a inglés. Con `originalDate` (P1.5) se puede formatear al mostrar. Pendiente sin asignar.
 - Widget: los días de video muestran título e ícono sin el póster. Follow-up chico, sin asignar.
 - TestFlight: el archive firma `den-mobile.nasa-exp` y `den-mobile.nasa-exp.widget`; hace falta `-allowProvisioningUpdates` o un perfil para el widget.
 
