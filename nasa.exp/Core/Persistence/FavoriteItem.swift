@@ -27,7 +27,7 @@ final class FavoriteItem {
     // Original metadata used to rebuild the native detail screens:
     // - APOD: originalDate, copyright, mediaKindRaw
     // - Rover: originalDate (earth date), sol, instrument, cameraFullName, credit, thumbnailURLString
-    // - EPIC: originalDate, latitude, longitude
+    // - EPIC: originalDate, latitude, longitude, thumbnailURLString
     // Every field is optional so SwiftData migrates existing stores automatically (lightweight
     // migration). They are nil on favorites saved before they existed, so readers need a fallback.
     var originalDate: Date?

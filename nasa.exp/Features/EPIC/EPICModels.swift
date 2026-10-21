@@ -41,7 +41,8 @@ nonisolated struct EPICEntry: Identifiable {
             mediaURL: imageURL,
             originalDate: date,
             latitude: latitude,
-            longitude: longitude
+            longitude: longitude,
+            thumbnailURL: thumbnailURL
         )
     }
 
@@ -78,7 +79,7 @@ nonisolated extension EPICEntry {
         self.latitude = favoriteItem.latitude ?? 0
         self.longitude = favoriteItem.longitude ?? 0
         self.imageURL = favoriteItem.mediaURL
-        self.thumbnailURL = nil
+        self.thumbnailURL = favoriteItem.thumbnailURL
     }
 
     private static let apiFormatter: DateFormatter = {
