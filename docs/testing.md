@@ -154,6 +154,31 @@ xcrun simctl io "iPhone 17" screenshot rovers.png
 Requisitos: el scheme `nasa.exp` tiene que estar compartido (`xcshareddata`, item I.1) y el runner tiene que tener una versión de Xcode que soporte el formato del proyecto y el deployment target.
 Para configurar el secret: Settings → Secrets and variables → Actions → `NASA_API_KEY`.
 
+## Release archive
+
+Archive en seco antes de subir a TestFlight, para encontrar problemas que solo aparecen en Release. Necesita `Config/Secrets.xcconfig` con la key real (la fase "Validate NASA API Key" corta el build Release si la key está vacía o es el placeholder):
+
+```bash
+xcodebuild -project "nasa.exp.xcodeproj" \
+  -scheme "nasa.exp" \
+  -configuration Release \
+  -destination 'generic/platform=iOS' \
+  -archivePath "$TMPDIR/nasa.exp.xcarchive" \
+  archive
+```
+
+El archive queda fuera del repo (`build/` no está en `.gitignore`); `open "$TMPDIR/nasa.exp.xcarchive"` lo abre en Organizer.
+
+Resultado del 2026-10-21 (Xcode 27.1, SDK iphoneos27.1), `** ARCHIVE SUCCEEDED **` en unos 6 minutos:
+
+- Firma automática con el equipo `C9SN4BNWU9` y el perfil "iOS Team Provisioning Profile" (Apple Development); no hizo falta `CODE_SIGNING_ALLOWED=NO`. Al subir, Organizer → Distribute App → App Store Connect vuelve a firmar con el certificado de distribución.
+- Sin warnings del compilador en Release; el único warning del log es el de `appintentsmetadataprocessor` (la app no usa App Intents).
+- La fase "Validate NASA API Key" corrió, y el `Info.plist` del `.app` lleva una key de 40 caracteres.
+- `Info.plist`: `UIDeviceFamily` = [1] (solo iPhone), solo orientación vertical, `MinimumOSVersion` 17.0, `arm64`, `ITSAppUsesNonExemptEncryption` = false, versión 1.0 (1). Sin `UISupportedInterfaceOrientations~ipad` ni otras claves de iPad, salvo `CFBundleIcons~ipad` y `AppIcon76x76@2x~ipad.png`, que agrega `actool` a partir del ícono universal de 1024 aunque el target es solo iPhone. App Store Connect no las rechaza.
+- Dentro del `.app`: `PrivacyInfo.xcprivacy` (sin tracking, sin datos recolectados, sin APIs con motivo requerido), `en.lproj/Localizable.strings` (173 textos), `InfoPlist.strings` en `es.lproj` y `en.lproj`. El español no tiene `Localizable.strings` porque es el idioma fuente: las claves ya son el texto.
+- `UserDefaults` solo se usa para `-initialTab` dentro de `#if DEBUG` y no aparece en el binario Release, así que el manifiesto no necesita declararlo.
+- Tamaño: `.app` 1,5 MB (binario 1,0 MB, `Assets.car` 436 KB); el `.xcarchive` completo con dSYM, 7,5 MB.
+
 ## Pendientes
 
 Ver `docs/production-plan.md`, items P1.12 (smoke test de UI) e I.4 (tests de errores 429/403, migracion de favoritos y formateadores por locale).
