@@ -3,37 +3,6 @@ import XCTest
 @testable import nasa_exp
 
 final class NASAExpDecodingTests: XCTestCase {
-    func test_apodDecoding_mapsImageMediaCorrectly() throws {
-        let json = """
-        {
-          "date": "2026-03-13",
-          "explanation": "Sample APOD explanation for decoder tests.",
-          "media_type": "image",
-          "title": "Sample APOD",
-          "url": "https://apod.nasa.gov/apod/image/2603/sample.jpg",
-          "hdurl": "https://apod.nasa.gov/apod/image/2603/sample_hd.jpg",
-          "copyright": "NASA"
-        }
-        """.data(using: .utf8)!
-
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        let dto = try decoder.decode(APODResponseDTO.self, from: json)
-        let entry = APODEntry(dto: dto)
-
-        XCTAssertEqual(entry.id, "2026-03-13")
-        XCTAssertEqual(entry.title, "Sample APOD")
-        XCTAssertEqual(entry.copyright, "NASA")
-
-        switch entry.media {
-        case let .image(url, hdURL):
-            XCTAssertEqual(url.absoluteString, "https://apod.nasa.gov/apod/image/2603/sample.jpg")
-            XCTAssertEqual(hdURL?.absoluteString, "https://apod.nasa.gov/apod/image/2603/sample_hd.jpg")
-        default:
-            XCTFail("Expected image media")
-        }
-    }
-
     func test_roversDecoding_mapsCuriosityRawImage() throws {
         let json = """
         {

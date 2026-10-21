@@ -1,14 +1,12 @@
 import Foundation
 
+/// Endpoints on `api.nasa.gov`. APOD left this API in 2026 (see `APODSource`).
 nonisolated enum NASAEndpoint {
-    case apod(date: String?)
     case epicNatural(date: String)
     case epicLatest
 
     var path: String {
         switch self {
-        case .apod:
-            return "/planetary/apod"
         case let .epicNatural(date):
             return "/EPIC/api/natural/date/\(date)"
         case .epicLatest:
@@ -17,19 +15,6 @@ nonisolated enum NASAEndpoint {
     }
 
     var queryItems: [URLQueryItem] {
-        var items: [URLQueryItem] = []
-
-        switch self {
-        case let .apod(date):
-            if let date {
-                items.append(URLQueryItem(name: "date", value: date))
-            }
-
-        case .epicNatural, .epicLatest:
-            break
-        }
-
-        items.append(URLQueryItem(name: "api_key", value: NASAEnvironment.apiKey))
-        return items
+        [URLQueryItem(name: "api_key", value: NASAEnvironment.apiKey)]
     }
 }

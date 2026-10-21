@@ -5,18 +5,19 @@ import Foundation
 nonisolated extension APODEntry {
     var favoriteDraft: FavoriteDraft {
         let mediaKind: FavoriteMediaKind
+        let mediaURL: URL?
+        var hdMediaURL: URL?
         switch media {
-        case .image:
+        case let .image(url, hdURL):
             mediaKind = .image
-        case .video:
+            mediaURL = url
+            hdMediaURL = hdURL
+        case let .video(url):
             mediaKind = .video
+            mediaURL = url
         case .unsupported:
             mediaKind = .unsupported
-        }
-
-        var hdMediaURL: URL?
-        if case let .image(_, hdURL) = media {
-            hdMediaURL = hdURL
+            mediaURL = nil
         }
 
         return FavoriteDraft(
@@ -25,11 +26,13 @@ nonisolated extension APODEntry {
             title: title,
             subtitle: displayDate,
             details: explanation,
-            mediaURL: shareURL,
+            mediaURL: mediaURL,
             originalDate: date,
             copyright: copyright,
             mediaKind: mediaKind,
-            hdMediaURL: hdMediaURL
+            thumbnailURL: thumbnailURL,
+            hdMediaURL: hdMediaURL,
+            pageURL: shareURL
         )
     }
 
@@ -48,15 +51,19 @@ nonisolated extension APODEntry {
             media = .unsupported
         }
 
-        self.id = favoriteItem.remoteID
-        self.title = favoriteItem.title
-        self.explanation = favoriteItem.details
-        self.date = favoriteItem.originalDate
-            ?? APODEntry.apiFormatter.date(from: favoriteItem.remoteID)
-            ?? .now
-        self.copyright = favoriteItem.copyright
-        self.media = media
-        self.shareURL = mediaURL
+        self.init(
+            id: favoriteItem.remoteID,
+            title: favoriteItem.title,
+            explanation: favoriteItem.details,
+            date: favoriteItem.originalDate
+                ?? APODEntry.apiFormatter.date(from: favoriteItem.remoteID)
+                ?? .now,
+            copyright: favoriteItem.copyright,
+            media: media,
+            // Favorites saved before `pageURLString` existed share the media URL instead.
+            shareURL: favoriteItem.pageURL ?? mediaURL,
+            thumbnailURL: favoriteItem.thumbnailURL
+        )
     }
 }
 

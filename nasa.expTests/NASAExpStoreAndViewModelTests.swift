@@ -78,14 +78,14 @@ final class NASAExpStoreAndViewModelTests: XCTestCase {
     }
 
     func test_favoriteStore_roundTrip_preservesAPODMetadata() throws {
-        let original = APODEntry(dto: APODResponseDTO(
+        let original = APODEntry(record: APODRecord(
+            id: "2026-03-13",
             title: "Nebula",
             explanation: "A bright nebula.",
-            date: "2026-03-13",
-            mediaType: "image",
-            url: "https://apod.nasa.gov/apod/image/2603/nebula.jpg",
-            hdurl: nil,
-            copyright: "Jane Doe"
+            credit: "Jane Doe",
+            pageURL: URL(string: "https://science.nasa.gov/image-article/apod-2026-march-13-nebula/"),
+            imageURL: URL(string: "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/march/nebula.jpg"),
+            videoURL: nil
         ))
 
         let restored = try roundTrip(original.favoriteDraft, rebuild: APODEntry.init(favoriteItem:))
@@ -97,34 +97,44 @@ final class NASAExpStoreAndViewModelTests: XCTestCase {
         XCTAssertEqual(restored.displayDate, original.displayDate)
         XCTAssertEqual(restored.copyright, "Jane Doe")
         XCTAssertEqual(restored.shareURL, original.shareURL)
+        XCTAssertEqual(restored.thumbnailURL, original.thumbnailURL)
         XCTAssertEqual(mediaSummary(restored.media), mediaSummary(original.media))
+        guard case let .image(_, restoredHD) = restored.media, case let .image(_, originalHD) = original.media else {
+            return XCTFail("Expected image media")
+        }
+        XCTAssertEqual(restoredHD, originalHD)
     }
 
     func test_favoriteStore_roundTrip_apodPrefersStoredMediaKindOverURLHeuristic() throws {
-        let video = APODEntry(dto: APODResponseDTO(
+        let video = APODEntry(record: APODRecord(
+            id: "2026-10-20",
             title: "Launch",
             explanation: "A launch timelapse.",
-            date: "2026-10-20",
-            mediaType: "video",
-            url: "https://apod.nasa.gov/apod/image/2610/launch.webm",
-            hdurl: nil,
-            copyright: nil
+            credit: nil,
+            pageURL: URL(string: "https://science.nasa.gov/image-article/apod-2026-october-20-launch/"),
+            imageURL: URL(string: "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/launch.jpg"),
+            videoURL: URL(string: "https://apod.nasa.gov/apod/image/2610/launch.webm")
         ))
-        let interactive = APODEntry(dto: APODResponseDTO(
+        let interactive = APODEntry(record: APODRecord(
+            id: "2026-10-21",
             title: "Interactive sky",
             explanation: "An interactive page.",
-            date: "2026-10-21",
-            mediaType: "other",
-            url: "https://apod.nasa.gov/apod/ap261021.html",
-            hdurl: nil,
-            copyright: nil
+            credit: nil,
+            pageURL: URL(string: "https://science.nasa.gov/image-article/apod-2026-october-21-interactive-sky/"),
+            imageURL: nil,
+            videoURL: nil
         ))
 
         let restoredVideo = try roundTrip(video.favoriteDraft, rebuild: APODEntry.init(favoriteItem:))
         let restoredInteractive = try roundTrip(interactive.favoriteDraft, rebuild: APODEntry.init(favoriteItem:))
 
         XCTAssertEqual(mediaSummary(restoredVideo.media), "video https://apod.nasa.gov/apod/image/2610/launch.webm")
+        XCTAssertEqual(
+            restoredVideo.thumbnailURL?.absoluteString,
+            "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/launch.jpg?w=480&fit=clip"
+        )
         XCTAssertEqual(mediaSummary(restoredInteractive.media), "unsupported")
+        XCTAssertEqual(restoredInteractive.shareURL, interactive.shareURL)
     }
 
     func test_favoriteStore_roundTrip_preservesCuriosityMetadata() throws {
@@ -269,14 +279,14 @@ final class NASAExpStoreAndViewModelTests: XCTestCase {
     }
 
     func test_apodViewModel_refresh_setsLoadedStateOnSuccess() async {
-        let expected = APODEntry(dto: APODResponseDTO(
+        let expected = APODEntry(record: APODRecord(
+            id: "2026-03-13",
             title: "Nebula",
             explanation: "A bright nebula.",
-            date: "2026-03-13",
-            mediaType: "image",
-            url: "https://example.com/apod.jpg",
-            hdurl: nil,
-            copyright: nil
+            credit: nil,
+            pageURL: nil,
+            imageURL: URL(string: "https://example.com/apod.jpg"),
+            videoURL: nil
         ))
         let viewModel = APODViewModel(repository: MockAPODRepository(result: .success(expected)))
 

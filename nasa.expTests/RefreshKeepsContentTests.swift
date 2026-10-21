@@ -184,14 +184,14 @@ private struct GatedAPODRepository: APODRepositoryProtocol {
     }
 
     private static func entry(date: String) -> APODEntry {
-        APODEntry(dto: APODResponseDTO(
+        APODEntry(record: APODRecord(
+            id: date,
             title: "Nebula",
             explanation: "A bright nebula.",
-            date: date,
-            mediaType: "image",
-            url: "https://example.com/apod.jpg",
-            hdurl: nil,
-            copyright: nil
+            credit: nil,
+            pageURL: URL(string: "https://example.com/apod-\(date)/"),
+            imageURL: URL(string: "https://example.com/apod.jpg"),
+            videoURL: nil
         ))
     }
 }
