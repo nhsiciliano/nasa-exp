@@ -171,9 +171,15 @@ Use Swift + SwiftUI conventions aligned with existing files.
 
 ## Data Sources
 
-- APOD and EPIC use `api.nasa.gov` with `NASA_API_KEY` from `Config/Secrets.xcconfig`.
+- EPIC uses `api.nasa.gov` with `NASA_API_KEY` from `Config/Secrets.xcconfig` (gitignored;
+  `Base.xcconfig` keeps it empty and a Release build phase fails without it).
+- APOD uses `science.nasa.gov` (the `apod-basic` RSS feed for the last 30 days and the WordPress
+  REST API for the archive). No key. `api.nasa.gov/planetary/apod` returns placeholders; do not use it.
 - Rovers use the public raw-image feeds on `mars.nasa.gov` (no key). The old
   `api.nasa.gov/mars-photos` service is discontinued; do not reintroduce it.
+- Simulator and `xcodebuild` runs are serialized across agent sessions with the lock directory
+  `/tmp/nasa-exp-sim.lock` (take it with `mkdir`, release it with `rm -rf`). Use only the
+  "iPhone 17" simulator.
 - Keep `docs/` in sync when endpoints, modules or the production plan change.
 
 ## Agent Working Norms
