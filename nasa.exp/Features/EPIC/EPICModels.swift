@@ -38,7 +38,10 @@ nonisolated struct EPICEntry: Identifiable {
             title: title,
             subtitle: displayDate,
             details: caption,
-            mediaURL: imageURL
+            mediaURL: imageURL,
+            originalDate: date,
+            latitude: latitude,
+            longitude: longitude
         )
     }
 
@@ -71,9 +74,9 @@ nonisolated extension EPICEntry {
         self.id = favoriteItem.remoteID
         self.title = favoriteItem.title
         self.caption = favoriteItem.details
-        self.date = .now
-        self.latitude = 0
-        self.longitude = 0
+        self.date = favoriteItem.originalDate ?? .now
+        self.latitude = favoriteItem.latitude ?? 0
+        self.longitude = favoriteItem.longitude ?? 0
         self.imageURL = favoriteItem.mediaURL
         self.thumbnailURL = nil
     }

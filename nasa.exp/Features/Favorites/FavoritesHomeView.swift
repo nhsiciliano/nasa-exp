@@ -4,6 +4,15 @@ import SwiftData
 struct FavoritesHomeView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \FavoriteItem.createdAt, order: .reverse) private var favorites: [FavoriteItem]
+    @State private var filter: FavoritesFilter = .all
+
+    private var visibleFavorites: [FavoriteItem] {
+        guard let contentType = filter.contentType else {
+            return favorites
+        }
+
+        return favorites.filter { $0.contentType == contentType }
+    }
 
     var body: some View {
         ZStack {
@@ -12,24 +21,57 @@ struct FavoritesHomeView: View {
             if favorites.isEmpty {
                 emptyState
             } else {
-                List {
-                    ForEach(favorites) { item in
-                        NavigationLink {
-                            favoriteDestination(for: item)
-                        } label: {
-                            FavoriteRow(item: item)
-                        }
-                        .listRowBackground(Color.clear)
+                VStack(spacing: AppSpacing.medium) {
+                    filterPicker
+                        .padding(.horizontal, AppSpacing.large)
+
+                    if visibleFavorites.isEmpty {
+                        emptyFilterState
+                    } else {
+                        favoritesList
                     }
-                    .onDelete(perform: deleteItems)
                 }
-                .scrollContentBackground(.hidden)
-                .listStyle(.plain)
-                .accessibilityLabel("Lista de favoritos")
             }
         }
         .toolbar(.hidden, for: .navigationBar)
         .appScreenChromeSpacing()
+    }
+
+    private var filterPicker: some View {
+        Picker("Tipo de favorito", selection: $filter) {
+            ForEach(FavoritesFilter.allCases) { option in
+                Text(option.title).tag(option)
+            }
+        }
+        .pickerStyle(.segmented)
+        .accessibilityLabel("Filtrar favoritos por tipo")
+    }
+
+    private var favoritesList: some View {
+        List {
+            ForEach(visibleFavorites) { item in
+                NavigationLink {
+                    favoriteDestination(for: item)
+                } label: {
+                    FavoriteRow(item: item)
+                }
+                .listRowBackground(Color.clear)
+            }
+            .onDelete(perform: deleteItems)
+        }
+        .scrollContentBackground(.hidden)
+        .listStyle(.plain)
+        .accessibilityLabel("Lista de favoritos")
+    }
+
+    private var emptyFilterState: some View {
+        HeroCard(
+            title: "Sin favoritos de \(filter.title)",
+            subtitle: "Los que guardes desde el detalle van a aparecer acá.",
+            symbolName: "line.3.horizontal.decrease.circle"
+        )
+        .padding(.horizontal, AppSpacing.large)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 
     private var emptyState: some View {
@@ -56,8 +98,9 @@ struct FavoritesHomeView: View {
     }
 
     private func deleteItems(at offsets: IndexSet) {
+        let items = visibleFavorites
         for index in offsets {
-            modelContext.delete(favorites[index])
+            modelContext.delete(items[index])
         }
 
         try? modelContext.save()
@@ -76,13 +119,48 @@ struct FavoritesHomeView: View {
     }
 }
 
+private enum FavoritesFilter: String, CaseIterable, Identifiable {
+    case all
+    case apod
+    case rover
+    case epic
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .all:
+            return "Todos"
+        case .apod:
+            return "APOD"
+        case .rover:
+            return "Rovers"
+        case .epic:
+            return "EPIC"
+        }
+    }
+
+    var contentType: FavoriteContentType? {
+        switch self {
+        case .all:
+            return nil
+        case .apod:
+            return .apod
+        case .rover:
+            return .rover
+        case .epic:
+            return .epic
+        }
+    }
+}
+
 private struct FavoriteRow: View {
     let item: FavoriteItem
 
     var body: some View {
         HStack(spacing: AppSpacing.medium) {
-            if let mediaURL = item.mediaURL {
-                AsyncImage(url: mediaURL) { phase in
+            if let previewURL = item.thumbnailURL ?? item.mediaURL {
+                AsyncImage(url: previewURL) { phase in
                     switch phase {
                     case let .success(image):
                         image

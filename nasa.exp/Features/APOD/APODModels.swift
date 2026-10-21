@@ -30,13 +30,26 @@ nonisolated struct APODEntry: Identifiable {
     }
 
     var favoriteDraft: FavoriteDraft {
-        FavoriteDraft(
+        let mediaKind: FavoriteMediaKind
+        switch media {
+        case .image:
+            mediaKind = .image
+        case .video:
+            mediaKind = .video
+        case .unsupported:
+            mediaKind = .unsupported
+        }
+
+        return FavoriteDraft(
             contentType: .apod,
             remoteID: id,
             title: title,
             subtitle: displayDate,
             details: explanation,
-            mediaURL: shareURL
+            mediaURL: shareURL,
+            originalDate: date,
+            copyright: copyright,
+            mediaKind: mediaKind
         )
     }
 
@@ -73,25 +86,27 @@ nonisolated extension APODEntry {
     }
 
     init(favoriteItem: FavoriteItem) {
-        let remoteDate = APODEntry.apiFormatter.date(from: favoriteItem.remoteID) ?? .now
         let mediaURL = favoriteItem.mediaURL
+        // Favorites saved before `mediaKindRaw` existed infer the kind from the URL.
+        let mediaKind = favoriteItem.mediaKind ?? (mediaURL?.isLikelyVideo == true ? .video : .image)
 
         let media: Media
-        if let mediaURL {
-            if mediaURL.isLikelyVideo {
-                media = .video(mediaURL)
-            } else {
-                media = .image(mediaURL)
-            }
-        } else {
+        switch (mediaKind, mediaURL) {
+        case let (.image, url?):
+            media = .image(url)
+        case let (.video, url?):
+            media = .video(url)
+        default:
             media = .unsupported
         }
 
         self.id = favoriteItem.remoteID
         self.title = favoriteItem.title
         self.explanation = favoriteItem.details
-        self.date = remoteDate
-        self.copyright = nil
+        self.date = favoriteItem.originalDate
+            ?? APODEntry.apiFormatter.date(from: favoriteItem.remoteID)
+            ?? .now
+        self.copyright = favoriteItem.copyright
         self.media = media
         self.shareURL = mediaURL
     }
