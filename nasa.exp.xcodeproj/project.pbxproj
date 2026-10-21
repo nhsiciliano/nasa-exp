@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8AF0C8AD2F6A400100A1A1A1 /* nasa.expWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8AF0C8A22F6A400100A1A1A1 /* nasa.expWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		8AF0C8872F6A200100A1A1A1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,7 +25,28 @@
 			remoteGlobalIDString = 8AC776C62F5F969700E9519F;
 			remoteInfo = nasa.exp;
 		};
+		8AF0C8AF2F6A400100A1A1A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8AC776BF2F5F969600E9519F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8AF0C8A12F6A400100A1A1A1;
+			remoteInfo = nasa.expWidget;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8AF0C8AC2F6A400100A1A1A1 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8AF0C8AD2F6A400100A1A1A1 /* nasa.expWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8AC776C72F5F969700E9519F /* nasa.exp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nasa.exp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,11 +56,45 @@
 		8AF0C8742F6A100100A1A1A1 /* Config/Secrets.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Secrets.example.xcconfig; sourceTree = SOURCE_ROOT; };
 		8AF0C8802F6A200100A1A1A1 /* nasa.expTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nasa.expTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1D0E5A22F6B000100A1A1A1 /* nasa.expUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nasa.expUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8AF0C8A22F6A400100A1A1A1 /* nasa.expWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = nasa.expWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		8AF0C8A42F6A400100A1A1A1 /* Exceptions for "nasa.exp" folder in "nasa.expWidget" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				App/AppTab.swift,
+				Core/Config/NASAEnvironment.swift,
+				Core/DesignSystem/AppColors.swift,
+				Core/DesignSystem/AppSpacing.swift,
+				Core/DesignSystem/AppTypography.swift,
+				Core/Imaging/ImageDownsampler.swift,
+				Core/Networking/NASAAPIError.swift,
+				Core/Networking/NASAClient.swift,
+				Core/Networking/NASAEndpoint.swift,
+				Core/Networking/NASARequestBuilder.swift,
+				Core/Text/HTMLText.swift,
+				Features/APOD/APODArchivePostDTO.swift,
+				Features/APOD/APODDay.swift,
+				Features/APOD/APODFeedCache.swift,
+				Features/APOD/APODFeedParser.swift,
+				Features/APOD/APODHTMLExtractor.swift,
+				Features/APOD/APODModels.swift,
+				Features/APOD/APODPublicationSchedule.swift,
+				Features/APOD/APODRepository.swift,
+				Features/APOD/APODSource.swift,
+				Features/APOD/APODWidgetContent.swift,
+			);
+			target = 8AF0C8A12F6A400100A1A1A1 /* nasa.expWidget */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		8AC776C92F5F969700E9519F /* nasa.exp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8AF0C8A42F6A400100A1A1A1 /* Exceptions for "nasa.exp" folder in "nasa.expWidget" target */,
+			);
 			path = nasa.exp;
 			sourceTree = "<group>";
 		};
@@ -47,6 +106,11 @@
 		D1D0E5A32F6B000100A1A1A1 /* nasa.expUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = nasa.expUITests;
+			sourceTree = "<group>";
+		};
+		8AF0C8A32F6A400100A1A1A1 /* nasa.expWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = nasa.expWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -73,6 +137,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8AF0C8A62F6A400100A1A1A1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -83,6 +154,7 @@
 				8AC776C92F5F969700E9519F /* nasa.exp */,
 				8AF0C8812F6A200100A1A1A1 /* nasa.expTests */,
 				D1D0E5A32F6B000100A1A1A1 /* nasa.expUITests */,
+				8AF0C8A32F6A400100A1A1A1 /* nasa.expWidget */,
 				8AC776C82F5F969700E9519F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -93,6 +165,7 @@
 				8AC776C72F5F969700E9519F /* nasa.exp.app */,
 				8AF0C8802F6A200100A1A1A1 /* nasa.expTests.xctest */,
 				D1D0E5A22F6B000100A1A1A1 /* nasa.expUITests.xctest */,
+				8AF0C8A22F6A400100A1A1A1 /* nasa.expWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -119,10 +192,12 @@
 				8AC776C32F5F969700E9519F /* Sources */,
 				8AC776C42F5F969700E9519F /* Frameworks */,
 				8AC776C52F5F969700E9519F /* Resources */,
+				8AF0C8AC2F6A400100A1A1A1 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8AF0C8AE2F6A400100A1A1A1 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				8AC776C92F5F969700E9519F /* nasa.exp */,
@@ -180,6 +255,28 @@
 			productReference = D1D0E5A22F6B000100A1A1A1 /* nasa.expUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		8AF0C8A12F6A400100A1A1A1 /* nasa.expWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8AF0C8A92F6A400100A1A1A1 /* Build configuration list for PBXNativeTarget "nasa.expWidget" */;
+			buildPhases = (
+				8AF0C8A52F6A400100A1A1A1 /* Sources */,
+				8AF0C8A62F6A400100A1A1A1 /* Frameworks */,
+				8AF0C8A72F6A400100A1A1A1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8AF0C8A32F6A400100A1A1A1 /* nasa.expWidget */,
+			);
+			name = nasa.expWidget;
+			packageProductDependencies = (
+			);
+			productName = nasa.expWidget;
+			productReference = 8AF0C8A22F6A400100A1A1A1 /* nasa.expWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -201,6 +298,9 @@
 						CreatedOnToolsVersion = 27.1;
 						TestTargetID = 8AC776C62F5F969700E9519F;
 					};
+					8AF0C8A12F6A400100A1A1A1 = {
+						CreatedOnToolsVersion = 27.1;
+					};
 				};
 			};
 			buildConfigurationList = 8AC776C22F5F969700E9519F /* Build configuration list for PBXProject "nasa.exp" */;
@@ -221,6 +321,7 @@
 				8AC776C62F5F969700E9519F /* nasa.exp */,
 				8AF0C8852F6A200100A1A1A1 /* nasa.expTests */,
 				D1D0E5A72F6B000100A1A1A1 /* nasa.expUITests */,
+				8AF0C8A12F6A400100A1A1A1 /* nasa.expWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -241,6 +342,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D1D0E5A52F6B000100A1A1A1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8AF0C8A72F6A400100A1A1A1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -293,6 +401,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8AF0C8A52F6A400100A1A1A1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -305,6 +420,11 @@
 			isa = PBXTargetDependency;
 			target = 8AC776C62F5F969700E9519F /* nasa.exp */;
 			targetProxy = D1D0E5A12F6B000100A1A1A1 /* PBXContainerItemProxy */;
+		};
+		8AF0C8AE2F6A400100A1A1A1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8AF0C8A12F6A400100A1A1A1 /* nasa.expWidget */;
+			targetProxy = 8AF0C8AF2F6A400100A1A1A1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -575,6 +695,64 @@
 			};
 			name = Release;
 		};
+		8AF0C8AA2F6A400100A1A1A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8AF0C8722F6A100100A1A1A1 /* Config/Debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = C9SN4BNWU9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Config/WidgetInfo.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "den-mobile.nasa-exp.widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		8AF0C8AB2F6A400100A1A1A1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8AF0C8732F6A100100A1A1A1 /* Config/Release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = C9SN4BNWU9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Config/WidgetInfo.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "den-mobile.nasa-exp.widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -610,6 +788,15 @@
 			buildConfigurations = (
 				D1D0E5A92F6B000100A1A1A1 /* Debug */,
 				D1D0E5AA2F6B000100A1A1A1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8AF0C8A92F6A400100A1A1A1 /* Build configuration list for PBXNativeTarget "nasa.expWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8AF0C8AA2F6A400100A1A1A1 /* Debug */,
+				8AF0C8AB2F6A400100A1A1A1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
