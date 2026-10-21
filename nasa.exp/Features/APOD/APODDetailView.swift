@@ -43,12 +43,11 @@ struct APODDetailView: View {
                         .textSelection(.enabled)
                         .accessibilityLabel("Descripcion completa. \(entry.explanation)")
 
-                    if let shareURL = entry.shareURL {
-                        ShareLink(item: shareURL) {
-                            ActionCapsule(title: "Compartir APOD", systemImage: "square.and.arrow.up")
-                        }
-                        .accessibilityLabel("Compartir APOD")
-                    }
+                    APODShareButton(
+                        entry: entry,
+                        title: "Compartir APOD",
+                        accessibilityLabel: "Compartir APOD"
+                    )
 
                     Button {
                         toggleFavorite()
