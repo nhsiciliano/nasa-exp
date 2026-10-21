@@ -118,15 +118,50 @@ nasa.exp/
 
 ### Endpoints en uso
 
-- APOD: `https://api.nasa.gov/planetary/apod`
+- APOD (hoy y últimos 30 días): `https://science.nasa.gov/feed/apod-basic/` (RSS "APOD Basic")
+- APOD (archivo completo desde 1995): `https://science.nasa.gov/wp-json/wp/v2/image-article?categories=22766`
 - EPIC: `https://api.nasa.gov/EPIC/api/natural/date/{date}`
 - Rovers (Curiosity / MSL): `https://mars.nasa.gov/api/v1/raw_image_items/`
 - Rovers (Perseverance / Mars 2020): `https://mars.nasa.gov/rss/api/?feed=raw_images&category=mars2020`
 
-### Endpoint discontinuado
+### Endpoints discontinuados
 
 - `https://api.nasa.gov/mars-photos/...` dejo de existir (responde una pagina de Heroku "No such app").
   Verificado el 2026-10-21. No volver a usarlo.
+- `https://api.nasa.gov/planetary/apod` quedó roto cuando APOD se mudó a `science.nasa.gov/apod/`:
+  sin fecha responde HTTP 500 y con cualquier fecha devuelve el placeholder "NASA Science" con el logo
+  de NASA. Verificado el 2026-10-21. No volver a usarlo; `NASAEndpoint` ya no tiene el case `.apod`.
+- `https://apod.nasa.gov/apod/apYYMMDD.html` redirige a la home de `science.nasa.gov/apod/`, así que
+  el link de un día no se puede derivar de la fecha: se guarda el link del artículo.
+
+### Fuente de APOD (`science.nasa.gov`)
+
+- No requiere API key. `APODRepository` usa el RSS para hoy y para los días que todavía lista,
+  y la API de WordPress para fechas anteriores. Si el RSS falla, "hoy" sale del post más nuevo de la WP.
+  El RSS se cachea en memoria 10 minutos (`APODFeedCache`).
+- Días: el id de un APOD (`yyyy-MM-dd`) es el día calendario de America/New_York en que se publicó
+  (00:05 hora del sitio), sin importar la zona horaria del dispositivo. En el RSS se convierte
+  `pubDate` (UTC, 04:05Z) a New York; en la WP el campo `date` ya está en hora del sitio.
+  `APODEntry.date` es ese día a medianoche local, que es lo que `APODViewModel` compara para
+  calcular el tope de "hoy" (`APODDay` documenta el criterio).
+- Filtro por día en la WP: `after` es exclusivo y los posts de archivo tienen hora 00:00, así que la
+  ventana es `after={día-1}T23:59:59&before={día}T23:59:59`. Un día sin post (hay huecos en junio de
+  1995) devuelve `[]` y se mapea a `NASAAPIError.notFound`.
+- Video: el RSS no tiene `media_type` y trae `apod:hdurl` también en los videos (es el poster). Un día
+  es video si su HTML (`content:encoded` en el RSS, `content.rendered` en la WP) tiene un `<iframe>`;
+  se mapea a `.video(url)` con la URL https del embed. Los `.mp4` enlazados en la explicación no
+  cuentan como video. El poster se usa como thumbnail.
+- Imágenes: `assets.science.nasa.gov` redimensiona con `?w=&fit=clip` sin agrandar. En pantalla se usa
+  `w=1280`, en pantalla completa el original sin query y en listas `w=480`. Las imágenes de archivo
+  bajo `content/dam` ignoran el query y sirven el original. Si un post no tiene imagen destacada,
+  la WP pone un placeholder genérico (`.../misc/news-thumbnail.png`); solo se aceptan imágenes bajo
+  `/cds/apod/`, y si no hay, se usa el `<img>` del contenido.
+- Texto: explicación y crédito vienen en HTML. `HTMLText` quita tags y decodifica entidades sin WebKit;
+  `APODHTMLExtractor` saca el párrafo "Explanation:" (sin el "Tomorrow's picture:" final) y la
+  fila de crédito, normalizando el label ("Credit & Copyright:", "Image Credit:", ...).
+- URLs y criterios viven en `Features/APOD/APODSource.swift`, `APODDay.swift`, `APODFeedParser.swift`
+  y `APODArchivePostDTO.swift`. Muestras reales: `docs/fixtures/apod-basic-sample.xml` y
+  `docs/fixtures/apod-wp-sample.json`.
 
 ### Feeds de Rovers (`mars.nasa.gov`)
 
@@ -140,7 +175,7 @@ nasa.exp/
 
 ### Autenticacion
 
-- APOD y EPIC usan API key en query param (`api_key`).
+- EPIC usa API key en query param (`api_key`). APOD (`science.nasa.gov`) y Rovers (`mars.nasa.gov`) no.
 - Configuracion por Build Settings / xcconfig.
 - Nunca hardcodear la clave real en codigo fuente.
 - `DEMO_KEY` solo para desarrollo temprano.
