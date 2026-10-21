@@ -1,6 +1,6 @@
 import Foundation
 
-enum NASARequestBuilder {
+nonisolated enum NASARequestBuilder {
     static func makeURLRequest(for endpoint: NASAEndpoint) throws -> URLRequest {
         guard NASAEnvironment.hasValidAPIKey else {
             throw NASAAPIError.missingAPIKey

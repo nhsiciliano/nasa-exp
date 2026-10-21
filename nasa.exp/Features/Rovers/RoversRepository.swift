@@ -1,36 +1,71 @@
 import Foundation
 
-protocol RoversRepositoryProtocol {
-    func fetchPhotos(rover: RoverName, earthDate: Date, camera: RoverCamera) async throws -> [RoverPhoto]
+nonisolated protocol RoversRepositoryProtocol {
+    func fetchLatestSol(for rover: RoverName) async throws -> Int
+    func fetchPhotos(rover: RoverName, sol: Int, camera: RoverCamera, page: Int) async throws -> RoverPhotoPage
 }
 
-struct RoversRepository: RoversRepositoryProtocol {
+nonisolated struct RoversRepository: RoversRepositoryProtocol {
     private let client: NASAClient
 
     init(client: NASAClient = NASAClient()) {
         self.client = client
     }
 
-    func fetchPhotos(rover: RoverName, earthDate: Date, camera: RoverCamera) async throws -> [RoverPhoto] {
-        let formattedDate = Self.apiFormatter.string(from: earthDate)
-        let response: RoverPhotosResponseDTO
-
-        do {
-            response = try await client.fetch(
-                RoverPhotosResponseDTO.self,
-                endpoint: .roverPhotos(rover: rover.rawValue, earthDate: formattedDate, camera: camera.apiValue)
-            )
-        } catch NASAAPIError.serverError(let statusCode) where statusCode == 404 {
-            return []
+    func fetchLatestSol(for rover: RoverName) async throws -> Int {
+        let request = MarsRawImagesRequest(rover: rover, sol: nil, camera: .all, page: 0, pageSize: 1)
+        guard let url = request.url else {
+            throw NASAAPIError.invalidRequest
         }
 
-        return response.photos.map(RoverPhoto.init(dto:))
+        switch rover {
+        case .curiosity:
+            let response = try await client.fetch(MSLRawImagesResponseDTO.self, url: url)
+            guard let latest = response.items.first else {
+                throw NASAAPIError.invalidResponse
+            }
+            return latest.sol
+
+        case .perseverance:
+            let response = try await client.fetch(Mars2020RawImagesResponseDTO.self, url: url)
+            guard let latest = response.images.first else {
+                throw NASAAPIError.invalidResponse
+            }
+            return latest.sol
+        }
     }
 
-    private static let apiFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter
-    }()
+    func fetchPhotos(rover: RoverName, sol: Int, camera: RoverCamera, page: Int) async throws -> RoverPhotoPage {
+        let request = MarsRawImagesRequest(rover: rover, sol: sol, camera: camera, page: page)
+        guard let url = request.url else {
+            throw NASAAPIError.invalidRequest
+        }
+
+        switch rover {
+        case .curiosity:
+            let response = try await client.fetch(MSLRawImagesResponseDTO.self, url: url)
+            let photos = response.items.map(RoverPhoto.init(dto:))
+            return RoverPhotoPage(
+                photos: photos,
+                total: response.total ?? photos.count,
+                hasMore: response.more ?? (photos.count == request.pageSize)
+            )
+
+        case .perseverance:
+            let response = try await client.fetch(Mars2020RawImagesResponseDTO.self, url: url)
+            let photos = response.images.map(RoverPhoto.init(dto:))
+            let loadedCount = (page + 1) * request.pageSize
+            let hasMore: Bool
+            if let total = response.totalResults {
+                hasMore = loadedCount < total
+            } else {
+                hasMore = photos.count == request.pageSize
+            }
+            return RoverPhotoPage(
+                photos: photos,
+                total: response.totalResults ?? photos.count,
+                hasMore: hasMore
+            )
+        }
+    }
 }

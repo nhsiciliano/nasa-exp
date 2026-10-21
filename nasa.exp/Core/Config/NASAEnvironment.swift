@@ -1,6 +1,6 @@
 import Foundation
 
-enum NASAEnvironment {
+nonisolated enum NASAEnvironment {
     static var apiBaseURL: URL {
         URL(string: "https://api.nasa.gov")!
     }
@@ -28,7 +28,7 @@ enum NASAEnvironment {
     }
 }
 
-private extension String {
+nonisolated private extension String {
     var trimmedNonEmpty: String? {
         let trimmed = trimmingCharacters(in: .whitespacesAndNewlines)
         return trimmed.isEmpty ? nil : trimmed

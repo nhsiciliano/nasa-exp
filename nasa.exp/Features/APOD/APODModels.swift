@@ -1,6 +1,6 @@
 import Foundation
 
-struct APODResponseDTO: Decodable {
+nonisolated struct APODResponseDTO: Decodable {
     let title: String
     let explanation: String
     let date: String
@@ -10,7 +10,7 @@ struct APODResponseDTO: Decodable {
     let copyright: String?
 }
 
-struct APODEntry: Identifiable {
+nonisolated struct APODEntry: Identifiable {
     enum Media {
         case image(URL)
         case video(URL)
@@ -48,7 +48,7 @@ struct APODEntry: Identifiable {
     }()
 }
 
-extension APODEntry {
+nonisolated extension APODEntry {
     init(dto: APODResponseDTO) {
         let parsedDate = APODEntry.apiFormatter.date(from: dto.date) ?? .now
         let mediaURL = URL(string: dto.url)
@@ -104,7 +104,7 @@ extension APODEntry {
     }()
 }
 
-private extension URL {
+nonisolated private extension URL {
     var isLikelyVideo: Bool {
         let videoExtensions = ["mp4", "mov", "m4v", "avi"]
         if videoExtensions.contains(pathExtension.lowercased()) {

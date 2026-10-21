@@ -3,38 +3,46 @@ import Combine
 
 @MainActor
 final class RoversViewModel: ObservableObject {
+    struct Feed {
+        var photos: [RoverPhoto]
+        var total: Int
+        var hasMore: Bool
+        var nextPage: Int
+    }
+
     enum ViewState {
         case idle
         case loading
-        case loaded([RoverPhoto])
+        case loaded(Feed)
         case failed(String)
     }
 
-    @Published var selectedRover: RoverName = .curiosity {
-        didSet {
-            if !availableCameras.contains(selectedCamera) {
-                selectedCamera = .all
-            }
-
-            if oldValue != selectedRover {
-                selectedDate = defaultRoverDate(for: selectedRover)
-            }
-        }
-    }
-    @Published var selectedDate: Date = defaultRoverDate(for: .curiosity)
+    @Published var selectedRover: RoverName = .curiosity
     @Published var selectedCamera: RoverCamera = .all
+    @Published var sol: Int = 0
+    @Published private(set) var latestSol: Int?
     @Published private(set) var state: ViewState = .idle
     @Published private(set) var isSearching = false
+    @Published private(set) var isLoadingMore = false
+    @Published private(set) var loadMoreErrorMessage: String?
 
     var availableCameras: [RoverCamera] {
         RoverCamera.options(for: selectedRover)
     }
 
-    var maxSelectableDate: Date {
-        Calendar.current.startOfDay(for: .now)
+    var canStepBackward: Bool {
+        sol > 0
+    }
+
+    var canStepForward: Bool {
+        guard let latestSol else {
+            return true
+        }
+        return sol < latestSol
     }
 
     private let repository: RoversRepositoryProtocol
+    private var searchGeneration = 0
 
     init(repository: RoversRepositoryProtocol) {
         self.repository = repository
@@ -49,6 +57,31 @@ final class RoversViewModel: ObservableObject {
             return
         }
 
+        await resetForSelectedRover()
+    }
+
+    /// Call after `selectedRover` changes: realigns the camera filter and jumps to the newest sol.
+    func roverSelectionChanged() async {
+        if !availableCameras.contains(selectedCamera) {
+            selectedCamera = .all
+        }
+
+        latestSol = nil
+        await resetForSelectedRover()
+    }
+
+    func jumpToLatestSol() async {
+        guard let latestSol else {
+            await resetForSelectedRover()
+            return
+        }
+
+        sol = latestSol
+        await search()
+    }
+
+    func stepSol(by delta: Int) async {
+        sol = clampedSol(sol + delta)
         await search()
     }
 
@@ -57,44 +90,114 @@ final class RoversViewModel: ObservableObject {
             return
         }
 
+        searchGeneration += 1
+        let generation = searchGeneration
         isSearching = true
+        loadMoreErrorMessage = nil
         state = .loading
-
-        if selectedDate > maxSelectableDate {
-            selectedDate = maxSelectableDate
-        }
+        sol = clampedSol(sol)
 
         do {
-            let photos = try await repository.fetchPhotos(
+            let page = try await repository.fetchPhotos(
                 rover: selectedRover,
-                earthDate: selectedDate,
-                camera: selectedCamera
+                sol: sol,
+                camera: selectedCamera,
+                page: 0
             )
-            state = .loaded(Array(photos.prefix(100)))
+
+            guard generation == searchGeneration else {
+                return
+            }
+
+            state = .loaded(Feed(
+                photos: Self.deduplicated(page.photos),
+                total: page.total,
+                hasMore: page.hasMore,
+                nextPage: 1
+            ))
         } catch {
-            let message = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
-            state = .failed(message)
+            guard generation == searchGeneration else {
+                return
+            }
+            state = .failed(Self.message(for: error))
         }
 
         isSearching = false
     }
-}
 
-private func defaultRoverDate(for rover: RoverName) -> Date {
-    let formatter = DateFormatter()
-    formatter.locale = Locale(identifier: "en_US_POSIX")
-    formatter.dateFormat = "yyyy-MM-dd"
+    func loadMore() async {
+        guard case var .loaded(feed) = state, feed.hasMore, !isLoadingMore, !isSearching else {
+            return
+        }
 
-    let fallback = Calendar.current.date(byAdding: .day, value: -14, to: .now) ?? .now
+        let generation = searchGeneration
+        isLoadingMore = true
+        loadMoreErrorMessage = nil
 
-    switch rover {
-    case .curiosity:
-        return formatter.date(from: "2015-06-03") ?? fallback
-    case .opportunity:
-        return formatter.date(from: "2010-06-15") ?? fallback
-    case .spirit:
-        return formatter.date(from: "2008-03-01") ?? fallback
-    case .perseverance:
-        return formatter.date(from: "2021-03-01") ?? fallback
+        do {
+            let page = try await repository.fetchPhotos(
+                rover: selectedRover,
+                sol: sol,
+                camera: selectedCamera,
+                page: feed.nextPage
+            )
+
+            guard generation == searchGeneration else {
+                isLoadingMore = false
+                return
+            }
+
+            feed.photos = Self.deduplicated(feed.photos + page.photos)
+            feed.total = page.total
+            feed.hasMore = page.hasMore
+            feed.nextPage += 1
+            state = .loaded(feed)
+        } catch {
+            if generation == searchGeneration {
+                loadMoreErrorMessage = Self.message(for: error)
+            }
+        }
+
+        isLoadingMore = false
+    }
+
+    private func resetForSelectedRover() async {
+        searchGeneration += 1
+        let generation = searchGeneration
+        state = .loading
+
+        do {
+            let latest = try await repository.fetchLatestSol(for: selectedRover)
+            guard generation == searchGeneration else {
+                return
+            }
+            latestSol = latest
+            sol = latest
+        } catch {
+            guard generation == searchGeneration else {
+                return
+            }
+            state = .failed(Self.message(for: error))
+            return
+        }
+
+        await search()
+    }
+
+    private func clampedSol(_ value: Int) -> Int {
+        let lowerBounded = max(0, value)
+        guard let latestSol else {
+            return lowerBounded
+        }
+        return min(lowerBounded, latestSol)
+    }
+
+    private static func deduplicated(_ photos: [RoverPhoto]) -> [RoverPhoto] {
+        var seen = Set<String>()
+        return photos.filter { seen.insert($0.id).inserted }
+    }
+
+    private static func message(for error: Error) -> String {
+        (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
     }
 }

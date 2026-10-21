@@ -1,6 +1,6 @@
 import Foundation
 
-struct NASAClient {
+nonisolated struct NASAClient {
     private let session: URLSession
     private let decoder: JSONDecoder
 
@@ -12,9 +12,22 @@ struct NASAClient {
         self.decoder = decoder
     }
 
+    /// Fetches and decodes a resource from `api.nasa.gov`, attaching the configured API key.
     func fetch<T: Decodable>(_ type: T.Type, endpoint: NASAEndpoint) async throws -> T {
         let request = try NASARequestBuilder.makeURLRequest(for: endpoint)
+        return try await fetch(type, request: request)
+    }
 
+    /// Fetches and decodes a resource from an arbitrary public NASA URL that needs no API key
+    /// (for example the Mars raw image feeds hosted on `mars.nasa.gov`).
+    func fetch<T: Decodable>(_ type: T.Type, url: URL) async throws -> T {
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.timeoutInterval = 30
+        return try await fetch(type, request: request)
+    }
+
+    private func fetch<T: Decodable>(_ type: T.Type, request: URLRequest) async throws -> T {
         let data: Data
         let response: URLResponse
 

@@ -1,10 +1,10 @@
 import Foundation
 
-protocol APODRepositoryProtocol {
+nonisolated protocol APODRepositoryProtocol {
     func fetchToday() async throws -> APODEntry
 }
 
-struct APODRepository: APODRepositoryProtocol {
+nonisolated struct APODRepository: APODRepositoryProtocol {
     private let client: NASAClient
 
     init(client: NASAClient = NASAClient()) {

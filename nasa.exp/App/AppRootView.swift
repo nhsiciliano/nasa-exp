@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AppRootView: View {
-    @State private var selectedTab: AppTab = .apod
+    @State private var selectedTab: AppTab = AppRootView.initialTab()
 
     var body: some View {
         ZStack {
@@ -45,6 +45,17 @@ struct AppRootView: View {
         .toolbarBackground(AppColors.surfaceBase.opacity(0.98), for: .tabBar)
         .toolbarBackground(.visible, for: .tabBar)
         .toolbarColorScheme(.dark, for: .tabBar)
+    }
+
+    /// Lets QA and simulator runs open a specific tab: `-initialTab rovers`.
+    private static func initialTab() -> AppTab {
+        #if DEBUG
+        if let raw = UserDefaults.standard.string(forKey: "initialTab"),
+           let tab = AppTab(launchArgument: raw) {
+            return tab
+        }
+        #endif
+        return .apod
     }
 
     private func rootNavigation<Content: View>(@ViewBuilder content: () -> Content) -> some View {

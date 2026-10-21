@@ -3,6 +3,7 @@ import SwiftUI
 @MainActor
 struct RoversHomeView: View {
     @StateObject private var viewModel = RoversViewModel()
+    @FocusState private var isSolFieldFocused: Bool
 
     private let columns = [
         GridItem(.flexible(), spacing: AppSpacing.medium),
@@ -24,11 +25,17 @@ struct RoversHomeView: View {
             .refreshable {
                 await viewModel.search()
             }
+            .scrollDismissesKeyboard(.interactively)
         }
         .toolbar(.hidden, for: .navigationBar)
         .appScreenChromeSpacing()
         .task {
             await viewModel.loadIfNeeded()
+        }
+        .onChange(of: viewModel.selectedRover) { _, _ in
+            Task {
+                await viewModel.roverSelectionChanged()
+            }
         }
     }
 
@@ -36,12 +43,12 @@ struct RoversHomeView: View {
         VStack(alignment: .leading, spacing: AppSpacing.large) {
             SectionHeader(
                 title: "Rovers de Marte",
-                subtitle: "Filtra por rover, camara y fecha para explorar fotos reales de NASA."
+                subtitle: "Explorá las imágenes crudas que Curiosity y Perseverance envían desde la superficie, sol a sol."
             )
 
             HeroCard(
-                title: "Superficie roja, telemetria real",
-                subtitle: "Una grilla de exploracion inspirada en terminales de mision para navegar imagenes de Curiosity, Spirit, Opportunity y Perseverance.",
+                title: viewModel.selectedRover.title,
+                subtitle: "\(viewModel.selectedRover.missionName). \(viewModel.selectedRover.landingSummary). Feed directo de mars.nasa.gov.",
                 symbolName: "antenna.radiowaves.left.and.right"
             )
         }
@@ -52,46 +59,121 @@ struct RoversHomeView: View {
             VStack(alignment: .leading, spacing: AppSpacing.medium) {
                 HStack(spacing: AppSpacing.small) {
                     InfoPill(text: "ROVER")
-                    InfoPill(text: "CAMARA")
-                    InfoPill(text: "EARTH DATE")
+                    InfoPill(text: "SOL")
+                    InfoPill(text: "CÁMARA")
                 }
 
-            Picker("Rover", selection: $viewModel.selectedRover) {
-                ForEach(RoverName.allCases) { rover in
-                    Text(rover.title).tag(rover)
-                }
-            }
-            .pickerStyle(.segmented)
-            .accessibilityLabel("Seleccionar rover")
-
-            DatePicker("Fecha en Tierra", selection: $viewModel.selectedDate, displayedComponents: .date)
-                .datePickerStyle(.compact)
-                .environment(\.timeZone, TimeZone(secondsFromGMT: 0) ?? .current)
-                .onChange(of: viewModel.selectedDate) { _, newValue in
-                    if newValue > viewModel.maxSelectableDate {
-                        viewModel.selectedDate = viewModel.maxSelectableDate
+                Picker("Rover", selection: $viewModel.selectedRover) {
+                    ForEach(RoverName.allCases) { rover in
+                        Text(rover.title).tag(rover)
                     }
                 }
-                .accessibilityLabel("Seleccionar fecha en Tierra")
+                .pickerStyle(.segmented)
+                .accessibilityLabel("Seleccionar rover")
 
-            Picker("Camara", selection: $viewModel.selectedCamera) {
-                ForEach(viewModel.availableCameras) { camera in
-                    Text(camera.title).tag(camera)
+                solControls
+
+                Picker("Cámara", selection: $viewModel.selectedCamera) {
+                    ForEach(viewModel.availableCameras) { camera in
+                        Text(camera.title).tag(camera)
+                    }
+                }
+                .accessibilityLabel("Seleccionar cámara")
+
+                Button {
+                    isSolFieldFocused = false
+                    Task {
+                        await viewModel.search()
+                    }
+                } label: {
+                    ActionCapsule(
+                        title: viewModel.isSearching ? "Buscando..." : "Buscar fotos",
+                        systemImage: "magnifyingglass"
+                    )
+                }
+                .disabled(viewModel.isSearching)
+                .accessibilityHint("Busca imágenes del rover con los filtros actuales")
+            }
+        }
+    }
+
+    private var solControls: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.small) {
+            HStack(spacing: AppSpacing.medium) {
+                solStepButton(systemImage: "minus.circle.fill", label: "Sol anterior", isEnabled: viewModel.canStepBackward) {
+                    await viewModel.stepSol(by: -1)
+                }
+
+                TextField("Sol", value: $viewModel.sol, format: .number.grouping(.never))
+                    .keyboardType(.numberPad)
+                    .multilineTextAlignment(.center)
+                    .font(AppTypography.title3)
+                    .foregroundStyle(AppColors.textPrimary)
+                    .padding(.vertical, AppSpacing.small)
+                    .background(AppColors.surfaceBase.opacity(0.9))
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .stroke(AppColors.border, lineWidth: 1)
+                    }
+                    .focused($isSolFieldFocused)
+                    .onSubmit {
+                        Task {
+                            await viewModel.search()
+                        }
+                    }
+                    .accessibilityLabel("Sol marciano")
+                    .accessibilityHint("Escribe el número de sol y busca")
+
+                solStepButton(systemImage: "plus.circle.fill", label: "Sol siguiente", isEnabled: viewModel.canStepForward) {
+                    await viewModel.stepSol(by: 1)
                 }
             }
-            .accessibilityLabel("Seleccionar camara")
 
-            Button {
-                Task {
-                    await viewModel.search()
+            HStack {
+                if let latestSol = viewModel.latestSol {
+                    Text("Sol más reciente: \(latestSol, format: .number.grouping(.never))")
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppColors.textTertiary)
                 }
-            } label: {
-                ActionCapsule(title: viewModel.isSearching ? "Buscando..." : "Buscar fotos", systemImage: "magnifyingglass")
+
+                Spacer(minLength: 0)
+
+                Button {
+                    isSolFieldFocused = false
+                    Task {
+                        await viewModel.jumpToLatestSol()
+                    }
+                } label: {
+                    Label("Último sol", systemImage: "clock.arrow.circlepath")
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppColors.accent)
+                }
+                .disabled(viewModel.isSearching)
+                .accessibilityHint("Salta al sol más reciente disponible para este rover")
             }
-            .disabled(viewModel.isSearching)
-            .accessibilityHint("Busca imagenes del rover con los filtros actuales")
         }
+    }
+
+    private func solStepButton(
+        systemImage: String,
+        label: String,
+        isEnabled: Bool,
+        action: @escaping () async -> Void
+    ) -> some View {
+        Button {
+            isSolFieldFocused = false
+            Task {
+                await action()
+            }
+        } label: {
+            Image(systemName: systemImage)
+                .font(.system(size: 30, weight: .semibold))
+                .foregroundStyle(isEnabled ? AppColors.accent : AppColors.textTertiary)
+                .frame(width: 44, height: 44)
         }
+        .disabled(!isEnabled || viewModel.isSearching)
+        .accessibilityLabel(label)
     }
 
     @ViewBuilder
@@ -103,23 +185,32 @@ struct RoversHomeView: View {
                 .tint(AppColors.accent)
                 .frame(maxWidth: .infinity, alignment: .center)
 
-        case let .loaded(photos):
-            if photos.isEmpty {
+        case let .loaded(feed):
+            if feed.photos.isEmpty {
                 HeroCard(
-                    title: "Sin resultados para esta consulta",
-                    subtitle: "No encontramos fotos para \(viewModel.selectedRover.title) con esos filtros. Prueba con otra fecha, rover o camara.",
+                    title: "Sin fotos en el sol \(viewModel.sol)",
+                    subtitle: "\(viewModel.selectedRover.title) no envió imágenes con esos filtros. Probá con otro sol o cámara.",
                     symbolName: "camera.metering.none"
                 )
             } else {
-                LazyVGrid(columns: columns, spacing: AppSpacing.medium) {
-                    ForEach(photos) { photo in
-                        NavigationLink {
-                            RoverPhotoDetailView(photo: photo)
-                        } label: {
-                            RoverPhotoCard(photo: photo)
-                        }
-                        .buttonStyle(.plain)
+                VStack(alignment: .leading, spacing: AppSpacing.medium) {
+                    HStack(spacing: AppSpacing.small) {
+                        InfoPill(text: "SOL \(viewModel.sol)")
+                        InfoPill(text: "\(feed.photos.count) DE \(feed.total)")
                     }
+
+                    LazyVGrid(columns: columns, spacing: AppSpacing.medium) {
+                        ForEach(feed.photos) { photo in
+                            NavigationLink {
+                                RoverPhotoDetailView(photo: photo)
+                            } label: {
+                                RoverPhotoCard(photo: photo)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+
+                    loadMoreSection(feed)
                 }
             }
 
@@ -138,8 +229,33 @@ struct RoversHomeView: View {
                 } label: {
                     ActionCapsule(title: "Reintentar", systemImage: "arrow.clockwise")
                 }
-                .accessibilityHint("Vuelve a consultar la galeria del rover")
+                .accessibilityHint("Vuelve a consultar la galería del rover")
             }
+        }
+    }
+
+    @ViewBuilder
+    private func loadMoreSection(_ feed: RoversViewModel.Feed) -> some View {
+        if let message = viewModel.loadMoreErrorMessage {
+            Text(message)
+                .font(AppTypography.caption)
+                .foregroundStyle(AppColors.accentSecondary)
+        }
+
+        if feed.hasMore {
+            Button {
+                Task {
+                    await viewModel.loadMore()
+                }
+            } label: {
+                ActionCapsule(
+                    title: viewModel.isLoadingMore ? "Cargando..." : "Cargar más fotos",
+                    systemImage: "arrow.down.circle",
+                    isEmphasized: false
+                )
+            }
+            .disabled(viewModel.isLoadingMore)
+            .accessibilityHint("Carga la siguiente página de fotos de este sol")
         }
     }
 }
@@ -149,7 +265,7 @@ private struct RoverPhotoCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: AppSpacing.small) {
-            AsyncImage(url: photo.imageURL) { phase in
+            AsyncImage(url: photo.thumbnailURL) { phase in
                 switch phase {
                 case let .success(image):
                     image
@@ -174,17 +290,19 @@ private struct RoverPhotoCard: View {
             .clipped()
             .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
 
-            Text(photo.roverName)
+            Text(photo.cameraName)
                 .font(AppTypography.bodyStrong)
                 .foregroundStyle(AppColors.textPrimary)
+                .lineLimit(1)
 
-            Text(photo.cameraName)
+            Text(photo.solLabel)
                 .font(AppTypography.micro)
                 .foregroundStyle(AppColors.accentMuted)
 
             Text(photo.displayDate)
                 .font(AppTypography.caption)
                 .foregroundStyle(AppColors.textSecondary)
+                .lineLimit(1)
         }
         .padding(AppSpacing.medium)
         .background(
@@ -200,7 +318,7 @@ private struct RoverPhotoCard: View {
                 .stroke(AppColors.border, lineWidth: 1)
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Foto de \(photo.roverName), camara \(photo.cameraName), fecha \(photo.displayDate)")
+        .accessibilityLabel("Foto de \(photo.roverName), cámara \(photo.cameraName), \(photo.displayDate)")
         .accessibilityHint("Abre el detalle de la foto")
     }
 }

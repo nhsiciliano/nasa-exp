@@ -28,9 +28,11 @@ Alcance inicial de plataforma:
    - Accion de compartir.
 
 2. **Rovers de Marte**
-   - Feed de fotos por rover.
-   - Filtros por rover, camara y fecha.
-   - Vista de detalle con metadata tecnica.
+   - Feed de imagenes crudas de Curiosity y Perseverance.
+   - Navegacion por sol marciano (anterior, siguiente, ultimo sol, entrada manual).
+   - Filtro por camara y paginacion ("Cargar mas").
+   - Vista de detalle con instrumento, mision, fecha terrestre y credito.
+   - Spirit y Opportunity quedan fuera: su API fue discontinuada y no existe reemplazo.
 
 3. **La Tierra (EPIC)**
    - Visualizacion por fecha.
@@ -96,10 +98,12 @@ nasa.exp/
       APODModels.swift
       APODRepository.swift
     Rovers/
-      RoversView.swift
+      RoversHomeView.swift
+      RoverPhotoDetailView.swift
       RoversViewModel.swift
       RoversModels.swift
       RoversRepository.swift
+      MarsRawImagesRequest.swift
     EPIC/
       EPICView.swift
       EPICViewModel.swift
@@ -112,15 +116,31 @@ nasa.exp/
 
 ## 4) Integracion con API NASA
 
-### Endpoints iniciales
+### Endpoints en uso
 
-- APOD: `/planetary/apod`
-- Mars Rover Photos: `/mars-photos/api/v1/rovers/{rover}/photos`
-- EPIC: `/EPIC/api/natural/date/{date}`
+- APOD: `https://api.nasa.gov/planetary/apod`
+- EPIC: `https://api.nasa.gov/EPIC/api/natural/date/{date}`
+- Rovers (Curiosity / MSL): `https://mars.nasa.gov/api/v1/raw_image_items/`
+- Rovers (Perseverance / Mars 2020): `https://mars.nasa.gov/rss/api/?feed=raw_images&category=mars2020`
+
+### Endpoint discontinuado
+
+- `https://api.nasa.gov/mars-photos/...` dejo de existir (responde una pagina de Heroku "No such app").
+  Verificado el 2026-10-21. No volver a usarlo.
+
+### Feeds de Rovers (`mars.nasa.gov`)
+
+- No requieren API key.
+- Filtro por sol: `condition_2={sol}:sol:gte&condition_3={sol}:sol:lte`.
+- Filtro por camara: `search=INSTRUMENT_A|INSTRUMENT_B` (nombres exactos, sin prefijos).
+- Paginacion: `page` (base 0) con `per_page` (MSL) o `num` (Mars 2020).
+- Sin thumbnails: MSL usa `extended=thumbnail::sample_type::noteq`; Mars 2020 usa `extended=sample_type::full,`.
+- El sol mas reciente se obtiene pidiendo una sola imagen con `order=sol desc`.
+- La construccion de URLs vive en `Features/Rovers/MarsRawImagesRequest.swift`.
 
 ### Autenticacion
 
-- Se usara API key en query param (`api_key`).
+- APOD y EPIC usan API key en query param (`api_key`).
 - Configuracion por Build Settings / xcconfig.
 - Nunca hardcodear la clave real en codigo fuente.
 - `DEMO_KEY` solo para desarrollo temprano.
@@ -238,8 +258,8 @@ Para test unico (cuando exista target de tests), se mantendra tambien la estrate
 
 ### Fase 2 - Rovers
 
-- Integrar endpoint de rovers.
-- Filtros por rover/camara/fecha.
+- Integrar feeds raw de `mars.nasa.gov` (hecho el 2026-10-21).
+- Filtros por rover/camara/sol con paginacion.
 - Galeria + detalle con metadata.
 
 ### Fase 3 - EPIC + Favoritos
@@ -253,6 +273,10 @@ Para test unico (cuando exista target de tests), se mantendra tambien la estrate
 - Mejoras de accesibilidad y rendimiento.
 - Tests de regresion clave.
 - Refinamiento visual final para release MVP.
+
+### Fase 5 - Salida a produccion
+
+- El detalle de tareas, dificultad y estado vive en `docs/production-plan.md`.
 
 ## 12) Criterios de exito del MVP
 

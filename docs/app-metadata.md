@@ -27,7 +27,7 @@ NASA Exp brings together public NASA imagery and observation data in a focused i
 The app organizes several NASA data sources into clear, research-friendly sections:
 
 - APOD: review NASA's Astronomy Picture of the Day with context, credits, and sharing
-- Rovers: inspect Mars rover photography by rover, camera, and Earth date
+- Rovers: browse raw images from Curiosity and Perseverance by sol and camera, straight from NASA's mission feeds
 - EPIC: examine Earth imagery captured from orbital observation platforms
 - Favorites: save noteworthy images and revisit them later
 
@@ -52,7 +52,8 @@ NASA Exp is intended for users interested in astronomy, planetary science, and s
 
 ## Review Notes
 
-- Uses NASA public APIs
+- Uses NASA public APIs (api.nasa.gov for APOD and EPIC, mars.nasa.gov raw image feeds for rovers)
+- Not an official NASA app; the app must state it is not affiliated with or endorsed by NASA (see production plan P1.10)
 - Favorites are stored locally on device
 - No account required
 - No user-generated content

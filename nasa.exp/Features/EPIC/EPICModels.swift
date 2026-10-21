@@ -1,7 +1,7 @@
 import Foundation
 
-struct EPICEntryDTO: Decodable {
-    struct CoordinateDTO: Decodable {
+nonisolated struct EPICEntryDTO: Decodable {
+    nonisolated struct CoordinateDTO: Decodable {
         let lat: Double
         let lon: Double
     }
@@ -13,7 +13,7 @@ struct EPICEntryDTO: Decodable {
     let centroidCoordinates: CoordinateDTO
 }
 
-struct EPICEntry: Identifiable {
+nonisolated struct EPICEntry: Identifiable {
     let id: String
     let title: String
     let caption: String
@@ -50,7 +50,7 @@ struct EPICEntry: Identifiable {
     }()
 }
 
-extension EPICEntry {
+nonisolated extension EPICEntry {
     init(dto: EPICEntryDTO) {
         let parsedDate = EPICEntry.apiFormatter.date(from: dto.date) ?? .now
         let imagePath = EPICEntry.imagePathFormatter.string(from: parsedDate)

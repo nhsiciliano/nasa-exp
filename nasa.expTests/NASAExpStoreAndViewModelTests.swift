@@ -51,7 +51,7 @@ final class NASAExpStoreAndViewModelTests: XCTestCase {
             contentTypeRaw: FavoriteContentType.rover.rawValue,
             remoteID: "42",
             title: "Curiosity - NAVCAM",
-            subtitle: "10 mar 2026",
+            subtitle: "Sol 1000 · 30 may 2015",
             details: "Navigation Camera",
             mediaURLString: "https://example.com/rover.jpg"
         )
@@ -71,7 +71,10 @@ final class NASAExpStoreAndViewModelTests: XCTestCase {
 
         XCTAssertEqual(apodEntry.id, "2026-03-13")
         XCTAssertEqual(roverPhoto.roverName, "Curiosity")
+        XCTAssertEqual(roverPhoto.rover, .curiosity)
         XCTAssertEqual(roverPhoto.cameraName, "NAVCAM")
+        XCTAssertEqual(roverPhoto.sol, 1000)
+        XCTAssertEqual(roverPhoto.displayDate, "Sol 1000 · 30 may 2015")
         XCTAssertEqual(epicEntry.id, "202603130001")
         XCTAssertEqual(epicEntry.title, "EPIC - 202603130001")
     }
@@ -110,25 +113,67 @@ final class NASAExpStoreAndViewModelTests: XCTestCase {
         XCTAssertTrue(message.contains("Sample failure"))
     }
 
-    func test_roversViewModel_search_limitsTo100Results() async {
-        let photos = (0..<120).map { index in
-            RoverPhoto(dto: RoverPhotoDTO(
-                id: index,
-                imgSrc: "https://example.com/\(index).jpg",
-                earthDate: "2026-03-10",
-                camera: .init(name: "NAVCAM", fullName: "Navigation Camera"),
-                rover: .init(name: "Curiosity", status: "active", launchDate: "2011-11-26", landingDate: "2012-08-06")
-            ))
-        }
-        let viewModel = RoversViewModel(repository: MockRoversRepository(result: .success(photos)))
+    func test_roversViewModel_loadIfNeeded_jumpsToLatestSolAndLoadsFirstPage() async {
+        let repository = MockRoversRepository(latestSol: 5050, pages: [
+            0: RoverPhotoPage(photos: makeRoverPhotos(range: 0..<40), total: 70, hasMore: true),
+            1: RoverPhotoPage(photos: makeRoverPhotos(range: 40..<70), total: 70, hasMore: false)
+        ])
+        let viewModel = RoversViewModel(repository: repository)
 
-        await viewModel.search()
+        await viewModel.loadIfNeeded()
 
-        guard case let .loaded(result) = viewModel.state else {
+        XCTAssertEqual(viewModel.latestSol, 5050)
+        XCTAssertEqual(viewModel.sol, 5050)
+        XCTAssertEqual(repository.requestedSols, [5050])
+
+        guard case let .loaded(feed) = viewModel.state else {
             return XCTFail("Expected loaded state")
         }
 
-        XCTAssertEqual(result.count, 100)
+        XCTAssertEqual(feed.photos.count, 40)
+        XCTAssertEqual(feed.total, 70)
+        XCTAssertTrue(feed.hasMore)
+        XCTAssertFalse(viewModel.isSearching)
+
+        await viewModel.loadMore()
+
+        guard case let .loaded(expanded) = viewModel.state else {
+            return XCTFail("Expected loaded state after loadMore")
+        }
+
+        XCTAssertEqual(expanded.photos.count, 70)
+        XCTAssertFalse(expanded.hasMore)
+        XCTAssertEqual(repository.requestedPages, [0, 1])
+    }
+
+    func test_roversViewModel_stepSol_clampsToLatestSol() async {
+        let repository = MockRoversRepository(latestSol: 10, pages: [
+            0: RoverPhotoPage(photos: [], total: 0, hasMore: false)
+        ])
+        let viewModel = RoversViewModel(repository: repository)
+
+        await viewModel.loadIfNeeded()
+        await viewModel.stepSol(by: 5)
+
+        XCTAssertEqual(viewModel.sol, 10)
+
+        viewModel.sol = -3
+        await viewModel.search()
+
+        XCTAssertEqual(viewModel.sol, 0)
+    }
+
+    func test_roversViewModel_search_setsFailedStateOnError() async {
+        let repository = MockRoversRepository(latestSol: 10, pages: [:], error: MockError.sample)
+        let viewModel = RoversViewModel(repository: repository)
+
+        await viewModel.loadIfNeeded()
+
+        guard case let .failed(message) = viewModel.state else {
+            return XCTFail("Expected failed state")
+        }
+
+        XCTAssertTrue(message.contains("Sample failure"))
         XCTAssertFalse(viewModel.isSearching)
     }
 
@@ -154,11 +199,51 @@ private struct MockAPODRepository: APODRepositoryProtocol {
     }
 }
 
-private struct MockRoversRepository: RoversRepositoryProtocol {
-    let result: Result<[RoverPhoto], Error>
+private final class MockRoversRepository: RoversRepositoryProtocol {
+    let latestSol: Int
+    let pages: [Int: RoverPhotoPage]
+    let error: Error?
+    private(set) var requestedSols: [Int] = []
+    private(set) var requestedPages: [Int] = []
 
-    func fetchPhotos(rover: RoverName, earthDate: Date, camera: RoverCamera) async throws -> [RoverPhoto] {
-        try result.get()
+    init(latestSol: Int, pages: [Int: RoverPhotoPage], error: Error? = nil) {
+        self.latestSol = latestSol
+        self.pages = pages
+        self.error = error
+    }
+
+    func fetchLatestSol(for rover: RoverName) async throws -> Int {
+        if let error {
+            throw error
+        }
+        return latestSol
+    }
+
+    func fetchPhotos(rover: RoverName, sol: Int, camera: RoverCamera, page: Int) async throws -> RoverPhotoPage {
+        if let error {
+            throw error
+        }
+        requestedSols.append(sol)
+        requestedPages.append(page)
+        return pages[page] ?? RoverPhotoPage(photos: [], total: 0, hasMore: false)
+    }
+}
+
+private func makeRoverPhotos(range: Range<Int>) -> [RoverPhoto] {
+    range.map { index in
+        RoverPhoto(
+            id: "msl-\(index)",
+            rover: .curiosity,
+            sol: 5050,
+            instrument: "NAV_LEFT_B",
+            cameraName: "Navcam",
+            cameraFullName: "Navigation Camera",
+            thumbnailURL: URL(string: "https://example.com/\(index).jpg"),
+            imageURL: URL(string: "https://example.com/\(index).jpg"),
+            earthDate: nil,
+            caption: "Sample",
+            credit: "NASA/JPL-Caltech"
+        )
     }
 }
 

@@ -1,7 +1,7 @@
 import Foundation
 import SwiftData
 
-enum FavoriteContentType: String, Codable {
+nonisolated enum FavoriteContentType: String, Codable {
     case apod
     case rover
     case epic
@@ -47,7 +47,7 @@ final class FavoriteItem {
     }
 }
 
-struct FavoriteDraft {
+nonisolated struct FavoriteDraft {
     let contentType: FavoriteContentType
     let remoteID: String
     let title: String

@@ -1,10 +1,10 @@
 import Foundation
 
-protocol EPICRepositoryProtocol {
+nonisolated protocol EPICRepositoryProtocol {
     func fetchEntries(for date: Date) async throws -> [EPICEntry]
 }
 
-struct EPICRepository: EPICRepositoryProtocol {
+nonisolated struct EPICRepository: EPICRepositoryProtocol {
     private let client: NASAClient
 
     init(client: NASAClient = NASAClient()) {

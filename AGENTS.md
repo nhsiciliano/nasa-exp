@@ -9,7 +9,9 @@ It reflects what is currently present in source control.
 - Main target/scheme: `nasa.exp`.
 - Configurations: `Debug`, `Release`.
 - Entry point: `nasa.exp/nasa_expApp.swift`.
-- Root view: `nasa.exp/ContentView.swift`.
+- Root view: `nasa.exp/App/AppRootView.swift` (tab shell).
+- Unit test target: `nasa.expTests` (XCTest).
+- Production roadmap with difficulty ratings: `docs/production-plan.md`.
 
 ## Rule Files Check
 
@@ -23,7 +25,7 @@ It reflects what is currently present in source control.
 Run commands from repo root:
 
 ```bash
-cd "/Users/nhsiciliano/Desktop/Coding Apps/nasa.exp"
+cd "/Users/nhsiciliano/orca/nasa-exp"
 ```
 
 ### Discover targets and schemes
@@ -38,7 +40,7 @@ xcodebuild -list -project "nasa.exp.xcodeproj"
 xcodebuild -project "nasa.exp.xcodeproj" \
   -scheme "nasa.exp" \
   -configuration Debug \
-  -destination 'platform=iOS Simulator,name=iPhone 16' \
+  -destination 'platform=iOS Simulator,name=iPhone 17' \
   build
 ```
 
@@ -61,18 +63,18 @@ Use compiler warnings plus analyzer:
 xcodebuild -project "nasa.exp.xcodeproj" \
   -scheme "nasa.exp" \
   -configuration Debug \
-  -destination 'platform=iOS Simulator,name=iPhone 16' \
+  -destination 'platform=iOS Simulator,name=iPhone 17' \
   analyze
 ```
 
 ### Test (full suite)
 
-There is currently no XCTest target. After adding one, run:
+The `nasa.expTests` target covers decoding, request building, favorites persistence and view models:
 
 ```bash
 xcodebuild -project "nasa.exp.xcodeproj" \
   -scheme "nasa.exp" \
-  -destination 'platform=iOS Simulator,name=iPhone 16' \
+  -destination 'platform=iOS Simulator,name=iPhone 17' \
   test
 ```
 
@@ -81,7 +83,7 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 ```bash
 xcodebuild -project "nasa.exp.xcodeproj" \
   -scheme "nasa.exp" \
-  -destination 'platform=iOS Simulator,name=iPhone 16' \
+  -destination 'platform=iOS Simulator,name=iPhone 17' \
   -only-testing:TARGET_NAME/TEST_CASE_CLASS \
   test
 ```
@@ -91,9 +93,17 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 ```bash
 xcodebuild -project "nasa.exp.xcodeproj" \
   -scheme "nasa.exp" \
-  -destination 'platform=iOS Simulator,name=iPhone 16' \
+  -destination 'platform=iOS Simulator,name=iPhone 17' \
   -only-testing:TARGET_NAME/TEST_CASE_CLASS/testMethodName \
   test
+```
+
+### Run on simulator and open a specific tab
+
+Debug builds accept `-initialTab apod|rovers|epic|favorites` as a launch argument:
+
+```bash
+xcrun simctl launch "iPhone 17" den-mobile.nasa-exp -initialTab rovers
 ```
 
 Single-test notes:
@@ -158,6 +168,13 @@ Use Swift + SwiftUI conventions aligned with existing files.
 
 - Prefer self-documenting names first.
 - Add comments only for non-obvious intent or invariants.
+
+## Data Sources
+
+- APOD and EPIC use `api.nasa.gov` with `NASA_API_KEY` from `Config/Secrets.xcconfig`.
+- Rovers use the public raw-image feeds on `mars.nasa.gov` (no key). The old
+  `api.nasa.gov/mars-photos` service is discontinued; do not reintroduce it.
+- Keep `docs/` in sync when endpoints, modules or the production plan change.
 
 ## Agent Working Norms
 

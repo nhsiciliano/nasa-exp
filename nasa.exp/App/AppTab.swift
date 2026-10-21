@@ -6,6 +6,16 @@ enum AppTab: Hashable {
     case epic
     case favorites
 
+    init?(launchArgument: String) {
+        switch launchArgument.lowercased() {
+        case "apod": self = .apod
+        case "rovers": self = .rovers
+        case "epic": self = .epic
+        case "favorites": self = .favorites
+        default: return nil
+        }
+    }
+
     var title: String {
         switch self {
         case .apod:

@@ -1,0 +1,27 @@
+{
+  "items": [
+    {
+      "id": 1647659,
+      "site": 125,
+      "imageid": "CR0_845799994EDR_F1251326CCAM01050M_",
+      "sol": 5050,
+      "instrument": "CHEMCAM_RMI",
+      "drive": 1326,
+      "mission": "msl",
+      "extended": {
+        "sample_type": "full",
+        "lmst": "Sol-05050M11:33:50.455"
+      },
+      "date_taken": "2026-10-20T21:39:17.000Z",
+      "is_thumbnail": false,
+      "title": "Sol 5050: Chemistry & Camera (ChemCam)",
+      "description": "This image was taken by Chemistry & Camera (ChemCam) onboard NASA's Mars rover Curiosity on Sol 5050 (2026-10-20 21:39:17 UTC).",
+      "image_credit": "NASA/JPL-Caltech/LANL/CNES/CNRS/IRAP/IAS/LPG",
+      "https_url": "https://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/05050/opgs/edr/ccam/CR0_845799994EDR_F1251326CCAM01050M_.JPG"
+    }
+  ],
+  "more": true,
+  "total": 1512633,
+  "page": 0,
+  "per_page": 1
+}

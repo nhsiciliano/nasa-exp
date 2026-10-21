@@ -21,7 +21,7 @@ struct RoverPhotoDetailView: View {
                         case .failure:
                             HeroCard(
                                 title: "No se pudo cargar la foto",
-                                subtitle: "Intenta nuevamente en unos segundos.",
+                                subtitle: "Intentá nuevamente en unos segundos.",
                                 symbolName: "photo.badge.exclamationmark"
                             )
                         case .empty:
@@ -41,20 +41,31 @@ struct RoverPhotoDetailView: View {
                             .stroke(AppColors.border, lineWidth: 1)
                     }
 
-                    SectionHeader(title: "\(photo.roverName) - \(photo.cameraName)", subtitle: photo.displayDate)
+                    SectionHeader(title: "\(photo.roverName) · \(photo.cameraName)", subtitle: photo.displayDate)
 
                     HStack(spacing: AppSpacing.small) {
                         InfoPill(text: "ROVER FEED")
-                        InfoPill(text: photo.cameraName)
+                        InfoPill(text: photo.solLabel.uppercased())
+                        if !photo.instrument.isEmpty {
+                            InfoPill(text: photo.instrument)
+                        }
                     }
 
-                    Text(photo.cameraFullName)
-                        .font(AppTypography.body)
-                        .foregroundStyle(AppColors.textSecondary)
+                    if !photo.caption.isEmpty {
+                        Text(photo.caption)
+                            .font(AppTypography.body)
+                            .foregroundStyle(AppColors.textPrimary)
+                            .lineSpacing(4)
+                            .textSelection(.enabled)
+                    }
 
-                    Text("Rover: \(photo.roverName)")
-                        .font(AppTypography.caption)
-                        .foregroundStyle(AppColors.textSecondary)
+                    VStack(alignment: .leading, spacing: AppSpacing.xSmall) {
+                        Text("Cámara: \(photo.cameraFullName)")
+                        Text("Misión: \(photo.rover.missionName)")
+                        Text("Crédito: \(photo.credit)")
+                    }
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textSecondary)
 
                     if let shareURL = photo.imageURL {
                         ShareLink(item: shareURL) {
