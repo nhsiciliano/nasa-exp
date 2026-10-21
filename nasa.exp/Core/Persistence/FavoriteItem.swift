@@ -25,7 +25,7 @@ final class FavoriteItem {
     var createdAt: Date
 
     // Original metadata used to rebuild the native detail screens:
-    // - APOD: originalDate, copyright, mediaKindRaw
+    // - APOD: originalDate, copyright, mediaKindRaw, hdMediaURLString
     // - Rover: originalDate (earth date), sol, instrument, cameraFullName, credit, thumbnailURLString
     // - EPIC: originalDate, latitude, longitude, thumbnailURLString
     // Every field is optional so SwiftData migrates existing stores automatically (lightweight
@@ -40,6 +40,7 @@ final class FavoriteItem {
     var latitude: Double?
     var longitude: Double?
     var thumbnailURLString: String?
+    var hdMediaURLString: String?
 
     init(
         key: String,
@@ -59,7 +60,8 @@ final class FavoriteItem {
         credit: String? = nil,
         latitude: Double? = nil,
         longitude: Double? = nil,
-        thumbnailURLString: String? = nil
+        thumbnailURLString: String? = nil,
+        hdMediaURLString: String? = nil
     ) {
         self.key = key
         self.contentTypeRaw = contentTypeRaw
@@ -79,6 +81,7 @@ final class FavoriteItem {
         self.latitude = latitude
         self.longitude = longitude
         self.thumbnailURLString = thumbnailURLString
+        self.hdMediaURLString = hdMediaURLString
     }
 
     var contentType: FavoriteContentType {
@@ -95,6 +98,10 @@ final class FavoriteItem {
 
     var thumbnailURL: URL? {
         thumbnailURLString.flatMap(URL.init(string:))
+    }
+
+    var hdMediaURL: URL? {
+        hdMediaURLString.flatMap(URL.init(string:))
     }
 }
 
@@ -115,6 +122,7 @@ nonisolated struct FavoriteDraft {
     let latitude: Double?
     let longitude: Double?
     let thumbnailURL: URL?
+    let hdMediaURL: URL?
 
     init(
         contentType: FavoriteContentType,
@@ -132,7 +140,8 @@ nonisolated struct FavoriteDraft {
         credit: String? = nil,
         latitude: Double? = nil,
         longitude: Double? = nil,
-        thumbnailURL: URL? = nil
+        thumbnailURL: URL? = nil,
+        hdMediaURL: URL? = nil
     ) {
         self.contentType = contentType
         self.remoteID = remoteID
@@ -150,6 +159,7 @@ nonisolated struct FavoriteDraft {
         self.latitude = latitude
         self.longitude = longitude
         self.thumbnailURL = thumbnailURL
+        self.hdMediaURL = hdMediaURL
     }
 
     var key: String {

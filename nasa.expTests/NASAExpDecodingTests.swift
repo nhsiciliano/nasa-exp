@@ -26,8 +26,9 @@ final class NASAExpDecodingTests: XCTestCase {
         XCTAssertEqual(entry.copyright, "NASA")
 
         switch entry.media {
-        case let .image(url):
-            XCTAssertTrue(url.absoluteString.contains("sample_hd.jpg"))
+        case let .image(url, hdURL):
+            XCTAssertEqual(url.absoluteString, "https://apod.nasa.gov/apod/image/2603/sample.jpg")
+            XCTAssertEqual(hdURL?.absoluteString, "https://apod.nasa.gov/apod/image/2603/sample_hd.jpg")
         default:
             XCTFail("Expected image media")
         }

@@ -26,12 +26,12 @@ struct APODDetailView: View {
                     HStack(spacing: AppSpacing.small) {
                         InfoPill(text: "APOD")
                         if entry.copyright != nil {
-                            InfoPill(text: "Con creditos")
+                            InfoPill(text: "Con créditos")
                         }
                     }
 
                     if let copyright = entry.copyright, !copyright.isEmpty {
-                        Text("Credito: \(copyright)")
+                        Text("Crédito: \(copyright)")
                             .font(AppTypography.caption)
                             .foregroundStyle(AppColors.textSecondary)
                     }
@@ -41,7 +41,7 @@ struct APODDetailView: View {
                         .foregroundStyle(AppColors.textPrimary)
                         .lineSpacing(4)
                         .textSelection(.enabled)
-                        .accessibilityLabel("Descripcion completa. \(entry.explanation)")
+                        .accessibilityLabel("Descripción completa. \(entry.explanation)")
 
                     APODShareButton(
                         entry: entry,
@@ -76,7 +76,7 @@ struct APODDetailView: View {
     @ViewBuilder
     private var mediaView: some View {
         switch entry.media {
-        case let .image(url):
+        case let .image(url, _):
             Button {
                 showsFullscreenImage = true
             } label: {
@@ -106,7 +106,7 @@ struct APODDetailView: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Abrir imagen a pantalla completa")
-            .accessibilityHint("Muestra la imagen astronomica sin interfaz alrededor")
+            .accessibilityHint("Muestra la imagen astronómica sin interfaz alrededor")
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
             .overlay {
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
@@ -128,7 +128,7 @@ struct APODDetailView: View {
         case .unsupported:
             HeroCard(
                 title: "Formato no soportado",
-                subtitle: "La NASA devolvio un tipo de medio no soportado.",
+                subtitle: "La NASA devolvió un tipo de medio no soportado.",
                 symbolName: "questionmark.video"
             )
         }
@@ -136,11 +136,11 @@ struct APODDetailView: View {
 
     @ViewBuilder
     private var fullscreenImageView: some View {
-        if case let .image(url) = entry.media {
+        if case let .image(url, hdURL) = entry.media {
             ZStack(alignment: .topTrailing) {
                 Color.black.ignoresSafeArea()
 
-                AsyncImage(url: url) { phase in
+                AsyncImage(url: hdURL ?? url) { phase in
                     switch phase {
                     case let .success(image):
                         image

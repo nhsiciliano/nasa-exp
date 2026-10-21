@@ -209,7 +209,7 @@ struct APODHomeView: View {
     private func loadedView(_ entry: APODEntry) -> some View {
         HeroCard(
             title: entry.title,
-            subtitle: "Portada orbital del dia con media inmersiva, contexto editorial y acceso directo al detalle.",
+            subtitle: "Portada orbital del día con media inmersiva, contexto editorial y acceso directo al detalle.",
             symbolName: "sparkles.tv"
         )
 
@@ -219,12 +219,12 @@ struct APODHomeView: View {
             InfoPill(text: "APOD")
             InfoPill(text: "Diario")
             if entry.copyright != nil {
-                InfoPill(text: "Con creditos")
+                InfoPill(text: "Con créditos")
             }
         }
 
         if let copyright = entry.copyright, !copyright.isEmpty {
-            Text("Credito: \(copyright)")
+            Text("Crédito: \(copyright)")
                 .font(AppTypography.caption)
                 .foregroundStyle(AppColors.textSecondary)
         }
@@ -257,7 +257,7 @@ struct APODHomeView: View {
     @ViewBuilder
     private func mediaView(for entry: APODEntry) -> some View {
         switch entry.media {
-        case let .image(url):
+        case let .image(url, _):
             AsyncImage(url: url) { phase in
                 switch phase {
                 case let .success(image):
@@ -265,11 +265,11 @@ struct APODHomeView: View {
                         .resizable()
                         .scaledToFit()
                         .overlay(alignment: .topLeading) {
-                            InfoPill(text: "IMAGEN HD")
+                            InfoPill(text: "IMAGEN")
                                 .padding(AppSpacing.medium)
                         }
-                        .accessibilityLabel("Imagen astronomica del dia")
-                        .accessibilityHint("Desliza hacia abajo para refrescar o abre el detalle para mas contexto")
+                        .accessibilityLabel("Imagen astronómica del día")
+                        .accessibilityHint("Desliza hacia abajo para refrescar o abre el detalle para más contexto")
                 case .failure:
                     HeroCard(
                         title: "No pudimos cargar la imagen",
@@ -304,12 +304,12 @@ struct APODHomeView: View {
             Link(destination: url) {
                 ActionCapsule(title: "Abrir video", systemImage: "arrow.up.right.square", isEmphasized: false)
             }
-            .accessibilityLabel("Abrir video del dia en el navegador")
+            .accessibilityLabel("Abrir video del día en el navegador")
 
         case .unsupported:
             HeroCard(
                 title: "Formato no soportado",
-                subtitle: "La NASA devolvio un tipo de medio que no soportamos todavia.",
+                subtitle: "La NASA devolvió un tipo de medio que no soportamos todavía.",
                 symbolName: "questionmark.video"
             )
         }

@@ -14,6 +14,11 @@ nonisolated extension APODEntry {
             mediaKind = .unsupported
         }
 
+        var hdMediaURL: URL?
+        if case let .image(_, hdURL) = media {
+            hdMediaURL = hdURL
+        }
+
         return FavoriteDraft(
             contentType: .apod,
             remoteID: id,
@@ -23,7 +28,8 @@ nonisolated extension APODEntry {
             mediaURL: shareURL,
             originalDate: date,
             copyright: copyright,
-            mediaKind: mediaKind
+            mediaKind: mediaKind,
+            hdMediaURL: hdMediaURL
         )
     }
 
@@ -35,7 +41,7 @@ nonisolated extension APODEntry {
         let media: Media
         switch (mediaKind, mediaURL) {
         case let (.image, url?):
-            media = .image(url)
+            media = .image(url: url, hdURL: favoriteItem.hdMediaURL)
         case let (.video, url?):
             media = .video(url)
         default:

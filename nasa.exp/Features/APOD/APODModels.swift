@@ -12,7 +12,7 @@ nonisolated struct APODResponseDTO: Decodable {
 
 nonisolated struct APODEntry: Identifiable {
     enum Media {
-        case image(URL)
+        case image(url: URL, hdURL: URL?)
         case video(URL)
         case unsupported
     }
@@ -31,7 +31,7 @@ nonisolated struct APODEntry: Identifiable {
 
     private static let displayFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "es_ES")
+        formatter.locale = Locale.current
         formatter.dateStyle = .long
         return formatter
     }()
@@ -45,7 +45,7 @@ nonisolated extension APODEntry {
 
         let media: Media
         if dto.mediaType == "image", let imageURL = mediaURL {
-            media = .image(hdURL ?? imageURL)
+            media = .image(url: imageURL, hdURL: hdURL)
         } else if dto.mediaType == "video", let videoURL = mediaURL {
             media = .video(videoURL)
         } else {

@@ -422,7 +422,7 @@ private func makeLegacyFavorites() -> [FavoriteItem] {
 
 private func mediaSummary(_ media: APODEntry.Media) -> String {
     switch media {
-    case let .image(url):
+    case let .image(url, _):
         return "image \(url.absoluteString)"
     case let .video(url):
         return "video \(url.absoluteString)"
