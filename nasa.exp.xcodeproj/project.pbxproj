@@ -204,10 +204,11 @@
 				};
 			};
 			buildConfigurationList = 8AC776C22F5F969700E9519F /* Build configuration list for PBXProject "nasa.exp" */;
-			developmentRegion = en;
+			developmentRegion = es;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				es,
 				Base,
 			);
 			mainGroup = 8AC776BE2F5F969600E9519F;
