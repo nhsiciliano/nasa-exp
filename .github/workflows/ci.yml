@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build and test
+    runs-on: macos-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select latest stable Xcode
+        run: |
+          latest=$(ls -d /Applications/Xcode_*.app \
+            | sed -E 's#^/Applications/Xcode_(.*)\.app$#\1#' \
+            | grep -E '^[0-9]+(\.[0-9]+)*$' \
+            | sort -t. -k1,1n -k2,2n -k3,3n \
+            | tail -n 1)
+          sudo xcode-select --switch "/Applications/Xcode_${latest}.app/Contents/Developer"
+          xcodebuild -version
+
+      - name: Generate Secrets.xcconfig
+        env:
+          NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
+        run: |
+          if [ -z "$NASA_API_KEY" ]; then
+            echo "::warning::NASA_API_KEY secret is not set; building with DEMO_KEY."
+          fi
+          echo "NASA_API_KEY = ${NASA_API_KEY:-DEMO_KEY}" > Config/Secrets.xcconfig
+
+      - name: Pick simulator
+        run: |
+          udid=$(xcrun simctl list devices available --json | python3 .github/scripts/select-simulator.py)
+          echo "SIMULATOR_UDID=$udid" >> "$GITHUB_ENV"
+
+      - name: Build and test
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project nasa.exp.xcodeproj \
+            -scheme nasa.exp \
+            -configuration Debug \
+            -destination "platform=iOS Simulator,id=${SIMULATOR_UDID}" \
+            -resultBundlePath build/TestResults.xcresult \
+            CODE_SIGNING_ALLOWED=NO \
+            build test
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestResults-${{ github.run_number }}
+          path: build/TestResults.xcresult
+          if-no-files-found: ignore
+          retention-days: 14
