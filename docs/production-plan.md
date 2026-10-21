@@ -34,7 +34,7 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | P0.6 | `TARGETED_DEVICE_FAMILY = 1` y quitar orientaciones de iPad del Info.plist | 🟢 Bajo | Hecho | La arquitectura define iPhone-first; evita review en iPad con layout no probado. |
 | P0.7 | `ITSAppUsesNonExemptEncryption = false` y `PrivacyInfo.xcprivacy` sin tracking ni datos recolectados | 🟢 Bajo | Hecho | `NSPrivacyAccessedAPITypes` vacío: el único UserDefaults es el launch arg de Debug. |
 | P0.8 | Manejo de errores reales de NASA: 429 (rate limit), 403 (key inválida), sin conexión, con mensajes propios | 🟡 Medio | Hecho | `rateLimited(retryAfter:)`, `invalidAPIKey` (solo en api.nasa.gov) y `offline`. Tests con URLProtocol mock. |
-| P0.9 | Migrar APOD a `science.nasa.gov` (RSS `apod-basic` para los últimos 30 días, REST de WordPress para archivo, fecha y aleatorio) manteniendo `APODRepositoryProtocol` y `APODEntry` | 🔴 Alto | En curso | Sin API key. Detectar video por iframe en el contenido. Asignada a high-dev antes del widget. |
+| P0.9 | Migrar APOD a `science.nasa.gov` (RSS `apod-basic` para los últimos 30 días, REST de WordPress para archivo, fecha y aleatorio) manteniendo `APODRepositoryProtocol` y `APODEntry` | 🔴 Alto | Hecho | Sin API key. Ids por día America/New_York. Video por iframe. Cache del RSS de 10 min. Favoritos guardan media, HD, página y thumbnail. |
 
 ## P1 · Calidad y rendimiento antes de review
 
@@ -51,7 +51,8 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | P1.9 | Pull to refresh sin vaciar el contenido (estado `refreshing` o mantener `loaded` mientras llega la respuesta) | 🟢 Bajo | Pendiente | Hoy `refresh()` pone `.loading` y la pantalla parpadea. |
 | P1.10 | Aviso "App no oficial, no afiliada a NASA" en la app y en la ficha; revisar que el ícono no use insignias de NASA | 🟢 Bajo | Pendiente | Riesgo de rechazo por guías 5.2.5 de Apple y guías de medios de NASA. |
 | P1.11 | Eliminar `ContentView.swift` (no se usa) | 🟢 Bajo | Pendiente | |
-| P1.12 | Smoke test de UI: abrir cada tab y un detalle | 🟡 Medio | Pendiente | Requiere target `nasa.expUITests`. El launch argument `-initialTab` ya existe para QA. |
+| P1.13 | Contraste del `DatePicker` en EPIC y de los controles de fecha de APOD sobre fondo oscuro | 🟢 Bajo | En curso | Detectado en la verificación visual de EPIC. Asignada a low-dev. |
+| P1.12 | Smoke test de UI: abrir cada tab y un detalle | 🟡 Medio | En curso | Requiere target `nasa.expUITests`. El launch argument `-initialTab` ya existe para QA. |
 
 ## P2 · Funcionalidad 1.0 y 1.1
 
@@ -65,7 +66,7 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | P2.6 | Rovers: pantalla completa con zoom para la foto | 🟡 Medio | Hecho | 1.0 |
 | P2.7 | Favoritos: filtro por tipo | 🟢 Bajo | Hecho | 1.0 |
 | P2.8 | Guardar imagen en Fotos con crédito (permiso `NSPhotoLibraryAddUsageDescription`) | 🟡 Medio | Pendiente | 1.0 |
-| P2.9 | Widget de APOD (WidgetKit, timeline diaria) | 🔴 Alto | Pendiente | 1.1 |
+| P2.9 | Widget de APOD (WidgetKit, timeline diaria) | 🔴 Alto | Pendiente | 1.1 (hay una implementación estacionada en la rama `nhsiciliano/High-Dev`, commits f45eafc y 05c40e1, sin integrar por decisión del 2026-10-21) |
 | P2.10 | Visor embebido para APOD en video (YouTube/Vimeo vía WebView) | 🟡 Medio | Pendiente | 1.1 |
 | P2.11 | Soporte iPad con layout adaptativo | 🔴 Alto | Pendiente | 1.1 |
 
@@ -96,6 +97,12 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 | low-dev | P0.3, P0.4, P0.5, P0.6, P0.7, P1.1, P1.3, P1.6, P1.11, I.1, I.3, P2.3, P2.4, P2.5 | P1.2, P1.7, P1.9, I.5 |
 | mid-dev | P0.8, P2.1, P2.2, P2.6, I.2 | P1.8, P1.12, P2.8, P2.10, I.4 |
 | high-dev | P1.5, P2.7 | P0.9, luego P2.9 (P2.11 queda para después de 1.0) |
+
+## Estado de ramas (2026-10-21)
+
+- `main` = `22e9057`: todo lo integrado hasta la ola 2 de low-dev, suite 57/57.
+- `nhsiciliano/planner`: `main` + P0.9 (APOD en science.nasa.gov). Pendiente de llevar a `main` cuando el usuario lo decida.
+- Sin asignar más tareas después de las actuales (P1.13 low-dev; P1.12, P2.10, P2.8, I.4, P1.8 mid-dev), por pedido del usuario.
 
 ## Notas de integración
 
