@@ -17,8 +17,8 @@ struct APODDetailView: View {
                     SectionHeader(title: entry.title, subtitle: entry.displayDate)
 
                     HStack(spacing: AppSpacing.small) {
-                        InfoPill(text: "DEEP SPACE")
-                        InfoPill(text: "EDITORIAL")
+                        InfoPill(text: String(localized: "DEEP SPACE"))
+                        InfoPill(text: String(localized: "EDITORIAL"))
                     }
 
                     mediaView
@@ -26,7 +26,7 @@ struct APODDetailView: View {
                     HStack(spacing: AppSpacing.small) {
                         InfoPill(text: "APOD")
                         if entry.copyright != nil {
-                            InfoPill(text: "Con créditos")
+                            InfoPill(text: String(localized: "Con créditos"))
                         }
                     }
 
@@ -45,8 +45,8 @@ struct APODDetailView: View {
 
                     APODShareButton(
                         entry: entry,
-                        title: "Compartir APOD",
-                        accessibilityLabel: "Compartir APOD"
+                        title: String(localized: "Compartir APOD"),
+                        accessibilityLabel: String(localized: "Compartir APOD")
                     )
 
                     if let photoSaveItem {
@@ -57,12 +57,12 @@ struct APODDetailView: View {
                         toggleFavorite()
                     } label: {
                         ActionCapsule(
-                            title: isFavorite ? "Quitar de favoritos" : "Guardar en favoritos",
+                            title: isFavorite ? String(localized: "Quitar de favoritos") : String(localized: "Guardar en favoritos"),
                             systemImage: isFavorite ? "star.slash.fill" : "star.fill",
                             isEmphasized: false
                         )
                     }
-                    .accessibilityHint(isFavorite ? "Elimina este contenido de tu archivo personal" : "Guarda este contenido en tu archivo personal")
+                    .accessibilityHint(isFavorite ? String(localized: "Elimina este contenido de tu archivo personal") : String(localized: "Guarda este contenido en tu archivo personal"))
                 }
                 .padding(AppSpacing.large)
             }
@@ -100,8 +100,8 @@ struct APODDetailView: View {
                             .scaledToFit()
                     case .failure:
                         HeroCard(
-                            title: "No pudimos cargar la imagen",
-                            subtitle: "Intenta nuevamente en unos segundos.",
+                            title: String(localized: "No pudimos cargar la imagen"),
+                            subtitle: String(localized: "Intenta nuevamente en unos segundos."),
                             symbolName: "photo.badge.exclamationmark"
                         )
                     case .empty:
@@ -136,21 +136,21 @@ struct APODDetailView: View {
                     }
             } else {
                 HeroCard(
-                    title: "Contenido en video",
-                    subtitle: "Este APOD es un video. Puedes abrirlo en el navegador.",
+                    title: String(localized: "Contenido en video"),
+                    subtitle: String(localized: "Este APOD es un video. Puedes abrirlo en el navegador."),
                     symbolName: "play.rectangle.fill"
                 )
             }
 
             Link(destination: url) {
-                ActionCapsule(title: "Abrir video", systemImage: "arrow.up.right.square", isEmphasized: false)
+                ActionCapsule(title: String(localized: "Abrir video"), systemImage: "arrow.up.right.square", isEmphasized: false)
             }
             .accessibilityLabel("Abrir video en el navegador")
 
         case .unsupported:
             HeroCard(
-                title: "Formato no soportado",
-                subtitle: "La NASA devolvió un tipo de medio no soportado.",
+                title: String(localized: "Formato no soportado"),
+                subtitle: String(localized: "La NASA devolvió un tipo de medio no soportado."),
                 symbolName: "questionmark.video"
             )
         }

@@ -50,11 +50,11 @@ struct SaveToPhotosButton: View {
     private var title: String {
         switch saveState {
         case .idle:
-            return "Guardar en Fotos"
+            return String(localized: "Guardar en Fotos")
         case .saving:
-            return "Guardando..."
+            return String(localized: "Guardando...")
         case .saved:
-            return "Guardada en Fotos"
+            return String(localized: "Guardada en Fotos")
         }
     }
 
@@ -75,7 +75,7 @@ struct SaveToPhotosButton: View {
         do {
             try await PhotoLibrarySaver.save(item)
             saveState = .saved
-            AccessibilityNotification.Announcement("Imagen guardada en Fotos").post()
+            AccessibilityNotification.Announcement(String(localized: "Imagen guardada en Fotos")).post()
         } catch {
             saveState = .idle
             failure = PhotoSaveFailure(error: error)

@@ -29,9 +29,9 @@ nonisolated enum RoverName: String, CaseIterable, Identifiable {
     var landingSummary: String {
         switch self {
         case .curiosity:
-            return "Cráter Gale · aterrizó en 2012"
+            return String(localized: "Cráter Gale · aterrizó en 2012")
         case .perseverance:
-            return "Cráter Jezero · aterrizó en 2021"
+            return String(localized: "Cráter Jezero · aterrizó en 2021")
         }
     }
 }
@@ -55,7 +55,7 @@ nonisolated enum RoverCamera: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .all: return "Todas"
+        case .all: return String(localized: "Todas")
         case .fhaz: return "Front Hazcam"
         case .rhaz: return "Rear Hazcam"
         case .navcam: return "Navcam"
@@ -73,7 +73,7 @@ nonisolated enum RoverCamera: String, CaseIterable, Identifiable {
 
     var fullName: String {
         switch self {
-        case .all: return "Todas las cámaras"
+        case .all: return String(localized: "Todas las cámaras")
         case .fhaz: return "Front Hazard Avoidance Camera"
         case .rhaz: return "Rear Hazard Avoidance Camera"
         case .navcam: return "Navigation Camera"

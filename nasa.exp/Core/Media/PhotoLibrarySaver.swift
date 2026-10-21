@@ -22,11 +22,11 @@ enum PhotoLibrarySaveError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .accessDenied:
-            return "La app no tiene permiso para guardar en Fotos. Podés habilitarlo en Ajustes."
+            return String(localized: "La app no tiene permiso para guardar en Fotos. Podés habilitarlo en Ajustes.")
         case .encodingFailed:
-            return "No se pudo preparar la imagen para guardarla."
+            return String(localized: "No se pudo preparar la imagen para guardarla.")
         case let .saveFailed(error):
-            return "Fotos no pudo guardar la imagen: \(error.localizedDescription)"
+            return String(localized: "Fotos no pudo guardar la imagen: \(error.localizedDescription)")
         }
     }
 }

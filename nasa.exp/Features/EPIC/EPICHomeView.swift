@@ -16,13 +16,13 @@ struct EPICHomeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: AppSpacing.large) {
                     SectionHeader(
-                        title: "La Tierra desde EPIC",
-                        subtitle: "Selecciona una fecha para explorar imágenes del planeta en el observatorio EPIC."
+                        title: String(localized: "La Tierra desde EPIC"),
+                        subtitle: String(localized: "Selecciona una fecha para explorar imágenes del planeta en el observatorio EPIC.")
                     )
 
                     HeroCard(
-                        title: "Ventana orbital a la Tierra",
-                        subtitle: "Una lectura visual del planeta con coordenadas, fecha y composición para sentir la escala de la observación en tiempo real.",
+                        title: String(localized: "Ventana orbital a la Tierra"),
+                        subtitle: String(localized: "Una lectura visual del planeta con coordenadas, fecha y composición para sentir la escala de la observación en tiempo real."),
                         symbolName: "globe.americas.fill"
                     )
 
@@ -47,8 +47,8 @@ struct EPICHomeView: View {
             VStack(alignment: .leading, spacing: AppSpacing.medium) {
                 HStack(spacing: AppSpacing.small) {
                     InfoPill(text: "EPIC")
-                    InfoPill(text: "TIMELINE")
-                    InfoPill(text: "EARTH VIEW")
+                    InfoPill(text: String(localized: "TIMELINE"))
+                    InfoPill(text: String(localized: "EARTH VIEW"))
                 }
 
             DatePicker("Fecha", selection: $viewModel.selectedDate, displayedComponents: .date)
@@ -66,7 +66,7 @@ struct EPICHomeView: View {
                     await viewModel.search()
                 }
             } label: {
-                ActionCapsule(title: viewModel.isSearching ? "Buscando..." : "Buscar imágenes", systemImage: "globe.americas.fill")
+                ActionCapsule(title: viewModel.isSearching ? String(localized: "Buscando...") : String(localized: "Buscar imágenes"), systemImage: "globe.americas.fill")
             }
             .disabled(viewModel.isSearching)
             .accessibilityHint("Busca imágenes de la Tierra para la fecha seleccionada")
@@ -86,8 +86,8 @@ struct EPICHomeView: View {
         case let .loaded(entries):
             if entries.isEmpty {
                 HeroCard(
-                    title: "Sin imágenes para esta fecha",
-                    subtitle: "No encontramos imágenes EPIC para la fecha seleccionada. Prueba con otro día cercano.",
+                    title: String(localized: "Sin imágenes para esta fecha"),
+                    subtitle: String(localized: "No encontramos imágenes EPIC para la fecha seleccionada. Prueba con otro día cercano."),
                     symbolName: "globe.badge.chevron.backward"
                 )
             } else {
@@ -107,7 +107,7 @@ struct EPICHomeView: View {
         case let .failed(message):
             VStack(alignment: .leading, spacing: AppSpacing.large) {
                 HeroCard(
-                    title: "No se pudieron cargar las imágenes",
+                    title: String(localized: "No se pudieron cargar las imágenes"),
                     subtitle: message,
                     symbolName: "exclamationmark.triangle.fill"
                 )
@@ -117,7 +117,7 @@ struct EPICHomeView: View {
                         await viewModel.search()
                     }
                 } label: {
-                    ActionCapsule(title: "Reintentar", systemImage: "arrow.clockwise")
+                    ActionCapsule(title: String(localized: "Reintentar"), systemImage: "arrow.clockwise")
                 }
                 .accessibilityHint("Vuelve a consultar el archivo EPIC")
                 .accessibilityIdentifier("epic.retry")

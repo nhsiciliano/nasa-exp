@@ -29,7 +29,7 @@ nonisolated struct APODShareImage: Transferable {
 nonisolated extension APODEntry {
     /// Caption shared next to the image: "<title> · APOD <date> · Crédito: <credit>".
     var shareText: String {
-        "\(title) · APOD \(displayDate) · Crédito: \(shareCredit)"
+        String(localized: "\(title) · APOD \(displayDate) · Crédito: \(shareCredit)")
     }
 
     var shareCredit: String {

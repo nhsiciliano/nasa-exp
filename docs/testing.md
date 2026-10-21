@@ -70,6 +70,10 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 
 - `test_jpegData_embedsTitleCaptionAndCreditMetadata` (IPTC título, caption y copyright; TIFF copyright)
 
+### `NASAAPIErrorMessageTests`
+
+- `test_rateLimitedMessage_switchesToHoursForLongWaits`
+
 ### `NASAExpSmokeUITests` (target `nasa.expUITests`, XCUITest)
 
 - `test_eachTab_opensItsScreen`
@@ -77,6 +81,10 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 - `test_epicTab_opensImageDetail`
 
 Corren contra los feeds reales con el idioma fijado en español (`-AppleLanguages (es)`). Si un feed muestra su estado de error (por ejemplo el 429 de `DEMO_KEY`), el test de detalle se marca como skipped en vez de fallar. Para correr solo los unit tests, que son más rápidos: `-only-testing:nasa.expTests`.
+
+## Idioma de los tests
+
+La acción Test del scheme corre con idioma `es` y región `ES`, el idioma fuente de `Localizable.xcstrings`, así que los tests pueden comparar contra el texto en español. Para revisar la app en inglés: `xcrun simctl launch "iPhone 17" den-mobile.nasa-exp -AppleLanguages "(en)"`.
 
 ## Fixtures
 

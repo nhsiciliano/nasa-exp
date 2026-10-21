@@ -14,36 +14,40 @@ enum NASAAPIError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidRequest:
-            return "No se pudo crear la solicitud a NASA API."
+            return String(localized: "No se pudo crear la solicitud a NASA API.")
         case .missingAPIKey:
-            return "Falta configurar NASA_API_KEY para esta compilación."
+            return String(localized: "Falta configurar NASA_API_KEY para esta compilación.")
         case .offline:
-            return "Sin conexión con NASA. Revisá tu conexión a internet y volvé a intentar."
+            return String(localized: "Sin conexión con NASA. Revisá tu conexión a internet y volvé a intentar.")
         case let .transportError(error):
-            return "Error de conectividad: \(error.localizedDescription)"
+            return String(localized: "Error de conectividad: \(error.localizedDescription)")
         case .invalidResponse:
-            return "La respuesta del servidor es inválida."
+            return String(localized: "La respuesta del servidor es inválida.")
         case let .rateLimited(retryAfter):
             return Self.rateLimitedMessage(retryAfter: retryAfter)
         case .invalidAPIKey:
-            return "NASA rechazó la clave de acceso de la app. Probá más tarde; si sigue pasando, actualizá la app."
+            return String(localized: "NASA rechazó la clave de acceso de la app. Probá más tarde; si sigue pasando, actualizá la app.")
         case let .serverError(statusCode):
-            return "NASA API devolvió estado HTTP \(statusCode). Probá de nuevo en unos segundos."
+            return String(localized: "NASA API devolvió estado HTTP \(statusCode). Probá de nuevo en unos segundos.")
         case let .decodingError(error):
-            return "No se pudo leer la respuesta: \(error.localizedDescription)"
+            return String(localized: "No se pudo leer la respuesta: \(error.localizedDescription)")
         }
     }
 
     private static func rateLimitedMessage(retryAfter: TimeInterval?) -> String {
         guard let retryAfter, retryAfter > 0 else {
-            return "Demasiadas consultas a NASA. Probá de nuevo en unos minutos."
+            return String(localized: "Demasiadas consultas a NASA. Probá de nuevo en unos minutos.")
         }
 
         let minutes = Int((retryAfter / 60).rounded(.up))
+        if minutes > 90 {
+            let hours = Int((retryAfter / 3600).rounded(.up))
+            return String(localized: "Demasiadas consultas a NASA. Probá de nuevo en \(hours) horas.")
+        }
         if minutes <= 1 {
-            return "Demasiadas consultas a NASA. Probá de nuevo en un minuto."
+            return String(localized: "Demasiadas consultas a NASA. Probá de nuevo en un minuto.")
         }
 
-        return "Demasiadas consultas a NASA. Probá de nuevo en \(minutes) minutos."
+        return String(localized: "Demasiadas consultas a NASA. Probá de nuevo en \(minutes) minutos.")
     }
 }

@@ -66,8 +66,8 @@ struct FavoritesHomeView: View {
 
     private var emptyFilterState: some View {
         HeroCard(
-            title: "Sin favoritos de \(filter.title)",
-            subtitle: "Los que guardes desde el detalle van a aparecer acá.",
+            title: String(localized: "Sin favoritos de \(filter.title)"),
+            subtitle: String(localized: "Los que guardes desde el detalle van a aparecer acá."),
             symbolName: "line.3.horizontal.decrease.circle"
         )
         .padding(.horizontal, AppSpacing.large)
@@ -77,13 +77,13 @@ struct FavoritesHomeView: View {
     private var emptyState: some View {
         VStack(alignment: .leading, spacing: AppSpacing.large) {
             SectionHeader(
-                title: "Archivo personal",
-                subtitle: "Tus hallazgos espaciales quedan guardados como una bitácora privada de misión."
+                title: String(localized: "Archivo personal"),
+                subtitle: String(localized: "Tus hallazgos espaciales quedan guardados como una bitácora privada de misión.")
             )
 
             HeroCard(
-                title: "Sin favoritos",
-                subtitle: "Guarda APOD, Rovers o EPIC para volver rápido a tus hallazgos favoritos.",
+                title: String(localized: "Sin favoritos"),
+                subtitle: String(localized: "Guarda APOD, Rovers o EPIC para volver rápido a tus hallazgos favoritos."),
                 symbolName: "star"
             )
 
@@ -130,7 +130,7 @@ private enum FavoritesFilter: String, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .all:
-            return "Todos"
+            return String(localized: "Todos")
         case .apod:
             return "APOD"
         case .rover:

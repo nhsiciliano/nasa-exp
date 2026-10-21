@@ -19,13 +19,13 @@ enum AppTab: Hashable {
     var title: String {
         switch self {
         case .apod:
-            return "Hoy"
+            return String(localized: "Hoy")
         case .rovers:
             return "Rovers"
         case .epic:
-            return "Tierra"
+            return String(localized: "Tierra")
         case .favorites:
-            return "Favoritos"
+            return String(localized: "Favoritos")
         }
     }
 
