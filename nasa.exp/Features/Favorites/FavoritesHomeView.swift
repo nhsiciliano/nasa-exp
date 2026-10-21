@@ -157,6 +157,10 @@ private enum FavoritesFilter: String, CaseIterable, Identifiable {
 private struct FavoriteRow: View {
     let item: FavoriteItem
 
+    private var displayDate: String {
+        item.displayDate()
+    }
+
     var body: some View {
         HStack(spacing: AppSpacing.medium) {
             if let previewURL = item.thumbnailURL ?? item.mediaURL {
@@ -184,7 +188,7 @@ private struct FavoriteRow: View {
                     .foregroundStyle(AppColors.textPrimary)
                     .lineLimit(2)
 
-                Text(item.subtitle)
+                Text(displayDate)
                     .font(AppTypography.caption)
                     .foregroundStyle(AppColors.textSecondary)
                     .lineLimit(1)
@@ -210,7 +214,7 @@ private struct FavoriteRow: View {
                 .stroke(AppColors.border, lineWidth: 1)
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Favorito \(tag(for: item.contentType)): \(item.title). \(item.subtitle)")
+        .accessibilityLabel("Favorito \(tag(for: item.contentType)): \(item.title). \(displayDate)")
         .accessibilityHint("Abre el detalle guardado")
     }
 
