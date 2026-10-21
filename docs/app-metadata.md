@@ -33,6 +33,8 @@ The app organizes several NASA data sources into clear, research-friendly sectio
 
 NASA Exp is intended for users interested in astronomy, planetary science, and space exploration. Its visual language is futuristic, but the product emphasis remains on clarity, attribution, and reliable access to NASA imagery.
 
+NASA Exp is not an official NASA app and is not affiliated with or endorsed by NASA. Images and data come from public NASA services (science.nasa.gov, mars.nasa.gov, api.nasa.gov) and keep their original credits.
+
 ## Visual Identity
 
 ### Icon direction
@@ -53,7 +55,8 @@ NASA Exp is intended for users interested in astronomy, planetary science, and s
 ## Review Notes
 
 - Uses NASA public APIs (api.nasa.gov for APOD and EPIC, mars.nasa.gov raw image feeds for rovers)
-- Not an official NASA app; the app must state it is not affiliated with or endorsed by NASA (see production plan P1.10)
+- Not an official NASA app. The disclaimer is in the App Store description (last paragraph) and in the app under Favorites > info button (About screen, with version, sources and links)
+- The app icon is original artwork (dark orbital disc, cyan ring, amber flare); it does not use the NASA "meatball" or "worm" logos, so no NASA branding permission is needed
 - Favorites are stored locally on device
 - No account required
 - No user-generated content

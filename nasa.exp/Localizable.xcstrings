@@ -61,6 +61,16 @@
         }
       }
     },
+    "AVISO" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NOTICE"
+          }
+        }
+      }
+    },
     "Abre el detalle de la foto" : {
       "localizations" : {
         "en" : {
@@ -87,6 +97,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Opens the saved details"
+          }
+        }
+      }
+    },
+    "Abre el sitio en el navegador" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the site in your browser"
           }
         }
       }
@@ -147,6 +167,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open video in the browser"
+          }
+        }
+      }
+    },
+    "Acerca de NASA Exp" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About NASA Exp"
           }
         }
       }
@@ -301,6 +331,16 @@
         }
       }
     },
+    "Cerrar" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
+    },
     "Cerrar imagen a pantalla completa" : {
       "localizations" : {
         "en" : {
@@ -437,6 +477,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Camera"
+          }
+        }
+      }
+    },
+    "Cámara EPIC de la Tierra" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EPIC Earth camera"
           }
         }
       }
@@ -711,6 +761,16 @@
         }
       }
     },
+    "FUENTES" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SOURCES"
+          }
+        }
+      }
+    },
     "Falta configurar NASA_API_KEY para esta compilación." : {
       "localizations" : {
         "en" : {
@@ -807,6 +867,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ photo, %2$@ camera, %3$@"
+          }
+        }
+      }
+    },
+    "Fotos crudas de los rovers" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rover raw images"
           }
         }
       }
@@ -1107,6 +1177,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "NASA API returned HTTP status %lld. Try again in a few seconds."
+          }
+        }
+      }
+    },
+    "NASA Exp no es una app oficial de la NASA ni está afiliada a ella. Las imágenes y datos provienen de servicios públicos de la NASA (science.nasa.gov, mars.nasa.gov, api.nasa.gov) y conservan sus créditos originales." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NASA Exp is not an official NASA app and is not affiliated with NASA. Images and data come from public NASA services (science.nasa.gov, mars.nasa.gov, api.nasa.gov) and keep their original credits."
           }
         }
       }
@@ -1687,6 +1767,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "View full details"
+          }
+        }
+      }
+    },
+    "Versión %@ (%@)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %1$@ (%2$@)"
           }
         }
       }
