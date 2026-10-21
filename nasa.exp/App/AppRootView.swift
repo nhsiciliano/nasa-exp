@@ -42,6 +42,7 @@ struct AppRootView: View {
             }
         }
         .tint(AppColors.accent)
+        .preferredColorScheme(.dark)
         .toolbarBackground(AppColors.surfaceBase.opacity(0.98), for: .tabBar)
         .toolbarBackground(.visible, for: .tabBar)
         .toolbarColorScheme(.dark, for: .tabBar)
