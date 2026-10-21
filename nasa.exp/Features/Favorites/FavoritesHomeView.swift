@@ -5,6 +5,7 @@ struct FavoritesHomeView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \FavoriteItem.createdAt, order: .reverse) private var favorites: [FavoriteItem]
     @State private var filter: FavoritesFilter = .all
+    @State private var isShowingAbout = false
 
     private var visibleFavorites: [FavoriteItem] {
         guard let contentType = filter.contentType else {
@@ -22,8 +23,11 @@ struct FavoritesHomeView: View {
                 emptyState
             } else {
                 VStack(spacing: AppSpacing.medium) {
-                    filterPicker
-                        .padding(.horizontal, AppSpacing.large)
+                    HStack(spacing: AppSpacing.small) {
+                        filterPicker
+                        aboutButton
+                    }
+                    .padding(.horizontal, AppSpacing.large)
 
                     if visibleFavorites.isEmpty {
                         emptyFilterState
@@ -35,6 +39,21 @@ struct FavoritesHomeView: View {
         }
         .toolbar(.hidden, for: .navigationBar)
         .appScreenChromeSpacing()
+        .sheet(isPresented: $isShowingAbout) {
+            AboutView()
+        }
+    }
+
+    private var aboutButton: some View {
+        Button {
+            isShowingAbout = true
+        } label: {
+            Image(systemName: "info.circle")
+                .font(.title3)
+                .foregroundStyle(AppColors.accent)
+                .frame(minWidth: 44, minHeight: 44)
+        }
+        .accessibilityLabel("Acerca de NASA Exp")
     }
 
     private var filterPicker: some View {
@@ -76,10 +95,13 @@ struct FavoritesHomeView: View {
 
     private var emptyState: some View {
         VStack(alignment: .leading, spacing: AppSpacing.large) {
-            SectionHeader(
-                title: String(localized: "Archivo personal"),
-                subtitle: String(localized: "Tus hallazgos espaciales quedan guardados como una bitácora privada de misión.")
-            )
+            HStack(alignment: .top, spacing: AppSpacing.small) {
+                SectionHeader(
+                    title: String(localized: "Archivo personal"),
+                    subtitle: String(localized: "Tus hallazgos espaciales quedan guardados como una bitácora privada de misión.")
+                )
+                aboutButton
+            }
 
             HeroCard(
                 title: String(localized: "Sin favoritos"),
