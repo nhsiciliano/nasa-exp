@@ -352,6 +352,33 @@ final class NASAExpStoreAndViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.sol, 0)
     }
 
+    func test_roversViewModel_roverChangeDuringSearch_dropsStaleResultAndClearsIsSearching() async {
+        let gate = RequestGate()
+        let repository = GatedRoversRepository(gate: gate, latestSol: 5050, pages: [
+            0: RoverPhotoPage(photos: makeRoverPhotos(range: 0..<3), total: 3, hasMore: false)
+        ])
+        let viewModel = RoversViewModel(repository: repository)
+
+        let firstSearch = Task { await viewModel.search() }
+        await gate.waitUntilRequested()
+        XCTAssertTrue(viewModel.isSearching)
+
+        viewModel.selectedRover = .perseverance
+        let roverChange = Task { await viewModel.roverSelectionChanged() }
+        await gate.releaseAll()
+        await firstSearch.value
+        await roverChange.value
+
+        XCTAssertFalse(viewModel.isSearching)
+        XCTAssertEqual(viewModel.sol, 5050)
+        XCTAssertEqual(repository.photoRequests.last?.rover, .perseverance)
+
+        guard case let .loaded(feed) = viewModel.state else {
+            return XCTFail("Expected loaded state after rover change")
+        }
+        XCTAssertEqual(feed.photos.count, 3)
+    }
+
     func test_roversViewModel_search_setsFailedStateOnError() async {
         let repository = MockRoversRepository(latestSol: 10, pages: [:], error: MockError.sample)
         let viewModel = RoversViewModel(repository: repository)
@@ -544,5 +571,69 @@ private enum MockError: LocalizedError {
 
     var errorDescription: String? {
         "Sample failure"
+    }
+}
+
+private actor RequestGate {
+    private var waiters: [CheckedContinuation<Void, Never>] = []
+    private var requestedCount = 0
+    private var requestWaiters: [CheckedContinuation<Void, Never>] = []
+
+    func hold() async {
+        requestedCount += 1
+        for waiter in requestWaiters {
+            waiter.resume()
+        }
+        requestWaiters.removeAll()
+        await withCheckedContinuation { continuation in
+            waiters.append(continuation)
+        }
+    }
+
+    func waitUntilRequested() async {
+        guard requestedCount == 0 else {
+            return
+        }
+        await withCheckedContinuation { continuation in
+            requestWaiters.append(continuation)
+        }
+    }
+
+    func releaseAll() {
+        for waiter in waiters {
+            waiter.resume()
+        }
+        waiters.removeAll()
+    }
+}
+
+private final class GatedRoversRepository: RoversRepositoryProtocol, @unchecked Sendable {
+    struct PhotoRequest {
+        let rover: RoverName
+        let sol: Int
+        let page: Int
+    }
+
+    let gate: RequestGate
+    let latestSol: Int
+    let pages: [Int: RoverPhotoPage]
+    private(set) var photoRequests: [PhotoRequest] = []
+
+    init(gate: RequestGate, latestSol: Int, pages: [Int: RoverPhotoPage]) {
+        self.gate = gate
+        self.latestSol = latestSol
+        self.pages = pages
+    }
+
+    func fetchLatestSol(for rover: RoverName) async throws -> Int {
+        latestSol
+    }
+
+    func fetchPhotos(rover: RoverName, sol: Int, camera: RoverCamera, page: Int) async throws -> RoverPhotoPage {
+        photoRequests.append(PhotoRequest(rover: rover, sol: sol, page: page))
+        if rover == .curiosity {
+            await gate.hold()
+        }
+        return pages[page] ?? RoverPhotoPage(photos: [], total: 0, hasMore: false)
     }
 }

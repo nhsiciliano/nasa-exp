@@ -90,15 +90,18 @@ final class RoversViewModel: ObservableObject {
         await search(keepingContent: true)
     }
 
+    /// A newer search supersedes an in-flight one: stale responses are dropped by generation, and
+    /// only the latest search owns `isSearching`, so a superseded request can never leave it stuck.
     func search(keepingContent: Bool = false) async {
-        guard !isSearching else {
-            return
-        }
-
         searchGeneration += 1
         let generation = searchGeneration
         isSearching = true
         loadMoreErrorMessage = nil
+        defer {
+            if generation == searchGeneration {
+                isSearching = false
+            }
+        }
 
         if !(keepingContent && isShowingFeed) {
             state = .loading
@@ -129,8 +132,6 @@ final class RoversViewModel: ObservableObject {
             }
             state = .failed(Self.message(for: error))
         }
-
-        isSearching = false
     }
 
     /// Infinite scroll hook: loads the next page once the last card shows up. After a failed page
