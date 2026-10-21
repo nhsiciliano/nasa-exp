@@ -104,16 +104,16 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 
 ## Estado de ramas (2026-10-21)
 
-- `main` = `22e9057`: todo lo integrado hasta la ola 2 de low-dev, suite 57/57.
-- `nhsiciliano/planner` = `d11131e`: `main` + P0.9, P1.13, P1.12, P2.10, P2.8, P1.8, I.4. Suite completa verde (84 unit tests, 3 UI tests). Pendiente de llevar a `main` cuando el usuario lo decida.
-- 2026-10-21, tarde: ola 3 entregada e integrada (low-dev P1.10, P1.14, P1.15; mid-dev P1.16, P1.17; high-dev P2.9). Las tres sesiones quedaron sin tareas.
+- `main` = `nhsiciliano/planner` = `72ad6b1`: olas 1, 2 y 3 integradas. Suite completa verde (100 unit tests, 5 UI tests). Sin push.
+- Ola 3 entregada e integrada la tarde del 2026-10-21 (low-dev P1.10, P1.14, P1.15; mid-dev P1.16, P1.17; high-dev P2.9). Las tres sesiones quedaron sin tareas.
+- Archive de Release generado desde `72ad6b1` con `-allowProvisioningUpdates`: ARCHIVE SUCCEEDED, app y widget firmados con el equipo `C9SN4BNWU9`, versión 1.0 (1). Queda I.5 (subir a TestFlight desde el Organizer).
 
 ## Notas de integración
 
 - `FavoriteItemDetailView.swift` era código muerto (Favoritos navega a los detalles nativos, que ya tienen "Quitar de favoritos"). Borrado el 2026-10-21.
 - El detalle APOD reconstruido desde un favorito muestra la imagen estándar, no HD. Agregar la columna `hdurl` cuando entre P1.2.
 - Widget: los días de video muestran título e ícono sin el póster. Follow-up chico, sin asignar.
-- TestFlight: el archive firma `den-mobile.nasa-exp` y `den-mobile.nasa-exp.widget`; hace falta `-allowProvisioningUpdates` o un perfil para el widget.
+- TestFlight: el archive firma `den-mobile.nasa-exp` y `den-mobile.nasa-exp.widget`; hace falta `-allowProvisioningUpdates` o un perfil para el widget. El primer intento con provisioning automático puede fallar mientras se crea el perfil del widget; el segundo pasa.
 
 ## Decisiones tomadas
 
