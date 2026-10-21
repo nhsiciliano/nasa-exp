@@ -26,6 +26,8 @@
     <true/>
     <key>NASA_API_KEY</key>
     <string>$(NASA_API_KEY)</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>NASA Exp guarda en Fotos las imágenes que elegís, con su título y crédito.</string>
     <key>UIApplicationSceneManifest</key>
     <dict>
         <key>UIApplicationSupportsMultipleScenes</key>

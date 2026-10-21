@@ -63,6 +63,15 @@ struct EPICDetailView: View {
                         .accessibilityLabel("Compartir imagen EPIC")
                     }
 
+                    if let imageURL = entry.imageURL {
+                        SaveToPhotosButton(item: PhotoSaveItem(
+                            imageURL: imageURL,
+                            title: entry.title,
+                            caption: "\(entry.title) · \(entry.displayDate) · Crédito: NASA EPIC Team",
+                            credit: "NASA EPIC Team"
+                        ))
+                    }
+
                     Button {
                         toggleFavorite()
                     } label: {

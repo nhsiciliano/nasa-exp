@@ -32,7 +32,7 @@ nonisolated extension APODEntry {
         "\(title) · APOD \(displayDate) · Crédito: \(shareCredit)"
     }
 
-    private var shareCredit: String {
+    var shareCredit: String {
         let credit = (copyright ?? "")
             .split(whereSeparator: \.isWhitespace)
             .joined(separator: " ")

@@ -56,6 +56,10 @@ struct RoverPhotoDetailView: View {
                         .accessibilityLabel("Compartir foto del rover")
                     }
 
+                    if let photoSaveItem {
+                        SaveToPhotosButton(item: photoSaveItem)
+                    }
+
                     Button {
                         toggleFavorite()
                     } label: {
@@ -81,6 +85,20 @@ struct RoverPhotoDetailView: View {
                 accessibilityLabel: "Foto de \(photo.roverName), \(photo.cameraFullName), \(photo.solLabel)"
             )
         }
+    }
+
+    private var photoSaveItem: PhotoSaveItem? {
+        guard let imageURL = photo.imageURL else {
+            return nil
+        }
+
+        let title = "\(photo.roverName) · \(photo.cameraFullName)"
+        return PhotoSaveItem(
+            imageURL: imageURL,
+            title: title,
+            caption: "\(title) · \(photo.displayDate) · Crédito: \(photo.credit)",
+            credit: photo.credit
+        )
     }
 
     private var photoView: some View {

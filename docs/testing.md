@@ -66,6 +66,10 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 - `test_embedURL_handlesVimeoPlayerAndPageLinks`
 - `test_embedURL_whenHostIsNotSupported_returnsNil`
 
+### `PhotoLibrarySaverTests`
+
+- `test_jpegData_embedsTitleCaptionAndCreditMetadata` (IPTC título, caption y copyright; TIFF copyright)
+
 ### `NASAExpSmokeUITests` (target `nasa.expUITests`, XCUITest)
 
 - `test_eachTab_opensItsScreen`
