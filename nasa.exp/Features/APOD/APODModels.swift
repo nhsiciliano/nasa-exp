@@ -29,30 +29,6 @@ nonisolated struct APODEntry: Identifiable {
         APODEntry.displayFormatter.string(from: date)
     }
 
-    var favoriteDraft: FavoriteDraft {
-        let mediaKind: FavoriteMediaKind
-        switch media {
-        case .image:
-            mediaKind = .image
-        case .video:
-            mediaKind = .video
-        case .unsupported:
-            mediaKind = .unsupported
-        }
-
-        return FavoriteDraft(
-            contentType: .apod,
-            remoteID: id,
-            title: title,
-            subtitle: displayDate,
-            details: explanation,
-            mediaURL: shareURL,
-            originalDate: date,
-            copyright: copyright,
-            mediaKind: mediaKind
-        )
-    }
-
     private static let displayFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "es_ES")
@@ -85,48 +61,11 @@ nonisolated extension APODEntry {
         self.shareURL = mediaURL
     }
 
-    init(favoriteItem: FavoriteItem) {
-        let mediaURL = favoriteItem.mediaURL
-        // Favorites saved before `mediaKindRaw` existed infer the kind from the URL.
-        let mediaKind = favoriteItem.mediaKind ?? (mediaURL?.isLikelyVideo == true ? .video : .image)
-
-        let media: Media
-        switch (mediaKind, mediaURL) {
-        case let (.image, url?):
-            media = .image(url)
-        case let (.video, url?):
-            media = .video(url)
-        default:
-            media = .unsupported
-        }
-
-        self.id = favoriteItem.remoteID
-        self.title = favoriteItem.title
-        self.explanation = favoriteItem.details
-        self.date = favoriteItem.originalDate
-            ?? APODEntry.apiFormatter.date(from: favoriteItem.remoteID)
-            ?? .now
-        self.copyright = favoriteItem.copyright
-        self.media = media
-        self.shareURL = mediaURL
-    }
-
-    private static let apiFormatter: DateFormatter = {
+    /// Parses the `yyyy-MM-dd` dates used by the APOD API and as APOD ids.
+    static let apiFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
-}
-
-nonisolated private extension URL {
-    var isLikelyVideo: Bool {
-        let videoExtensions = ["mp4", "mov", "m4v", "avi"]
-        if videoExtensions.contains(pathExtension.lowercased()) {
-            return true
-        }
-
-        let host = host?.lowercased() ?? ""
-        return host.contains("youtube") || host.contains("youtu.be") || host.contains("vimeo")
-    }
 }
