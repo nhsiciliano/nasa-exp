@@ -19,7 +19,8 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 - Se verificó contra la API real que `api.nasa.gov/mars-photos` ya no existe (responde HTML "No such app" de Heroku).
   La migración a los feeds de `mars.nasa.gov` ya está hecha (ver P0.1).
 - Hay una API key real commiteada en `Config/Base.xcconfig` desde el commit `63ebd67`.
-- Deployment target en iOS 26.2, que excluye a casi toda la base instalada.
+- Deployment target en iOS 26.2, que excluye a casi toda la base instalada. (Corregido a 17.0 en P0.5.)
+- `api.nasa.gov/planetary/apod` también está roto (verificado el 2026-10-21): HTTP 500 sin fecha y un placeholder "NASA Science" con el logo de NASA para cualquier fecha. APOD se mudó a `science.nasa.gov/apod`, que expone un feed RSS (`/feed/apod-basic/`, 30 días, campos `apod:*`) y la REST de WordPress (`/wp-json/wp/v2/image-article?categories=22766`, archivo completo). Ver P0.9.
 
 ## P0 · Bloqueantes de release
 
@@ -32,7 +33,8 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | P0.5 | Bajar `IPHONEOS_DEPLOYMENT_TARGET` a 17.0 y validar build | 🟢 Bajo | Hecho | Nada requirió iOS 18+. |
 | P0.6 | `TARGETED_DEVICE_FAMILY = 1` y quitar orientaciones de iPad del Info.plist | 🟢 Bajo | Hecho | La arquitectura define iPhone-first; evita review en iPad con layout no probado. |
 | P0.7 | `ITSAppUsesNonExemptEncryption = false` y `PrivacyInfo.xcprivacy` sin tracking ni datos recolectados | 🟢 Bajo | Hecho | `NSPrivacyAccessedAPITypes` vacío: el único UserDefaults es el launch arg de Debug. |
-| P0.8 | Manejo de errores reales de NASA: 429 (rate limit), 403 (key inválida), sin conexión, con mensajes propios | 🟡 Medio | Pendiente | Un solo key es compartido por todos los usuarios; el 429 va a pasar. Agregar casos a `NASAAPIError` y tests. |
+| P0.8 | Manejo de errores reales de NASA: 429 (rate limit), 403 (key inválida), sin conexión, con mensajes propios | 🟡 Medio | Hecho | `rateLimited(retryAfter:)`, `invalidAPIKey` (solo en api.nasa.gov) y `offline`. Tests con URLProtocol mock. |
+| P0.9 | Migrar APOD a `science.nasa.gov` (RSS `apod-basic` para los últimos 30 días, REST de WordPress para archivo, fecha y aleatorio) manteniendo `APODRepositoryProtocol` y `APODEntry` | 🔴 Alto | En curso | Sin API key. Detectar video por iframe en el contenido. Asignada a high-dev antes del widget. |
 
 ## P1 · Calidad y rendimiento antes de review
 
@@ -55,12 +57,12 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 
 | # | Tarea | Dificultad | Estado | Versión |
 |---|---|---|---|---|
-| P2.1 | APOD: navegar por fecha (ayer, anterior, selector) y botón "aleatorio" | 🟡 Medio | Pendiente | 1.0 |
-| P2.2 | APOD: compartir imagen con título y crédito, no solo la URL | 🟡 Medio | Pendiente | 1.0 |
+| P2.1 | APOD: navegar por fecha (ayer, anterior, selector) y botón "aleatorio" | 🟡 Medio | Hecho | 1.0 |
+| P2.2 | APOD: compartir imagen con título y crédito, no solo la URL | 🟡 Medio | Hecho | 1.0 |
 | P2.3 | EPIC: carga inicial con `/EPIC/api/natural` (última fecha disponible) en vez de "hace 2 días" | 🟢 Bajo | Hecho | 1.0 |
 | P2.4 | EPIC: buscar automáticamente al cambiar la fecha | 🟢 Bajo | Hecho | 1.0 |
 | P2.5 | Rovers: carga automática de la siguiente página al llegar al final de la grilla | 🟢 Bajo | Pendiente | 1.0 |
-| P2.6 | Rovers: pantalla completa con zoom para la foto | 🟡 Medio | Pendiente | 1.0 |
+| P2.6 | Rovers: pantalla completa con zoom para la foto | 🟡 Medio | Hecho | 1.0 |
 | P2.7 | Favoritos: filtro por tipo | 🟢 Bajo | Hecho | 1.0 |
 | P2.8 | Guardar imagen en Fotos con crédito (permiso `NSPhotoLibraryAddUsageDescription`) | 🟡 Medio | Pendiente | 1.0 |
 | P2.9 | Widget de APOD (WidgetKit, timeline diaria) | 🔴 Alto | Pendiente | 1.1 |
@@ -72,7 +74,7 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | # | Tarea | Dificultad | Estado | Notas |
 |---|---|---|---|---|
 | I.1 | Compartir el scheme `nasa.exp` (`xcshareddata`) | 🟢 Bajo | Hecho | Sin esto CI no puede compilar. |
-| I.2 | GitHub Actions: build + test en cada PR sobre `macos-latest` | 🟡 Medio | Pendiente | Inyectar `NASA_API_KEY` como secret y generar `Secrets.xcconfig` en el job. |
+| I.2 | GitHub Actions: build + test en cada PR sobre `macos-latest` | 🟡 Medio | Hecho | `.github/workflows/ci.yml` con selección automática de simulador. Todavía no corrió en GitHub: depende de que `macos-latest` traiga Xcode 27. |
 | I.3 | Crash reporting sin dependencias: Xcode Organizer + MetricKit | 🟢 Bajo | Hecho | `MetricKitReporter` guarda diagnostic payloads como JSON en Application Support. Sin red. |
 | I.4 | Tests nuevos: 429/403, migración de favoritos, formateadores por locale | 🟡 Medio | Pendiente | |
 | I.5 | TestFlight interno con 3 a 5 testers y checklist de QA manual por pantalla | 🟢 Bajo | Pendiente | |
@@ -93,7 +95,7 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 |---|---|---|
 | low-dev | P0.3, P0.4, P0.5, P0.6, P0.7, P1.1, P1.3, P1.6, P1.11, I.1, I.3, P2.3, P2.4, P2.5 | P1.2, P1.7, P1.9, I.5 |
 | mid-dev | P0.8, P2.1, P2.2, P2.6, I.2 | P1.8, P1.12, P2.8, P2.10, I.4 |
-| high-dev | P1.5, P2.7 | P2.9 (P2.11 queda para después de 1.0) |
+| high-dev | P1.5, P2.7 | P0.9, luego P2.9 (P2.11 queda para después de 1.0) |
 
 ## Notas de integración
 
@@ -104,5 +106,6 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 ## Decisiones tomadas
 
 - 2026-10-21: Rovers se migra a `mars.nasa.gov` en vez de quitar el tab. Spirit y Opportunity salen del selector.
+- 2026-10-21: APOD se migra a science.nasa.gov (RSS + REST) porque api.nasa.gov devuelve placeholders. La API key de api.nasa.gov queda solo para EPIC.
 - 2026-10-21: 1.0 sale solo para iPhone (`TARGETED_DEVICE_FAMILY = 1`). P2.11 (iPad) queda para después del release.
 - 2026-10-21: la navegación de Rovers pasa de fecha terrestre a sol marciano, porque los feeds filtran por sol de forma nativa y el filtro por fecha no es confiable en Mars 2020.
