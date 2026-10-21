@@ -59,6 +59,13 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 - `test_shareText_includesTitleDateAndCleanedCopyright`
 - `test_shareText_whenCopyrightIsMissing_creditsNASA`
 
+### `APODVideoEmbedTests`
+
+- `test_embedURL_keepsYouTubeEmbedQueryAndForcesInlinePlayback`
+- `test_embedURL_convertsYouTubeWatchAndShortLinks`
+- `test_embedURL_handlesVimeoPlayerAndPageLinks`
+- `test_embedURL_whenHostIsNotSupported_returnsNil`
+
 ### `NASAExpSmokeUITests` (target `nasa.expUITests`, XCUITest)
 
 - `test_eachTab_opensItsScreen`

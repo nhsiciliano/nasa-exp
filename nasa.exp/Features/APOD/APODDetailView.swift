@@ -114,11 +114,21 @@ struct APODDetailView: View {
             }
 
         case let .video(url):
-            HeroCard(
-                title: "Contenido en video",
-                subtitle: "Este APOD es un video. Puedes abrirlo en el navegador.",
-                symbolName: "play.rectangle.fill"
-            )
+            if let embedURL = APODVideoEmbed.embedURL(for: url) {
+                APODVideoPlayer(embedURL: embedURL)
+                    .aspectRatio(16 / 9, contentMode: .fit)
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            .stroke(AppColors.border, lineWidth: 1)
+                    }
+            } else {
+                HeroCard(
+                    title: "Contenido en video",
+                    subtitle: "Este APOD es un video. Puedes abrirlo en el navegador.",
+                    symbolName: "play.rectangle.fill"
+                )
+            }
 
             Link(destination: url) {
                 ActionCapsule(title: "Abrir video", systemImage: "arrow.up.right.square", isEmphasized: false)
