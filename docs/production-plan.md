@@ -41,16 +41,16 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | # | Tarea | Dificultad | Estado | Notas |
 |---|---|---|---|---|
 | P1.1 | Configurar `URLCache.shared` con tamaño razonable (memoria 50 MB, disco 300 MB) al iniciar la app | 🟢 Bajo | Hecho | `AsyncImage` usa el caché por defecto, muy chico para imágenes HD. |
-| P1.2 | APOD home con `url`; reservar `hdurl` para pantalla completa | 🟢 Bajo | Pendiente | Reduce descargas de 10+ MB en la primera pantalla. |
+| P1.2 | APOD home con `url`; reservar `hdurl` para pantalla completa | 🟢 Bajo | Hecho | Reduce descargas de 10+ MB en la primera pantalla. |
 | P1.3 | Grilla EPIC con thumbnails JPG (`/thumbs/`) y PNG completo solo en detalle | 🟢 Bajo | Hecho | Thumbnails también en la fila de Favoritos. |
 | P1.4 | Marcar DTOs, `NASAClient`, modelos de dominio y repositorios como `nonisolated` | 🟡 Medio | Hecho | Build sin warnings de concurrencia. El decode de JSON ya no corre en el main actor. |
 | P1.5 | Favoritos: persistir fecha original, sol, coordenadas y copyright (`FavoriteItem` con campos opcionales, migración liviana) | 🔴 Alto | Hecho | Campos opcionales nuevos en `FavoriteItem` (fecha, copyright, tipo de media, sol, instrumento, cámara, crédito, coordenadas, thumbnail). Migración liviana verificada con un store viejo en disco. Favoritos viejos siguen funcionando con fallback. |
 | P1.6 | Dynamic Type en `AppTypography` (`Font.custom(_:size:relativeTo:)`) | 🟢 Bajo | Hecho | Requisito de accesibilidad y motivo frecuente de rechazo en review. |
-| P1.7 | Corregir tildes en todo el copy ("Descripción", "cámara", "Crédito") y pasar formateadores de `es_ES` fijo a `Locale.current` | 🟢 Bajo | Pendiente | Rovers ya usa tildes. Falta APOD, EPIC, Favoritos y errores. |
+| P1.7 | Corregir tildes en todo el copy ("Descripción", "cámara", "Crédito") y pasar formateadores de `es_ES` fijo a `Locale.current` | 🟢 Bajo | Hecho | Rovers ya usa tildes. Falta APOD, EPIC, Favoritos y errores. |
 | P1.8 | String Catalog con español como base e inglés como segundo idioma | 🟡 Medio | Hecho | `Localizable.xcstrings` con 172 claves y traducción al inglés completa; `InfoPlist.xcstrings`; la acción Test corre en es/ES. |
-| P1.9 | Pull to refresh sin vaciar el contenido (estado `refreshing` o mantener `loaded` mientras llega la respuesta) | 🟢 Bajo | Pendiente | Hoy `refresh()` pone `.loading` y la pantalla parpadea. |
+| P1.9 | Pull to refresh sin vaciar el contenido (estado `refreshing` o mantener `loaded` mientras llega la respuesta) | 🟢 Bajo | Hecho | Hoy `refresh()` pone `.loading` y la pantalla parpadea. |
 | P1.10 | Aviso "App no oficial, no afiliada a NASA" en la app y en la ficha; revisar que el ícono no use insignias de NASA | 🟢 Bajo | Pendiente | Riesgo de rechazo por guías 5.2.5 de Apple y guías de medios de NASA. |
-| P1.11 | Eliminar `ContentView.swift` (no se usa) | 🟢 Bajo | Pendiente | |
+| P1.11 | Eliminar `ContentView.swift` (no se usa) | 🟢 Bajo | Hecho | |
 | P1.13 | Contraste del `DatePicker` en EPIC y de los controles de fecha de APOD sobre fondo oscuro | 🟢 Bajo | Hecho | APOD ya lo tenía; EPIC recibió tint, color de texto y esquema oscuro. Falta mirar el calendario emergente a mano. |
 | P1.14 | Tab bar en apariencia clara: las etiquetas (Hoy, Rovers, Favoritos) se ven negras sobre el cristal oscuro | 🟢 Bajo | Pendiente | Reportado por low-dev. Forzar `.toolbarColorScheme(.dark, for: .tabBar)` ya está; revisar `preferredColorScheme(.dark)` a nivel app, dado que todo el design system es oscuro. Sin asignar. |
 | P1.12 | Smoke test de UI: abrir cada tab y un detalle | 🟡 Medio | Hecho | Requiere target `nasa.expUITests`. El launch argument `-initialTab` ya existe para QA. |
@@ -63,7 +63,7 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | P2.2 | APOD: compartir imagen con título y crédito, no solo la URL | 🟡 Medio | Hecho | 1.0 |
 | P2.3 | EPIC: carga inicial con `/EPIC/api/natural` (última fecha disponible) en vez de "hace 2 días" | 🟢 Bajo | Hecho | 1.0 |
 | P2.4 | EPIC: buscar automáticamente al cambiar la fecha | 🟢 Bajo | Hecho | 1.0 |
-| P2.5 | Rovers: carga automática de la siguiente página al llegar al final de la grilla | 🟢 Bajo | Pendiente | 1.0 |
+| P2.5 | Rovers: carga automática de la siguiente página al llegar al final de la grilla | 🟢 Bajo | Hecho | 1.0 |
 | P2.6 | Rovers: pantalla completa con zoom para la foto | 🟡 Medio | Hecho | 1.0 |
 | P2.7 | Favoritos: filtro por tipo | 🟢 Bajo | Hecho | 1.0 |
 | P2.8 | Guardar imagen en Fotos con crédito (permiso `NSPhotoLibraryAddUsageDescription`) | 🟡 Medio | Hecho | 1.0 |
@@ -78,7 +78,7 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | I.1 | Compartir el scheme `nasa.exp` (`xcshareddata`) | 🟢 Bajo | Hecho | Sin esto CI no puede compilar. |
 | I.2 | GitHub Actions: build + test en cada PR sobre `macos-latest` | 🟡 Medio | Hecho | `.github/workflows/ci.yml` con selección automática de simulador. Todavía no corrió en GitHub: depende de que `macos-latest` traiga Xcode 27. |
 | I.3 | Crash reporting sin dependencias: Xcode Organizer + MetricKit | 🟢 Bajo | Hecho | `MetricKitReporter` guarda diagnostic payloads como JSON en Application Support. Sin red. |
-| I.4 | Tests nuevos: 429/403, migración de favoritos, formateadores por locale | 🟡 Medio | Pendiente | |
+| I.4 | Tests de formateo de fechas por locale (es/en) en APOD, EPIC y Rovers | 🟡 Medio | Hecho | `displayDate(locale:timeZone:)` en los tres modelos, `DisplayDateLocaleTests` en es_ES y en_US. El test del deep link queda con el widget. |
 | I.5 | TestFlight interno con 3 a 5 testers y checklist de QA manual por pantalla | 🟢 Bajo | Pendiente | |
 
 ## Secuencia sugerida
