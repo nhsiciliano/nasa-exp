@@ -53,6 +53,9 @@ struct EPICHomeView: View {
 
             DatePicker("Fecha", selection: $viewModel.selectedDate, displayedComponents: .date)
                 .datePickerStyle(.compact)
+                .tint(AppColors.accent)
+                .foregroundStyle(AppColors.textPrimary)
+                .environment(\.colorScheme, .dark)
                 .environment(\.timeZone, TimeZone(secondsFromGMT: 0) ?? .current)
                 .onChange(of: viewModel.selectedDate) { _, newValue in
                     if newValue > viewModel.maxSelectableDate {
