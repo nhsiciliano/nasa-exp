@@ -78,12 +78,12 @@ struct FavoritesHomeView: View {
         VStack(alignment: .leading, spacing: AppSpacing.large) {
             SectionHeader(
                 title: "Archivo personal",
-                subtitle: "Tus hallazgos espaciales quedan guardados como una bitacora privada de mision."
+                subtitle: "Tus hallazgos espaciales quedan guardados como una bitácora privada de misión."
             )
 
             HeroCard(
                 title: "Sin favoritos",
-                subtitle: "Guarda APOD, Rovers o EPIC para volver rapido a tus hallazgos favoritos.",
+                subtitle: "Guarda APOD, Rovers o EPIC para volver rápido a tus hallazgos favoritos.",
                 symbolName: "star"
             )
 

@@ -298,7 +298,7 @@ nonisolated struct RoverPhoto: Identifiable, Hashable {
 
     private static let displayFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "es_ES")
+        formatter.locale = Locale.current
         formatter.dateStyle = .medium
         return formatter
     }()

@@ -48,7 +48,7 @@ nonisolated struct EPICEntry: Identifiable {
 
     private static let displayFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "es_ES")
+        formatter.locale = Locale.current
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
         return formatter

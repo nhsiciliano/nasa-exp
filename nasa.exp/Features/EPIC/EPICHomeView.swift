@@ -17,12 +17,12 @@ struct EPICHomeView: View {
                 VStack(alignment: .leading, spacing: AppSpacing.large) {
                     SectionHeader(
                         title: "La Tierra desde EPIC",
-                        subtitle: "Selecciona una fecha para explorar imagenes del planeta en el observatorio EPIC."
+                        subtitle: "Selecciona una fecha para explorar imágenes del planeta en el observatorio EPIC."
                     )
 
                     HeroCard(
                         title: "Ventana orbital a la Tierra",
-                        subtitle: "Una lectura visual del planeta con coordenadas, fecha y composicion para sentir la escala de la observacion en tiempo real.",
+                        subtitle: "Una lectura visual del planeta con coordenadas, fecha y composición para sentir la escala de la observación en tiempo real.",
                         symbolName: "globe.americas.fill"
                     )
 
@@ -32,7 +32,7 @@ struct EPICHomeView: View {
                 .padding(AppSpacing.large)
             }
             .refreshable {
-                await viewModel.search()
+                await viewModel.refresh()
             }
         }
         .toolbar(.hidden, for: .navigationBar)
@@ -66,10 +66,10 @@ struct EPICHomeView: View {
                     await viewModel.search()
                 }
             } label: {
-                ActionCapsule(title: viewModel.isSearching ? "Buscando..." : "Buscar imagenes", systemImage: "globe.americas.fill")
+                ActionCapsule(title: viewModel.isSearching ? "Buscando..." : "Buscar imágenes", systemImage: "globe.americas.fill")
             }
             .disabled(viewModel.isSearching)
-            .accessibilityHint("Busca imagenes de la Tierra para la fecha seleccionada")
+            .accessibilityHint("Busca imágenes de la Tierra para la fecha seleccionada")
         }
         }
     }
@@ -86,8 +86,8 @@ struct EPICHomeView: View {
         case let .loaded(entries):
             if entries.isEmpty {
                 HeroCard(
-                    title: "Sin imagenes para esta fecha",
-                    subtitle: "No encontramos imagenes EPIC para la fecha seleccionada. Prueba con otro dia cercano.",
+                    title: "Sin imágenes para esta fecha",
+                    subtitle: "No encontramos imágenes EPIC para la fecha seleccionada. Prueba con otro día cercano.",
                     symbolName: "globe.badge.chevron.backward"
                 )
             } else {
@@ -106,7 +106,7 @@ struct EPICHomeView: View {
         case let .failed(message):
             VStack(alignment: .leading, spacing: AppSpacing.large) {
                 HeroCard(
-                    title: "No se pudieron cargar las imagenes",
+                    title: "No se pudieron cargar las imágenes",
                     subtitle: message,
                     symbolName: "exclamationmark.triangle.fill"
                 )

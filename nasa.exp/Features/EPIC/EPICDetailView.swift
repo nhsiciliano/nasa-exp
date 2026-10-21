@@ -52,7 +52,7 @@ struct EPICDetailView: View {
                     Text(entry.caption)
                         .font(AppTypography.body)
                         .foregroundStyle(AppColors.textPrimary)
-                        .accessibilityLabel("Descripcion de la imagen. \(entry.caption)")
+                        .accessibilityLabel("Descripción de la imagen. \(entry.caption)")
 
                     InfoPill(text: entry.coordinateSummary)
 
