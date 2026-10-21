@@ -29,7 +29,17 @@ enum FavoriteStore {
             title: draft.title,
             subtitle: draft.subtitle,
             details: draft.details,
-            mediaURLString: draft.mediaURL?.absoluteString ?? ""
+            mediaURLString: draft.mediaURL?.absoluteString ?? "",
+            originalDate: draft.originalDate,
+            copyright: draft.copyright,
+            mediaKindRaw: draft.mediaKind?.rawValue,
+            sol: draft.sol,
+            instrument: draft.instrument,
+            cameraFullName: draft.cameraFullName,
+            credit: draft.credit,
+            latitude: draft.latitude,
+            longitude: draft.longitude,
+            thumbnailURLString: draft.thumbnailURL?.absoluteString
         )
 
         context.insert(favorite)

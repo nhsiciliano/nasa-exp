@@ -81,8 +81,8 @@ private struct FavoriteRow: View {
 
     var body: some View {
         HStack(spacing: AppSpacing.medium) {
-            if let mediaURL = item.mediaURL {
-                AsyncImage(url: mediaURL) { phase in
+            if let previewURL = item.thumbnailURL ?? item.mediaURL {
+                AsyncImage(url: previewURL) { phase in
                     switch phase {
                     case let .success(image):
                         image

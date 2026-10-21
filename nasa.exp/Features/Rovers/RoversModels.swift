@@ -258,7 +258,13 @@ nonisolated struct RoverPhoto: Identifiable, Hashable {
             title: "\(roverName) - \(cameraName)",
             subtitle: displayDate,
             details: caption,
-            mediaURL: imageURL
+            mediaURL: imageURL,
+            originalDate: earthDate,
+            sol: sol,
+            instrument: instrument.isEmpty ? nil : instrument,
+            cameraFullName: cameraFullName,
+            credit: credit,
+            thumbnailURL: thumbnailURL
         )
     }
 
@@ -354,16 +360,16 @@ nonisolated extension RoverPhoto {
         self.init(
             id: favoriteItem.remoteID,
             rover: rover,
-            sol: RoverPhoto.parseSol(from: favoriteItem.subtitle) ?? 0,
-            instrument: "",
+            sol: favoriteItem.sol ?? RoverPhoto.parseSol(from: favoriteItem.subtitle) ?? 0,
+            instrument: favoriteItem.instrument ?? "",
             cameraName: cameraName,
-            cameraFullName: cameraName,
-            thumbnailURL: favoriteItem.mediaURL,
+            cameraFullName: favoriteItem.cameraFullName ?? cameraName,
+            thumbnailURL: favoriteItem.thumbnailURL ?? favoriteItem.mediaURL,
             imageURL: favoriteItem.mediaURL,
-            earthDate: nil,
+            earthDate: favoriteItem.originalDate,
             caption: favoriteItem.details,
-            credit: RoverPhoto.defaultCredit,
-            storedDisplayDate: favoriteItem.subtitle
+            credit: favoriteItem.credit ?? RoverPhoto.defaultCredit,
+            storedDisplayDate: favoriteItem.originalDate == nil ? favoriteItem.subtitle : nil
         )
     }
 
