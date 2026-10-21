@@ -90,6 +90,15 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 
 - `test_rateLimitedMessage_switchesToHoursForLongWaits`
 
+### `DisplayDateLocaleTests`
+
+- `test_apodDisplayDate_usesLongStyleForLocale`
+- `test_epicDisplayDate_includesTimeForLocale`
+- `test_roverDisplayDate_prefixesSolForLocale`
+- `test_roverDisplayDate_withoutEarthDate_showsOnlySol`
+
+Fijan la salida en `es_ES` y `en_US` con zona UTC usando `displayDate(locale:timeZone:)` de cada modelo; la app sigue usando `displayDate`, que toma el locale del dispositivo.
+
 ### `NASAExpSmokeUITests` (target `nasa.expUITests`, XCUITest)
 
 - `test_eachTab_opensItsScreen`

@@ -59,12 +59,20 @@ nonisolated struct APODEntry: Identifiable {
         APODEntry.displayFormatter.string(from: date)
     }
 
-    private static let displayFormatter: DateFormatter = {
+    /// `displayDate` for an explicit locale and time zone instead of the device's.
+    func displayDate(locale: Locale, timeZone: TimeZone = .current) -> String {
+        APODEntry.makeDisplayFormatter(locale: locale, timeZone: timeZone).string(from: date)
+    }
+
+    private static let displayFormatter = makeDisplayFormatter(locale: .current, timeZone: .current)
+
+    private static func makeDisplayFormatter(locale: Locale, timeZone: TimeZone) -> DateFormatter {
         let formatter = DateFormatter()
-        formatter.locale = Locale.current
+        formatter.locale = locale
+        formatter.timeZone = timeZone
         formatter.dateStyle = .long
         return formatter
-    }()
+    }
 }
 
 nonisolated extension APODEntry {

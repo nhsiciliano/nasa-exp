@@ -240,6 +240,15 @@ nonisolated struct RoverPhoto: Identifiable, Hashable {
     var solLabel: String { "Sol \(sol)" }
 
     var displayDate: String {
+        displayDate(using: RoverPhoto.displayFormatter)
+    }
+
+    /// `displayDate` for an explicit locale and time zone instead of the device's.
+    func displayDate(locale: Locale, timeZone: TimeZone = .current) -> String {
+        displayDate(using: RoverPhoto.makeDisplayFormatter(locale: locale, timeZone: timeZone))
+    }
+
+    private func displayDate(using formatter: DateFormatter) -> String {
         if let storedDisplayDate {
             return storedDisplayDate
         }
@@ -248,7 +257,7 @@ nonisolated struct RoverPhoto: Identifiable, Hashable {
             return solLabel
         }
 
-        return "\(solLabel) · \(RoverPhoto.displayFormatter.string(from: earthDate))"
+        return "\(solLabel) · \(formatter.string(from: earthDate))"
     }
 
     var favoriteDraft: FavoriteDraft {
@@ -296,12 +305,15 @@ nonisolated struct RoverPhoto: Identifiable, Hashable {
         self.storedDisplayDate = storedDisplayDate
     }
 
-    private static let displayFormatter: DateFormatter = {
+    private static let displayFormatter = makeDisplayFormatter(locale: .current, timeZone: .current)
+
+    private static func makeDisplayFormatter(locale: Locale, timeZone: TimeZone) -> DateFormatter {
         let formatter = DateFormatter()
-        formatter.locale = Locale.current
+        formatter.locale = locale
+        formatter.timeZone = timeZone
         formatter.dateStyle = .medium
         return formatter
-    }()
+    }
 }
 
 nonisolated extension RoverPhoto {

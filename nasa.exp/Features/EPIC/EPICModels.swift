@@ -27,6 +27,11 @@ nonisolated struct EPICEntry: Identifiable {
         EPICEntry.displayFormatter.string(from: date)
     }
 
+    /// `displayDate` for an explicit locale and time zone instead of the device's.
+    func displayDate(locale: Locale, timeZone: TimeZone = .current) -> String {
+        EPICEntry.makeDisplayFormatter(locale: locale, timeZone: timeZone).string(from: date)
+    }
+
     var coordinateSummary: String {
         "Lat \(String(format: "%.2f", latitude)) | Lon \(String(format: "%.2f", longitude))"
     }
@@ -46,13 +51,16 @@ nonisolated struct EPICEntry: Identifiable {
         )
     }
 
-    private static let displayFormatter: DateFormatter = {
+    private static let displayFormatter = makeDisplayFormatter(locale: .current, timeZone: .current)
+
+    private static func makeDisplayFormatter(locale: Locale, timeZone: TimeZone) -> DateFormatter {
         let formatter = DateFormatter()
-        formatter.locale = Locale.current
+        formatter.locale = locale
+        formatter.timeZone = timeZone
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
         return formatter
-    }()
+    }
 }
 
 nonisolated extension EPICEntry {
