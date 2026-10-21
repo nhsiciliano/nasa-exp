@@ -51,7 +51,8 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | P1.9 | Pull to refresh sin vaciar el contenido (estado `refreshing` o mantener `loaded` mientras llega la respuesta) | 🟢 Bajo | Pendiente | Hoy `refresh()` pone `.loading` y la pantalla parpadea. |
 | P1.10 | Aviso "App no oficial, no afiliada a NASA" en la app y en la ficha; revisar que el ícono no use insignias de NASA | 🟢 Bajo | Pendiente | Riesgo de rechazo por guías 5.2.5 de Apple y guías de medios de NASA. |
 | P1.11 | Eliminar `ContentView.swift` (no se usa) | 🟢 Bajo | Pendiente | |
-| P1.13 | Contraste del `DatePicker` en EPIC y de los controles de fecha de APOD sobre fondo oscuro | 🟢 Bajo | En curso | Detectado en la verificación visual de EPIC. Asignada a low-dev. |
+| P1.13 | Contraste del `DatePicker` en EPIC y de los controles de fecha de APOD sobre fondo oscuro | 🟢 Bajo | Hecho | APOD ya lo tenía; EPIC recibió tint, color de texto y esquema oscuro. Falta mirar el calendario emergente a mano. |
+| P1.14 | Tab bar en apariencia clara: las etiquetas (Hoy, Rovers, Favoritos) se ven negras sobre el cristal oscuro | 🟢 Bajo | Pendiente | Reportado por low-dev. Forzar `.toolbarColorScheme(.dark, for: .tabBar)` ya está; revisar `preferredColorScheme(.dark)` a nivel app, dado que todo el design system es oscuro. Sin asignar. |
 | P1.12 | Smoke test de UI: abrir cada tab y un detalle | 🟡 Medio | En curso | Requiere target `nasa.expUITests`. El launch argument `-initialTab` ya existe para QA. |
 
 ## P2 · Funcionalidad 1.0 y 1.1
