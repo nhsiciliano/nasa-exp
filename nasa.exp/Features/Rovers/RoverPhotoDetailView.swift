@@ -26,7 +26,7 @@ struct RoverPhotoDetailView: View {
                     SectionHeader(title: "\(photo.roverName) · \(photo.cameraName)", subtitle: photo.displayDate)
 
                     HStack(spacing: AppSpacing.small) {
-                        InfoPill(text: "ROVER FEED")
+                        InfoPill(text: String(localized: "ROVER FEED"))
                         InfoPill(text: photo.solLabel.uppercased())
                         if !photo.instrument.isEmpty {
                             InfoPill(text: photo.instrument)
@@ -51,21 +51,25 @@ struct RoverPhotoDetailView: View {
 
                     if let shareURL = photo.imageURL {
                         ShareLink(item: shareURL) {
-                            ActionCapsule(title: "Compartir imagen", systemImage: "square.and.arrow.up")
+                            ActionCapsule(title: String(localized: "Compartir imagen"), systemImage: "square.and.arrow.up")
                         }
                         .accessibilityLabel("Compartir foto del rover")
+                    }
+
+                    if let photoSaveItem {
+                        SaveToPhotosButton(item: photoSaveItem)
                     }
 
                     Button {
                         toggleFavorite()
                     } label: {
                         ActionCapsule(
-                            title: isFavorite ? "Quitar de favoritos" : "Guardar en favoritos",
+                            title: isFavorite ? String(localized: "Quitar de favoritos") : String(localized: "Guardar en favoritos"),
                             systemImage: isFavorite ? "star.slash.fill" : "star.fill",
                             isEmphasized: false
                         )
                     }
-                    .accessibilityHint(isFavorite ? "Elimina esta foto de tus favoritos" : "Guarda esta foto en tus favoritos")
+                    .accessibilityHint(isFavorite ? String(localized: "Elimina esta foto de tus favoritos") : String(localized: "Guarda esta foto en tus favoritos"))
                 }
                 .padding(AppSpacing.large)
             }
@@ -78,9 +82,23 @@ struct RoverPhotoDetailView: View {
         .fullScreenCover(isPresented: $showsFullscreenImage) {
             FullscreenImageViewer(
                 url: photo.imageURL,
-                accessibilityLabel: "Foto de \(photo.roverName), \(photo.cameraFullName), \(photo.solLabel)"
+                accessibilityLabel: String(localized: "Foto de \(photo.roverName), \(photo.cameraFullName), \(photo.solLabel)")
             )
         }
+    }
+
+    private var photoSaveItem: PhotoSaveItem? {
+        guard let imageURL = photo.imageURL else {
+            return nil
+        }
+
+        let title = "\(photo.roverName) · \(photo.cameraFullName)"
+        return PhotoSaveItem(
+            imageURL: imageURL,
+            title: title,
+            caption: String(localized: "\(title) · \(photo.displayDate) · Crédito: \(photo.credit)"),
+            credit: photo.credit
+        )
     }
 
     private var photoView: some View {
@@ -92,8 +110,8 @@ struct RoverPhotoDetailView: View {
                     .scaledToFit()
             case .failure:
                 HeroCard(
-                    title: "No se pudo cargar la foto",
-                    subtitle: "Intentá nuevamente en unos segundos.",
+                    title: String(localized: "No se pudo cargar la foto"),
+                    subtitle: String(localized: "Intentá nuevamente en unos segundos."),
                     symbolName: "photo.badge.exclamationmark"
                 )
             case .empty:

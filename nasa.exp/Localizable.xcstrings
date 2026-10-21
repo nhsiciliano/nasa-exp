@@ -1,0 +1,1726 @@
+{
+  "sourceLanguage" : "es",
+  "strings" : {
+    "%@ no envió imágenes con esos filtros. Probá con otro sol o cámara." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ sent no images with these filters. Try another sol or camera."
+          }
+        }
+      }
+    },
+    "%@ · %@ · Crédito: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$@ · Credit: %3$@"
+          }
+        }
+      }
+    },
+    "%@ · %@ · Crédito: NASA EPIC Team" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$@ · Credit: NASA EPIC Team"
+          }
+        }
+      }
+    },
+    "%@ · APOD %@ · Crédito: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · APOD %2$@ · Credit: %3$@"
+          }
+        }
+      }
+    },
+    "%@. %@. Feed directo de mars.nasa.gov." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@. %2$@. Live feed from mars.nasa.gov."
+          }
+        }
+      }
+    },
+    "%lld DE %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld OF %2$lld"
+          }
+        }
+      }
+    },
+    "Abre el detalle de la foto" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the photo details"
+          }
+        }
+      }
+    },
+    "Abre el detalle de la imagen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the image details"
+          }
+        }
+      }
+    },
+    "Abre el detalle guardado" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the saved details"
+          }
+        }
+      }
+    },
+    "Abrir Ajustes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Settings"
+          }
+        }
+      }
+    },
+    "Abrir foto a pantalla completa" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open photo in full screen"
+          }
+        }
+      }
+    },
+    "Abrir imagen a pantalla completa" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open image in full screen"
+          }
+        }
+      }
+    },
+    "Abrir video" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open video"
+          }
+        }
+      }
+    },
+    "Abrir video del día en el navegador" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open today's video in the browser"
+          }
+        }
+      }
+    },
+    "Abrir video en el navegador" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open video in the browser"
+          }
+        }
+      }
+    },
+    "Aleatorio" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Random"
+          }
+        }
+      }
+    },
+    "Archivo personal" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal archive"
+          }
+        }
+      }
+    },
+    "Busca imágenes de la Tierra para la fecha seleccionada" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Searches Earth images for the selected date"
+          }
+        }
+      }
+    },
+    "Busca imágenes del rover con los filtros actuales" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Searches rover images with the current filters"
+          }
+        }
+      }
+    },
+    "Buscando..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Searching..."
+          }
+        }
+      }
+    },
+    "Buscar fotos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search photos"
+          }
+        }
+      }
+    },
+    "Buscar imágenes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search images"
+          }
+        }
+      }
+    },
+    "Carga la imagen astronómica de un día al azar desde 1995" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loads the astronomy picture of a random day since 1995"
+          }
+        }
+      }
+    },
+    "Carga la siguiente página de fotos de este sol" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loads the next page of photos for this sol"
+          }
+        }
+      }
+    },
+    "Cargando APOD..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading APOD..."
+          }
+        }
+      }
+    },
+    "Cargando EPIC..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading EPIC..."
+          }
+        }
+      }
+    },
+    "Cargando fotos..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading photos..."
+          }
+        }
+      }
+    },
+    "Cargando la imagen astronómica" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading the astronomy picture"
+          }
+        }
+      }
+    },
+    "Cargando..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading..."
+          }
+        }
+      }
+    },
+    "Cargar más fotos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Load more photos"
+          }
+        }
+      }
+    },
+    "Cerrar imagen a pantalla completa" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close full-screen image"
+          }
+        }
+      }
+    },
+    "Compartir" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share"
+          }
+        }
+      }
+    },
+    "Compartir APOD" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share APOD"
+          }
+        }
+      }
+    },
+    "Compartir foto del rover" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share rover photo"
+          }
+        }
+      }
+    },
+    "Compartir imagen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share image"
+          }
+        }
+      }
+    },
+    "Compartir imagen EPIC" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share EPIC image"
+          }
+        }
+      }
+    },
+    "Compartir la imagen astronómica" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share the astronomy picture"
+          }
+        }
+      }
+    },
+    "Con créditos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Credited"
+          }
+        }
+      }
+    },
+    "Contenido en video" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video content"
+          }
+        }
+      }
+    },
+    "Cráter Gale · aterrizó en 2012" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gale Crater · landed in 2012"
+          }
+        }
+      }
+    },
+    "Cráter Jezero · aterrizó en 2021" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jezero Crater · landed in 2021"
+          }
+        }
+      }
+    },
+    "Crédito: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Credit: %@"
+          }
+        }
+      }
+    },
+    "CÁMARA" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CAMERA"
+          }
+        }
+      }
+    },
+    "Cámara" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera"
+          }
+        }
+      }
+    },
+    "Cámara: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera: %@"
+          }
+        }
+      }
+    },
+    "DEEP SPACE" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEEP SPACE"
+          }
+        }
+      }
+    },
+    "Demasiadas consultas a NASA. Probá de nuevo en %lld horas." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Too many requests to NASA. Try again in %lld hours."
+          }
+        }
+      }
+    },
+    "Demasiadas consultas a NASA. Probá de nuevo en %lld minutos." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Too many requests to NASA. Try again in %lld minutes."
+          }
+        }
+      }
+    },
+    "Demasiadas consultas a NASA. Probá de nuevo en un minuto." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Too many requests to NASA. Try again in a minute."
+          }
+        }
+      }
+    },
+    "Demasiadas consultas a NASA. Probá de nuevo en unos minutos." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Too many requests to NASA. Try again in a few minutes."
+          }
+        }
+      }
+    },
+    "Descripción completa. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Full description. %@"
+          }
+        }
+      }
+    },
+    "Descripción de la imagen. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image description. %@"
+          }
+        }
+      }
+    },
+    "Desliza hacia abajo para refrescar o abre el detalle para más contexto" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe down to refresh or open the details for more context"
+          }
+        }
+      }
+    },
+    "Detalle APOD" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "APOD Details"
+          }
+        }
+      }
+    },
+    "Detalle EPIC" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EPIC Details"
+          }
+        }
+      }
+    },
+    "Detalle Rover" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rover Details"
+          }
+        }
+      }
+    },
+    "Diario" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily"
+          }
+        }
+      }
+    },
+    "Día anterior" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previous day"
+          }
+        }
+      }
+    },
+    "Día siguiente" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next day"
+          }
+        }
+      }
+    },
+    "EARTH VIEW" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EARTH VIEW"
+          }
+        }
+      }
+    },
+    "EDITORIAL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EDITORIAL"
+          }
+        }
+      }
+    },
+    "El archivo descargado no es una imagen válida." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The downloaded file is not a valid image."
+          }
+        }
+      }
+    },
+    "Elimina esta foto de tus favoritos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removes this photo from your favorites"
+          }
+        }
+      }
+    },
+    "Elimina esta imagen de tus favoritos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removes this image from your favorites"
+          }
+        }
+      }
+    },
+    "Elimina este contenido de tu archivo personal" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removes this item from your personal archive"
+          }
+        }
+      }
+    },
+    "Error de conectividad: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connection error: %@"
+          }
+        }
+      }
+    },
+    "Escribe el número de sol y busca" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type the sol number and search"
+          }
+        }
+      }
+    },
+    "Estamos consultando el archivo astronómico de NASA." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We're checking NASA's astronomy archive."
+          }
+        }
+      }
+    },
+    "Este APOD es un video. Abre el enlace para verlo." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This APOD is a video. Open the link to watch it."
+          }
+        }
+      }
+    },
+    "Este APOD es un video. Puedes abrirlo en el navegador." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This APOD is a video. You can open it in the browser."
+          }
+        }
+      }
+    },
+    "Explorá las imágenes crudas que Curiosity y Perseverance envían desde la superficie, sol a sol." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explore the raw images Curiosity and Perseverance send from the surface, sol by sol."
+          }
+        }
+      }
+    },
+    "Falta configurar NASA_API_KEY para esta compilación." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NASA_API_KEY is not configured for this build."
+          }
+        }
+      }
+    },
+    "Favorito %@: %@. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorite %1$@: %2$@. %3$@"
+          }
+        }
+      }
+    },
+    "Favoritos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorites"
+          }
+        }
+      }
+    },
+    "Fecha" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date"
+          }
+        }
+      }
+    },
+    "Fecha aleatoria" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Random date"
+          }
+        }
+      }
+    },
+    "Fecha del APOD" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "APOD date"
+          }
+        }
+      }
+    },
+    "Filtrar favoritos por tipo" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter favorites by type"
+          }
+        }
+      }
+    },
+    "Formato no soportado" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unsupported format"
+          }
+        }
+      }
+    },
+    "Foto de %@, %@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ photo, %2$@, %3$@"
+          }
+        }
+      }
+    },
+    "Foto de %@, cámara %@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ photo, %2$@ camera, %3$@"
+          }
+        }
+      }
+    },
+    "Fotos no pudo guardar la imagen: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos couldn't save the image: %@"
+          }
+        }
+      }
+    },
+    "Guarda APOD, Rovers o EPIC para volver rápido a tus hallazgos favoritos." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save APOD, Rovers or EPIC items to quickly get back to your favorite finds."
+          }
+        }
+      }
+    },
+    "Guarda esta foto en tus favoritos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saves this photo to your favorites"
+          }
+        }
+      }
+    },
+    "Guarda esta imagen en tus favoritos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saves this image to your favorites"
+          }
+        }
+      }
+    },
+    "Guarda este contenido en tu archivo personal" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saves this item to your personal archive"
+          }
+        }
+      }
+    },
+    "Guarda la imagen en tu fototeca con su título y crédito" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saves the image to your photo library with its title and credit"
+          }
+        }
+      }
+    },
+    "Guardada en Fotos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved to Photos"
+          }
+        }
+      }
+    },
+    "Guardando..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saving..."
+          }
+        }
+      }
+    },
+    "Guardar en Fotos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save to Photos"
+          }
+        }
+      }
+    },
+    "Guardar en favoritos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to favorites"
+          }
+        }
+      }
+    },
+    "Hoy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        }
+      }
+    },
+    "Hoy en NASA" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today at NASA"
+          }
+        }
+      }
+    },
+    "IMAGEN" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IMAGE"
+          }
+        }
+      }
+    },
+    "Imagen EPIC del %@, coordenadas %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EPIC image from %1$@, coordinates %2$@"
+          }
+        }
+      }
+    },
+    "Imagen astronómica del día" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Astronomy picture of the day"
+          }
+        }
+      }
+    },
+    "Imagen guardada en Fotos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image saved to Photos"
+          }
+        }
+      }
+    },
+    "Intenta nuevamente en unos segundos." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again in a few seconds."
+          }
+        }
+      }
+    },
+    "Intentá nuevamente en unos segundos." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again in a few seconds."
+          }
+        }
+      }
+    },
+    "LIVE DATA" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LIVE DATA"
+          }
+        }
+      }
+    },
+    "La NASA devolvió un tipo de medio no soportado." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NASA returned an unsupported media type."
+          }
+        }
+      }
+    },
+    "La NASA devolvió un tipo de medio que no soportamos todavía." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NASA returned a media type we don't support yet."
+          }
+        }
+      }
+    },
+    "La Tierra desde EPIC" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Earth from EPIC"
+          }
+        }
+      }
+    },
+    "La app no tiene permiso para guardar en Fotos. Podés habilitarlo en Ajustes." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app isn't allowed to save to Photos. You can enable it in Settings."
+          }
+        }
+      }
+    },
+    "La respuesta del servidor es inválida." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The server response is invalid."
+          }
+        }
+      }
+    },
+    "Lista de favoritos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorites list"
+          }
+        }
+      }
+    },
+    "Los que guardes desde el detalle van a aparecer acá." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Items you save from the details screen will show up here."
+          }
+        }
+      }
+    },
+    "MISSION FEED" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MISSION FEED"
+          }
+        }
+      }
+    },
+    "Misión: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mission: %@"
+          }
+        }
+      }
+    },
+    "Muestra la imagen astronómica sin interfaz alrededor" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows the astronomy picture without surrounding interface"
+          }
+        }
+      }
+    },
+    "NASA API devolvió estado HTTP %lld. Probá de nuevo en unos segundos." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NASA API returned HTTP status %lld. Try again in a few seconds."
+          }
+        }
+      }
+    },
+    "NASA rechazó la clave de acceso de la app. Probá más tarde; si sigue pasando, actualizá la app." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NASA rejected the app's access key. Try again later; if it keeps happening, update the app."
+          }
+        }
+      }
+    },
+    "No encontramos imágenes EPIC para la fecha seleccionada. Prueba con otro día cercano." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't find EPIC images for the selected date. Try a nearby day."
+          }
+        }
+      }
+    },
+    "No pudimos cargar esta fecha" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't load this date"
+          }
+        }
+      }
+    },
+    "No pudimos cargar la imagen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't load the image"
+          }
+        }
+      }
+    },
+    "No pudimos cargar la portada de hoy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't load today's picture"
+          }
+        }
+      }
+    },
+    "No se pudieron cargar las fotos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't load the photos"
+          }
+        }
+      }
+    },
+    "No se pudieron cargar las imágenes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't load the images"
+          }
+        }
+      }
+    },
+    "No se pudo cargar la foto" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't load the photo"
+          }
+        }
+      }
+    },
+    "No se pudo cargar la imagen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't load the image"
+          }
+        }
+      }
+    },
+    "No se pudo crear la solicitud a NASA API." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't create the NASA API request."
+          }
+        }
+      }
+    },
+    "No se pudo descargar la imagen (HTTP %lld)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't download the image (HTTP %lld)."
+          }
+        }
+      }
+    },
+    "No se pudo descargar la imagen." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't download the image."
+          }
+        }
+      }
+    },
+    "No se pudo guardar" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't save"
+          }
+        }
+      }
+    },
+    "No se pudo leer la respuesta: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't read the response: %@"
+          }
+        }
+      }
+    },
+    "No se pudo mostrar la imagen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't display the image"
+          }
+        }
+      }
+    },
+    "No se pudo preparar la imagen para guardarla." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't prepare the image for saving."
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "ORBITAL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ORBITAL"
+          }
+        }
+      }
+    },
+    "Permite hacer zoom con pellizco o doble toque" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinch or double-tap to zoom"
+          }
+        }
+      }
+    },
+    "Portada orbital del día con media inmersiva, contexto editorial y acceso directo al detalle." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The orbital cover of the day with immersive media, editorial context and direct access to the details."
+          }
+        }
+      }
+    },
+    "Quitar de favoritos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove from favorites"
+          }
+        }
+      }
+    },
+    "ROVER" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ROVER"
+          }
+        }
+      }
+    },
+    "ROVER FEED" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ROVER FEED"
+          }
+        }
+      }
+    },
+    "Reintentar" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retry"
+          }
+        }
+      }
+    },
+    "Resumen del APOD. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "APOD summary. %@"
+          }
+        }
+      }
+    },
+    "Rover" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rover"
+          }
+        }
+      }
+    },
+    "Rovers de Marte" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mars Rovers"
+          }
+        }
+      }
+    },
+    "SOL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SOL"
+          }
+        }
+      }
+    },
+    "SOL %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SOL %@"
+          }
+        }
+      }
+    },
+    "Salta al sol más reciente disponible para este rover" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jumps to the latest sol available for this rover"
+          }
+        }
+      }
+    },
+    "Selecciona una fecha para explorar imágenes del planeta en el observatorio EPIC." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick a date to explore images of the planet from the EPIC observatory."
+          }
+        }
+      }
+    },
+    "Seleccionar cámara" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select camera"
+          }
+        }
+      }
+    },
+    "Seleccionar fecha EPIC" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select EPIC date"
+          }
+        }
+      }
+    },
+    "Seleccionar rover" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select rover"
+          }
+        }
+      }
+    },
+    "Sin conexión con NASA. Revisá tu conexión a internet y volvé a intentar." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can't reach NASA. Check your internet connection and try again."
+          }
+        }
+      }
+    },
+    "Sin favoritos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No favorites"
+          }
+        }
+      }
+    },
+    "Sin favoritos de %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No %@ favorites"
+          }
+        }
+      }
+    },
+    "Sin fotos en el sol %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No photos on sol %@"
+          }
+        }
+      }
+    },
+    "Sin imágenes para esta fecha" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No images for this date"
+          }
+        }
+      }
+    },
+    "Sin señal para esta fecha." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No signal for this date."
+          }
+        }
+      }
+    },
+    "Sintonizando el archivo de NASA..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tuning in to NASA's archive..."
+          }
+        }
+      }
+    },
+    "Sol" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sol"
+          }
+        }
+      }
+    },
+    "Sol anterior" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previous sol"
+          }
+        }
+      }
+    },
+    "Sol marciano" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Martian sol"
+          }
+        }
+      }
+    },
+    "Sol más reciente: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latest sol: %@"
+          }
+        }
+      }
+    },
+    "Sol siguiente" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next sol"
+          }
+        }
+      }
+    },
+    "TIMELINE" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TIMELINE"
+          }
+        }
+      }
+    },
+    "Tierra" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Earth"
+          }
+        }
+      }
+    },
+    "Tipo de favorito" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorite type"
+          }
+        }
+      }
+    },
+    "Toca refrescar para intentar nuevamente." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap refresh to try again."
+          }
+        }
+      }
+    },
+    "Todas" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        }
+      }
+    },
+    "Todas las cámaras" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All cameras"
+          }
+        }
+      }
+    },
+    "Todos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        }
+      }
+    },
+    "Tus hallazgos espaciales quedan guardados como una bitácora privada de misión." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your space finds are kept as a private mission log."
+          }
+        }
+      }
+    },
+    "Una lectura visual del planeta con coordenadas, fecha y composición para sentir la escala de la observación en tiempo real." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A visual reading of the planet with coordinates, date and composition to feel the scale of the observation in real time."
+          }
+        }
+      }
+    },
+    "Ventana orbital a la Tierra" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orbital window to Earth"
+          }
+        }
+      }
+    },
+    "Ver detalle completo" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View full details"
+          }
+        }
+      }
+    },
+    "Vuelve a consultar el archivo EPIC" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Checks the EPIC archive again"
+          }
+        }
+      }
+    },
+    "Vuelve a consultar la galería del rover" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Checks the rover gallery again"
+          }
+        }
+      }
+    },
+    "Vuelve a consultar la imagen astronómica de la fecha elegida" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Checks the astronomy picture for the chosen date again"
+          }
+        }
+      }
+    },
+    "Último sol" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latest sol"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

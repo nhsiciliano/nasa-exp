@@ -14,6 +14,13 @@
 			remoteGlobalIDString = 8AC776C62F5F969700E9519F;
 			remoteInfo = nasa.exp;
 		};
+		D1D0E5A12F6B000100A1A1A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8AC776BF2F5F969600E9519F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8AC776C62F5F969700E9519F;
+			remoteInfo = nasa.exp;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +30,7 @@
 		8AF0C8732F6A100100A1A1A1 /* Config/Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Release.xcconfig; sourceTree = SOURCE_ROOT; };
 		8AF0C8742F6A100100A1A1A1 /* Config/Secrets.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Secrets.example.xcconfig; sourceTree = SOURCE_ROOT; };
 		8AF0C8802F6A200100A1A1A1 /* nasa.expTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nasa.expTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1D0E5A22F6B000100A1A1A1 /* nasa.expUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nasa.expUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -34,6 +42,11 @@
 		8AF0C8812F6A200100A1A1A1 /* nasa.expTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = nasa.expTests;
+			sourceTree = "<group>";
+		};
+		D1D0E5A32F6B000100A1A1A1 /* nasa.expUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = nasa.expUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -53,6 +66,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D1D0E5A42F6B000100A1A1A1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -62,6 +82,7 @@
 				8AF0C8752F6A100100A1A1A1 /* Config */,
 				8AC776C92F5F969700E9519F /* nasa.exp */,
 				8AF0C8812F6A200100A1A1A1 /* nasa.expTests */,
+				D1D0E5A32F6B000100A1A1A1 /* nasa.expUITests */,
 				8AC776C82F5F969700E9519F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +92,7 @@
 			children = (
 				8AC776C72F5F969700E9519F /* nasa.exp.app */,
 				8AF0C8802F6A200100A1A1A1 /* nasa.expTests.xctest */,
+				D1D0E5A22F6B000100A1A1A1 /* nasa.expUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -135,6 +157,29 @@
 			productReference = 8AF0C8802F6A200100A1A1A1 /* nasa.expTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D1D0E5A72F6B000100A1A1A1 /* nasa.expUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1D0E5AB2F6B000100A1A1A1 /* Build configuration list for PBXNativeTarget "nasa.expUITests" */;
+			buildPhases = (
+				D1D0E5A62F6B000100A1A1A1 /* Sources */,
+				D1D0E5A42F6B000100A1A1A1 /* Frameworks */,
+				D1D0E5A52F6B000100A1A1A1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D1D0E5A82F6B000100A1A1A1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D1D0E5A32F6B000100A1A1A1 /* nasa.expUITests */,
+			);
+			name = nasa.expUITests;
+			packageProductDependencies = (
+			);
+			productName = nasa.expUITests;
+			productReference = D1D0E5A22F6B000100A1A1A1 /* nasa.expUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -152,13 +197,18 @@
 						CreatedOnToolsVersion = 26.2;
 						TestTargetID = 8AC776C62F5F969700E9519F;
 					};
+					D1D0E5A72F6B000100A1A1A1 = {
+						CreatedOnToolsVersion = 27.1;
+						TestTargetID = 8AC776C62F5F969700E9519F;
+					};
 				};
 			};
 			buildConfigurationList = 8AC776C22F5F969700E9519F /* Build configuration list for PBXProject "nasa.exp" */;
-			developmentRegion = en;
+			developmentRegion = es;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				es,
 				Base,
 			);
 			mainGroup = 8AC776BE2F5F969600E9519F;
@@ -170,6 +220,7 @@
 			targets = (
 				8AC776C62F5F969700E9519F /* nasa.exp */,
 				8AF0C8852F6A200100A1A1A1 /* nasa.expTests */,
+				D1D0E5A72F6B000100A1A1A1 /* nasa.expUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -183,6 +234,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8AF0C8832F6A200100A1A1A1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1D0E5A52F6B000100A1A1A1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -228,6 +286,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D1D0E5A62F6B000100A1A1A1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -235,6 +300,11 @@
 			isa = PBXTargetDependency;
 			target = 8AC776C62F5F969700E9519F /* nasa.exp */;
 			targetProxy = 8AF0C8872F6A200100A1A1A1 /* PBXContainerItemProxy */;
+		};
+		D1D0E5A82F6B000100A1A1A1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8AC776C62F5F969700E9519F /* nasa.exp */;
+			targetProxy = D1D0E5A12F6B000100A1A1A1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -465,6 +535,40 @@
 			};
 			name = Release;
 		};
+		D1D0E5A92F6B000100A1A1A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8AF0C8722F6A100100A1A1A1 /* Config/Debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "den-mobile.nasa-expUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = nasa.exp;
+			};
+			name = Debug;
+		};
+		D1D0E5AA2F6B000100A1A1A1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8AF0C8732F6A100100A1A1A1 /* Config/Release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "den-mobile.nasa-expUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = nasa.exp;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -491,6 +595,15 @@
 			buildConfigurations = (
 				8AF0C8892F6A200100A1A1A1 /* Debug */,
 				8AF0C88A2F6A200100A1A1A1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1D0E5AB2F6B000100A1A1A1 /* Build configuration list for PBXNativeTarget "nasa.expUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1D0E5A92F6B000100A1A1A1 /* Debug */,
+				D1D0E5AA2F6B000100A1A1A1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

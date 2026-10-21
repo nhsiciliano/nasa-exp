@@ -25,6 +25,8 @@
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
+      language = "es"
+      region = "ES"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
@@ -37,6 +39,17 @@
                BlueprintIdentifier = "8AF0C8852F6A200100A1A1A1"
                BuildableName = "nasa.expTests.xctest"
                BlueprintName = "nasa.expTests"
+               ReferencedContainer = "container:nasa.exp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D1D0E5A72F6B000100A1A1A1"
+               BuildableName = "nasa.expUITests.xctest"
+               BlueprintName = "nasa.expUITests"
                ReferencedContainer = "container:nasa.exp.xcodeproj">
             </BuildableReference>
          </TestableReference>

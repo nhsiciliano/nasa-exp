@@ -42,13 +42,13 @@ struct RoversHomeView: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: AppSpacing.large) {
             SectionHeader(
-                title: "Rovers de Marte",
-                subtitle: "Explorá las imágenes crudas que Curiosity y Perseverance envían desde la superficie, sol a sol."
+                title: String(localized: "Rovers de Marte"),
+                subtitle: String(localized: "Explorá las imágenes crudas que Curiosity y Perseverance envían desde la superficie, sol a sol.")
             )
 
             HeroCard(
                 title: viewModel.selectedRover.title,
-                subtitle: "\(viewModel.selectedRover.missionName). \(viewModel.selectedRover.landingSummary). Feed directo de mars.nasa.gov.",
+                subtitle: String(localized: "\(viewModel.selectedRover.missionName). \(viewModel.selectedRover.landingSummary). Feed directo de mars.nasa.gov."),
                 symbolName: "antenna.radiowaves.left.and.right"
             )
         }
@@ -58,9 +58,9 @@ struct RoversHomeView: View {
         SurfacePanel {
             VStack(alignment: .leading, spacing: AppSpacing.medium) {
                 HStack(spacing: AppSpacing.small) {
-                    InfoPill(text: "ROVER")
-                    InfoPill(text: "SOL")
-                    InfoPill(text: "CÁMARA")
+                    InfoPill(text: String(localized: "ROVER"))
+                    InfoPill(text: String(localized: "SOL"))
+                    InfoPill(text: String(localized: "CÁMARA"))
                 }
 
                 Picker("Rover", selection: $viewModel.selectedRover) {
@@ -87,7 +87,7 @@ struct RoversHomeView: View {
                     }
                 } label: {
                     ActionCapsule(
-                        title: viewModel.isSearching ? "Buscando..." : "Buscar fotos",
+                        title: viewModel.isSearching ? String(localized: "Buscando...") : String(localized: "Buscar fotos"),
                         systemImage: "magnifyingglass"
                     )
                 }
@@ -100,7 +100,7 @@ struct RoversHomeView: View {
     private var solControls: some View {
         VStack(alignment: .leading, spacing: AppSpacing.small) {
             HStack(spacing: AppSpacing.medium) {
-                solStepButton(systemImage: "minus.circle.fill", label: "Sol anterior", isEnabled: viewModel.canStepBackward) {
+                solStepButton(systemImage: "minus.circle.fill", label: String(localized: "Sol anterior"), isEnabled: viewModel.canStepBackward) {
                     await viewModel.stepSol(by: -1)
                 }
 
@@ -125,7 +125,7 @@ struct RoversHomeView: View {
                     .accessibilityLabel("Sol marciano")
                     .accessibilityHint("Escribe el número de sol y busca")
 
-                solStepButton(systemImage: "plus.circle.fill", label: "Sol siguiente", isEnabled: viewModel.canStepForward) {
+                solStepButton(systemImage: "plus.circle.fill", label: String(localized: "Sol siguiente"), isEnabled: viewModel.canStepForward) {
                     await viewModel.stepSol(by: 1)
                 }
             }
@@ -188,15 +188,15 @@ struct RoversHomeView: View {
         case let .loaded(feed):
             if feed.photos.isEmpty {
                 HeroCard(
-                    title: "Sin fotos en el sol \(viewModel.sol)",
-                    subtitle: "\(viewModel.selectedRover.title) no envió imágenes con esos filtros. Probá con otro sol o cámara.",
+                    title: String(localized: "Sin fotos en el sol \(String(viewModel.sol))"),
+                    subtitle: String(localized: "\(viewModel.selectedRover.title) no envió imágenes con esos filtros. Probá con otro sol o cámara."),
                     symbolName: "camera.metering.none"
                 )
             } else {
                 VStack(alignment: .leading, spacing: AppSpacing.medium) {
                     HStack(spacing: AppSpacing.small) {
-                        InfoPill(text: "SOL \(viewModel.sol)")
-                        InfoPill(text: "\(feed.photos.count) DE \(feed.total)")
+                        InfoPill(text: String(localized: "SOL \(String(viewModel.sol))"))
+                        InfoPill(text: String(localized: "\(feed.photos.count) DE \(feed.total)"))
                     }
 
                     LazyVGrid(columns: columns, spacing: AppSpacing.medium) {
@@ -207,6 +207,7 @@ struct RoversHomeView: View {
                                 RoverPhotoCard(photo: photo)
                             }
                             .buttonStyle(.plain)
+                            .accessibilityIdentifier("rovers.photoCard")
                             .onAppear {
                                 guard photo.id == feed.photos.last?.id else {
                                     return
@@ -225,7 +226,7 @@ struct RoversHomeView: View {
         case let .failed(message):
             VStack(alignment: .leading, spacing: AppSpacing.large) {
                 HeroCard(
-                    title: "No se pudieron cargar las fotos",
+                    title: String(localized: "No se pudieron cargar las fotos"),
                     subtitle: message,
                     symbolName: "exclamationmark.triangle.fill"
                 )
@@ -235,9 +236,10 @@ struct RoversHomeView: View {
                         await viewModel.search()
                     }
                 } label: {
-                    ActionCapsule(title: "Reintentar", systemImage: "arrow.clockwise")
+                    ActionCapsule(title: String(localized: "Reintentar"), systemImage: "arrow.clockwise")
                 }
                 .accessibilityHint("Vuelve a consultar la galería del rover")
+                .accessibilityIdentifier("rovers.retry")
             }
         }
     }
@@ -257,7 +259,7 @@ struct RoversHomeView: View {
                 }
             } label: {
                 ActionCapsule(
-                    title: viewModel.isLoadingMore ? "Cargando..." : "Cargar más fotos",
+                    title: viewModel.isLoadingMore ? String(localized: "Cargando...") : String(localized: "Cargar más fotos"),
                     systemImage: "arrow.down.circle",
                     isEmphasized: false
                 )

@@ -11,7 +11,7 @@ struct APODHomeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: AppSpacing.large) {
                     SectionHeader(
-                        title: viewModel.isShowingLatest ? "Hoy en NASA" : "APOD",
+                        title: viewModel.isShowingLatest ? String(localized: "Hoy en NASA") : "APOD",
                         subtitle: headerSubtitle
                     )
 
@@ -35,11 +35,11 @@ struct APODHomeView: View {
     private var headerSubtitle: String {
         switch viewModel.state {
         case .idle, .loading:
-            return "Sintonizando el archivo de NASA..."
+            return String(localized: "Sintonizando el archivo de NASA...")
         case let .loaded(entry):
             return entry.displayDate
         case .failed:
-            return "Sin señal para esta fecha."
+            return String(localized: "Sin señal para esta fecha.")
         }
     }
 
@@ -85,7 +85,7 @@ struct APODHomeView: View {
         HStack(spacing: AppSpacing.small) {
             stepButton(
                 systemImage: "chevron.left",
-                accessibilityLabel: "Día anterior",
+                accessibilityLabel: String(localized: "Día anterior"),
                 isEnabled: viewModel.canGoToPreviousDay
             ) {
                 await viewModel.goToPreviousDay()
@@ -105,7 +105,7 @@ struct APODHomeView: View {
 
             stepButton(
                 systemImage: "chevron.right",
-                accessibilityLabel: "Día siguiente",
+                accessibilityLabel: String(localized: "Día siguiente"),
                 isEnabled: viewModel.canGoToNextDay
             ) {
                 await viewModel.goToNextDay()
@@ -209,7 +209,7 @@ struct APODHomeView: View {
     private func loadedView(_ entry: APODEntry) -> some View {
         HeroCard(
             title: entry.title,
-            subtitle: "Portada orbital del día con media inmersiva, contexto editorial y acceso directo al detalle.",
+            subtitle: String(localized: "Portada orbital del día con media inmersiva, contexto editorial y acceso directo al detalle."),
             symbolName: "sparkles.tv"
         )
 
@@ -217,9 +217,9 @@ struct APODHomeView: View {
 
         HStack(spacing: AppSpacing.small) {
             InfoPill(text: "APOD")
-            InfoPill(text: "Diario")
+            InfoPill(text: String(localized: "Diario"))
             if entry.copyright != nil {
-                InfoPill(text: "Con créditos")
+                InfoPill(text: String(localized: "Con créditos"))
             }
         }
 
@@ -241,7 +241,7 @@ struct APODHomeView: View {
             APODDetailView(entry: entry)
         } label: {
             ActionCapsule(
-                title: "Ver detalle completo",
+                title: String(localized: "Ver detalle completo"),
                 systemImage: "arrow.right.circle.fill",
                 isEmphasized: false
             )
@@ -249,8 +249,8 @@ struct APODHomeView: View {
 
         APODShareButton(
             entry: entry,
-            title: "Compartir",
-            accessibilityLabel: "Compartir la imagen astronómica"
+            title: String(localized: "Compartir"),
+            accessibilityLabel: String(localized: "Compartir la imagen astronómica")
         )
     }
 
@@ -265,15 +265,15 @@ struct APODHomeView: View {
                         .resizable()
                         .scaledToFit()
                         .overlay(alignment: .topLeading) {
-                            InfoPill(text: "IMAGEN")
+                            InfoPill(text: String(localized: "IMAGEN"))
                                 .padding(AppSpacing.medium)
                         }
                         .accessibilityLabel("Imagen astronómica del día")
                         .accessibilityHint("Desliza hacia abajo para refrescar o abre el detalle para más contexto")
                 case .failure:
                     HeroCard(
-                        title: "No pudimos cargar la imagen",
-                        subtitle: "Toca refrescar para intentar nuevamente.",
+                        title: String(localized: "No pudimos cargar la imagen"),
+                        subtitle: String(localized: "Toca refrescar para intentar nuevamente."),
                         symbolName: "photo.badge.exclamationmark"
                     )
                 case .empty:
@@ -296,20 +296,20 @@ struct APODHomeView: View {
 
         case let .video(url):
             HeroCard(
-                title: "Contenido en video",
-                subtitle: "Este APOD es un video. Abre el enlace para verlo.",
+                title: String(localized: "Contenido en video"),
+                subtitle: String(localized: "Este APOD es un video. Abre el enlace para verlo."),
                 symbolName: "play.rectangle.fill"
             )
 
             Link(destination: url) {
-                ActionCapsule(title: "Abrir video", systemImage: "arrow.up.right.square", isEmphasized: false)
+                ActionCapsule(title: String(localized: "Abrir video"), systemImage: "arrow.up.right.square", isEmphasized: false)
             }
             .accessibilityLabel("Abrir video del día en el navegador")
 
         case .unsupported:
             HeroCard(
-                title: "Formato no soportado",
-                subtitle: "La NASA devolvió un tipo de medio que no soportamos todavía.",
+                title: String(localized: "Formato no soportado"),
+                subtitle: String(localized: "La NASA devolvió un tipo de medio que no soportamos todavía."),
                 symbolName: "questionmark.video"
             )
         }
@@ -318,7 +318,7 @@ struct APODHomeView: View {
     private func errorView(_ message: String) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.large) {
             HeroCard(
-                title: viewModel.isShowingLatest ? "No pudimos cargar la portada de hoy" : "No pudimos cargar esta fecha",
+                title: viewModel.isShowingLatest ? String(localized: "No pudimos cargar la portada de hoy") : String(localized: "No pudimos cargar esta fecha"),
                 subtitle: message,
                 symbolName: "exclamationmark.triangle.fill"
             )
@@ -328,7 +328,7 @@ struct APODHomeView: View {
                     await viewModel.refresh()
                 }
             } label: {
-                ActionCapsule(title: "Reintentar", systemImage: "arrow.clockwise")
+                ActionCapsule(title: String(localized: "Reintentar"), systemImage: "arrow.clockwise")
             }
             .accessibilityHint("Vuelve a consultar la imagen astronómica de la fecha elegida")
         }

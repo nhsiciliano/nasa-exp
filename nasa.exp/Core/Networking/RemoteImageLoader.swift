@@ -8,11 +8,11 @@ enum RemoteImageError: LocalizedError {
         switch self {
         case let .invalidResponse(statusCode):
             if let statusCode {
-                return "No se pudo descargar la imagen (HTTP \(statusCode))."
+                return String(localized: "No se pudo descargar la imagen (HTTP \(statusCode)).")
             }
-            return "No se pudo descargar la imagen."
+            return String(localized: "No se pudo descargar la imagen.")
         case .undecodableImage:
-            return "El archivo descargado no es una imagen válida."
+            return String(localized: "El archivo descargado no es una imagen válida.")
         }
     }
 }

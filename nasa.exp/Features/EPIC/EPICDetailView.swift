@@ -21,8 +21,8 @@ struct EPICDetailView: View {
                                 .scaledToFit()
                         case .failure:
                             HeroCard(
-                                title: "No se pudo cargar la imagen",
-                                subtitle: "Intenta nuevamente en unos segundos.",
+                                title: String(localized: "No se pudo cargar la imagen"),
+                                subtitle: String(localized: "Intenta nuevamente en unos segundos."),
                                 symbolName: "photo.badge.exclamationmark"
                             )
                         case .empty:
@@ -46,7 +46,7 @@ struct EPICDetailView: View {
 
                     HStack(spacing: AppSpacing.small) {
                         InfoPill(text: "EPIC")
-                        InfoPill(text: "ORBITAL")
+                        InfoPill(text: String(localized: "ORBITAL"))
                     }
 
                     Text(entry.caption)
@@ -58,21 +58,30 @@ struct EPICDetailView: View {
 
                     if let shareURL = entry.imageURL {
                         ShareLink(item: shareURL) {
-                            ActionCapsule(title: "Compartir imagen", systemImage: "square.and.arrow.up")
+                            ActionCapsule(title: String(localized: "Compartir imagen"), systemImage: "square.and.arrow.up")
                         }
                         .accessibilityLabel("Compartir imagen EPIC")
+                    }
+
+                    if let imageURL = entry.imageURL {
+                        SaveToPhotosButton(item: PhotoSaveItem(
+                            imageURL: imageURL,
+                            title: entry.title,
+                            caption: String(localized: "\(entry.title) · \(entry.displayDate) · Crédito: NASA EPIC Team"),
+                            credit: "NASA EPIC Team"
+                        ))
                     }
 
                     Button {
                         toggleFavorite()
                     } label: {
                         ActionCapsule(
-                            title: isFavorite ? "Quitar de favoritos" : "Guardar en favoritos",
+                            title: isFavorite ? String(localized: "Quitar de favoritos") : String(localized: "Guardar en favoritos"),
                             systemImage: isFavorite ? "star.slash.fill" : "star.fill",
                             isEmphasized: false
                         )
                     }
-                    .accessibilityHint(isFavorite ? "Elimina esta imagen de tus favoritos" : "Guarda esta imagen en tus favoritos")
+                    .accessibilityHint(isFavorite ? String(localized: "Elimina esta imagen de tus favoritos") : String(localized: "Guarda esta imagen en tus favoritos"))
                 }
                 .padding(AppSpacing.large)
             }

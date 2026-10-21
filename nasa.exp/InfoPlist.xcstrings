@@ -1,0 +1,23 @@
+{
+  "sourceLanguage" : "es",
+  "strings" : {
+    "NSPhotoLibraryAddUsageDescription" : {
+      "comment" : "Shown when the app asks for permission to add images to Photos.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NASA Exp saves the images you choose to Photos, with their title and credit."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NASA Exp guarda en Fotos las imágenes que elegís, con su título y crédito."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
