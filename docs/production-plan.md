@@ -47,13 +47,13 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | P1.5 | Favoritos: persistir fecha original, sol, coordenadas y copyright (`FavoriteItem` con campos opcionales, migración liviana) | 🔴 Alto | Hecho | Campos opcionales nuevos en `FavoriteItem` (fecha, copyright, tipo de media, sol, instrumento, cámara, crédito, coordenadas, thumbnail). Migración liviana verificada con un store viejo en disco. Favoritos viejos siguen funcionando con fallback. |
 | P1.6 | Dynamic Type en `AppTypography` (`Font.custom(_:size:relativeTo:)`) | 🟢 Bajo | Hecho | Requisito de accesibilidad y motivo frecuente de rechazo en review. |
 | P1.7 | Corregir tildes en todo el copy ("Descripción", "cámara", "Crédito") y pasar formateadores de `es_ES` fijo a `Locale.current` | 🟢 Bajo | Pendiente | Rovers ya usa tildes. Falta APOD, EPIC, Favoritos y errores. |
-| P1.8 | String Catalog con español como base e inglés como segundo idioma | 🟡 Medio | Pendiente | `LOCALIZATION_PREFERS_STRING_CATALOGS` ya está activo. Los `String` pasados a `ActionCapsule` e `InfoPill` necesitan `String(localized:)`. Los kickers "MISSION FEED" y "LIVE DATA" están hardcodeados. |
+| P1.8 | String Catalog con español como base e inglés como segundo idioma | 🟡 Medio | Hecho | `Localizable.xcstrings` con 172 claves y traducción al inglés completa; `InfoPlist.xcstrings`; la acción Test corre en es/ES. |
 | P1.9 | Pull to refresh sin vaciar el contenido (estado `refreshing` o mantener `loaded` mientras llega la respuesta) | 🟢 Bajo | Pendiente | Hoy `refresh()` pone `.loading` y la pantalla parpadea. |
 | P1.10 | Aviso "App no oficial, no afiliada a NASA" en la app y en la ficha; revisar que el ícono no use insignias de NASA | 🟢 Bajo | Pendiente | Riesgo de rechazo por guías 5.2.5 de Apple y guías de medios de NASA. |
 | P1.11 | Eliminar `ContentView.swift` (no se usa) | 🟢 Bajo | Pendiente | |
 | P1.13 | Contraste del `DatePicker` en EPIC y de los controles de fecha de APOD sobre fondo oscuro | 🟢 Bajo | Hecho | APOD ya lo tenía; EPIC recibió tint, color de texto y esquema oscuro. Falta mirar el calendario emergente a mano. |
 | P1.14 | Tab bar en apariencia clara: las etiquetas (Hoy, Rovers, Favoritos) se ven negras sobre el cristal oscuro | 🟢 Bajo | Pendiente | Reportado por low-dev. Forzar `.toolbarColorScheme(.dark, for: .tabBar)` ya está; revisar `preferredColorScheme(.dark)` a nivel app, dado que todo el design system es oscuro. Sin asignar. |
-| P1.12 | Smoke test de UI: abrir cada tab y un detalle | 🟡 Medio | En curso | Requiere target `nasa.expUITests`. El launch argument `-initialTab` ya existe para QA. |
+| P1.12 | Smoke test de UI: abrir cada tab y un detalle | 🟡 Medio | Hecho | Requiere target `nasa.expUITests`. El launch argument `-initialTab` ya existe para QA. |
 
 ## P2 · Funcionalidad 1.0 y 1.1
 
@@ -66,9 +66,9 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | P2.5 | Rovers: carga automática de la siguiente página al llegar al final de la grilla | 🟢 Bajo | Pendiente | 1.0 |
 | P2.6 | Rovers: pantalla completa con zoom para la foto | 🟡 Medio | Hecho | 1.0 |
 | P2.7 | Favoritos: filtro por tipo | 🟢 Bajo | Hecho | 1.0 |
-| P2.8 | Guardar imagen en Fotos con crédito (permiso `NSPhotoLibraryAddUsageDescription`) | 🟡 Medio | Pendiente | 1.0 |
+| P2.8 | Guardar imagen en Fotos con crédito (permiso `NSPhotoLibraryAddUsageDescription`) | 🟡 Medio | Hecho | 1.0 |
 | P2.9 | Widget de APOD (WidgetKit, timeline diaria) | 🔴 Alto | Pendiente | 1.1 (implementación estacionada en la rama `nhsiciliano/High-Dev-widget` @ 25b55c0, base anterior a P0.9, sin integrar por decisión del 2026-10-21. Para retomarla: el widget debe bajar la URL de media en vez de `shareURL`, sumar al exception set los archivos nuevos de APOD (APODDay, APODSource, APODFeedParser, APODArchivePostDTO, APODHTMLExtractor, APODFeedCache, Core/Text/HTMLText) y ya no necesita `NASA_API_KEY` ni la fase de validación) |
-| P2.10 | Visor embebido para APOD en video (YouTube/Vimeo vía WebView) | 🟡 Medio | Pendiente | 1.1 |
+| P2.10 | Visor embebido para APOD en video (YouTube/Vimeo vía WebView) | 🟡 Medio | Hecho | 1.0 (YouTube vía youtube-nocookie, Vimeo; fallback al enlace) |
 | P2.11 | Soporte iPad con layout adaptativo | 🔴 Alto | Pendiente | 1.1 |
 
 ## Infraestructura
@@ -109,6 +109,7 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 
 - `FavoriteItemDetailView.swift` era código muerto (Favoritos navega a los detalles nativos, que ya tienen "Quitar de favoritos"). Borrado el 2026-10-21.
 - El detalle APOD reconstruido desde un favorito muestra la imagen estándar, no HD. Agregar la columna `hdurl` cuando entre P1.2.
+- Favoritos guarda el subtítulo ya formateado: una fecha guardada con la app en español sigue en español al cambiar a inglés. Con `originalDate` (P1.5) se puede formatear al mostrar. Pendiente sin asignar.
 - Los favoritos viejos no se completan al volver a ver el ítem vivo (`add` no hace upsert). Follow-up asignado a high-dev.
 
 ## Decisiones tomadas
