@@ -1111,6 +1111,16 @@
         }
       }
     },
+    "NASA no publicó contenido para esa fecha. Probá con otro día." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NASA didn't publish anything for that date. Try another day."
+          }
+        }
+      }
+    },
     "NASA rechazó la clave de acceso de la app. Probá más tarde; si sigue pasando, actualizá la app." : {
       "localizations" : {
         "en" : {
