@@ -102,8 +102,8 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 ## Estado de ramas (2026-10-21)
 
 - `main` = `22e9057`: todo lo integrado hasta la ola 2 de low-dev, suite 57/57.
-- `nhsiciliano/planner`: `main` + P0.9 (APOD en science.nasa.gov). Pendiente de llevar a `main` cuando el usuario lo decida.
-- Sin asignar más tareas después de las actuales (P1.13 low-dev; P1.12, P2.10, P2.8, I.4, P1.8 mid-dev), por pedido del usuario.
+- `nhsiciliano/planner` = `d11131e`: `main` + P0.9, P1.13, P1.12, P2.10, P2.8, P1.8, I.4. Suite completa verde (84 unit tests, 3 UI tests). Pendiente de llevar a `main` cuando el usuario lo decida.
+- Las tres sesiones (low-dev, mid-dev, high-dev) terminaron sus asignaciones y quedaron sin tareas por pedido del usuario.
 
 ## Notas de integración
 
