@@ -63,14 +63,21 @@ struct APODHomeView: View {
                 HStack(spacing: AppSpacing.small) {
                     dayStepper
                     Spacer(minLength: 0)
-                    randomDateButton
+                    randomDateButton(showsTitle: true)
+                }
+
+                HStack(spacing: AppSpacing.small) {
+                    dayStepper
+                    Spacer(minLength: 0)
+                    randomDateButton(showsTitle: false)
                 }
 
                 VStack(spacing: AppSpacing.medium) {
                     dayStepper
-                    randomDateButton
+                    randomDateButton(showsTitle: true)
                 }
             }
+            .frame(maxWidth: .infinity)
         }
     }
 
@@ -94,6 +101,7 @@ struct APODHomeView: View {
             .datePickerStyle(.compact)
             .tint(AppColors.accent)
             .environment(\.colorScheme, .dark)
+            .accessibilityLabel("Fecha del APOD")
 
             stepButton(
                 systemImage: "chevron.right",
@@ -105,23 +113,29 @@ struct APODHomeView: View {
         }
     }
 
-    private var randomDateButton: some View {
+    private func randomDateButton(showsTitle: Bool) -> some View {
         Button {
             Task {
                 await viewModel.goToRandomDate()
             }
         } label: {
-            Label("Aleatorio", systemImage: "dice.fill")
-                .font(AppTypography.bodyStrong)
-                .foregroundStyle(AppColors.textPrimary)
-                .padding(.horizontal, AppSpacing.medium)
-                .frame(minHeight: 44)
-                .background(AppColors.accentSecondary.opacity(0.24))
-                .clipShape(Capsule())
-                .overlay {
-                    Capsule()
-                        .stroke(AppColors.border, lineWidth: 1)
+            Group {
+                if showsTitle {
+                    Label("Aleatorio", systemImage: "dice.fill")
+                } else {
+                    Image(systemName: "dice.fill")
                 }
+            }
+            .font(AppTypography.bodyStrong)
+            .foregroundStyle(AppColors.textPrimary)
+            .padding(.horizontal, showsTitle ? AppSpacing.medium : 0)
+            .frame(minWidth: 44, minHeight: 44)
+            .background(AppColors.accentSecondary.opacity(0.24))
+            .clipShape(Capsule())
+            .overlay {
+                Capsule()
+                    .stroke(AppColors.border, lineWidth: 1)
+            }
         }
         .buttonStyle(.plain)
         .accessibilityLabel("Fecha aleatoria")
