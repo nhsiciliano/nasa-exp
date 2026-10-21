@@ -99,6 +99,31 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 
 Fijan la salida en `es_ES` y `en_US` con zona UTC usando `displayDate(locale:timeZone:)` de cada modelo; la app sigue usando `displayDate`, que toma el locale del dispositivo.
 
+### `AppTabDeepLinkTests`
+
+- `test_appTabFromURL_whenNASAExpDeepLink_selectsMatchingTab`
+- `test_appTabFromURL_whenOtherSchemeOrUnknownTab_returnsNil`
+- `test_appTabDeepLinkURL_roundTripsForEveryTab`
+- `test_appTabFromLaunchArgument_matchesDeepLinkNames`
+
+### `NASAExpWidgetTests` (lógica del widget de APOD, que vive en el target de la app)
+
+- `APODPublicationSchedule`: `test_nextRefresh_whenShowingTodaysEntry_waitsForNextPublication`,
+  `test_nextRefresh_lateInTheEasternDay_comparesAgainstTheEasternDate`,
+  `test_nextRefresh_whenEntryIsStaleOrMissing_retriesAfterRetryInterval`,
+  `test_nextPublication_acrossDaylightSavingEnd_staysAtSameEasternTime`
+- `ImageDownsampler`: `test_maxPixelSize_coversTargetWithoutUpscaling`, `test_downsample_cropsToTargetAspectAtTargetSize`,
+  `test_downsample_whenTargetIsLarger_keepsResolutionAndCropsAspect`, `test_downsample_whenDataIsNotAnImage_returnsNil`
+- `APODWidgetContentLoader`: `test_widgetLoader_withImageEntry_downsamplesScreenSizedImage`,
+  `test_widgetLoader_withRecordFromSource_requestsScreenWidthCopyOfOriginal`,
+  `test_widgetLoader_withVideoEntry_opensInAppWithoutDownloading`,
+  `test_widgetLoader_whenFetchOrImageFails_returnsNoContentAndRetries`
+
+### `NASAExpDeepLinkUITests` (target `nasa.expUITests`)
+
+- `test_openURL_selectsTabOfDeepLink`: arranca en Rovers y abre `nasaexp://favorites` y `nasaexp://apod`
+  con `XCUIApplication.open(_:)`, como lo hace el widget. No depende de la red.
+
 ### `NASAExpSmokeUITests` (target `nasa.expUITests`, XCUITest)
 
 - `test_eachTab_opensItsScreen`
@@ -131,6 +156,15 @@ Los builds Debug aceptan `-initialTab` para abrir una pestaña directamente:
 xcrun simctl launch "iPhone 17" den-mobile.nasa-exp -initialTab rovers
 xcrun simctl io "iPhone 17" screenshot rovers.png
 ```
+
+Con la app instalada, los deep links del widget se prueban con `openurl` (en cualquier build):
+
+```bash
+xcrun simctl openurl "iPhone 17" nasaexp://apod
+```
+
+El widget se agrega desde la home del simulador: mantener presionado el fondo, "Editar" → "Agregar widget",
+buscar "NASA Exp" y elegir small o medium.
 
 ## CI
 
