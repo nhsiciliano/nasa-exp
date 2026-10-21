@@ -1,19 +1,29 @@
 import Foundation
 
-enum AppTab: Hashable {
+enum AppTab: String {
     case apod
     case rovers
     case epic
     case favorites
 
+    /// URL scheme registered in `Config/Info.plist`. The widget opens the app with `nasaexp://apod`.
+    static let urlScheme = "nasaexp"
+
     init?(launchArgument: String) {
-        switch launchArgument.lowercased() {
-        case "apod": self = .apod
-        case "rovers": self = .rovers
-        case "epic": self = .epic
-        case "favorites": self = .favorites
-        default: return nil
+        self.init(rawValue: launchArgument.lowercased())
+    }
+
+    /// Parses `nasaexp://<tab>` deep links, using the same tab names as `-initialTab`.
+    init?(url: URL) {
+        guard url.scheme?.lowercased() == AppTab.urlScheme, let host = url.host() else {
+            return nil
         }
+
+        self.init(launchArgument: host)
+    }
+
+    var deepLinkURL: URL? {
+        URL(string: "\(AppTab.urlScheme)://\(rawValue)")
     }
 
     var title: String {

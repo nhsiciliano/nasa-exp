@@ -45,6 +45,11 @@ struct AppRootView: View {
         .toolbarBackground(AppColors.surfaceBase.opacity(0.98), for: .tabBar)
         .toolbarBackground(.visible, for: .tabBar)
         .toolbarColorScheme(.dark, for: .tabBar)
+        .onOpenURL { url in
+            if let tab = AppTab(url: url) {
+                selectedTab = tab
+            }
+        }
     }
 
     /// Lets QA and simulator runs open a specific tab: `-initialTab rovers`.
