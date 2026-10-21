@@ -15,7 +15,6 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 
 ### `NASAExpDecodingTests`
 
-- `test_apodDecoding_mapsImageMediaCorrectly`
 - `test_roversDecoding_mapsCuriosityRawImage` (feed MSL de `mars.nasa.gov`)
 - `test_roversDecoding_mapsPerseveranceRawImage` (feed Mars 2020)
 - `test_marsRawImagesRequest_buildsCuriosityURLWithSolAndCameraFilters`
@@ -25,7 +24,11 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 ### `NASAExpStoreAndViewModelTests`
 
 - `test_favoriteStore_addContainsRemove_roundTrip` (SwiftData en memoria)
-- `test_favoriteModels_reconstructNativeDetailsFromStoredFavorite`
+- `test_favoriteModels_legacyFavoritesWithoutMetadata_fallBackToStoredFields`
+- `test_favoriteStore_roundTrip_preservesAPODMetadata` (incluye link del artículo, HD y thumbnail)
+- `test_favoriteStore_roundTrip_apodPrefersStoredMediaKindOverURLHeuristic` (video con poster como thumbnail)
+- `test_favoriteStore_roundTrip_preservesCuriosityMetadata`, `..._preservesPerseveranceMetadata`, `..._preservesEPICMetadata`
+- `test_favoriteStore_lightweightMigration_opensStoreCreatedWithLegacySchema` (store en disco con el esquema viejo)
 - `test_apodViewModel_refresh_setsLoadedStateOnSuccess`
 - `test_apodViewModel_refresh_setsFailedStateOnError`
 - `test_roversViewModel_loadIfNeeded_jumpsToLatestSolAndLoadsFirstPage` (incluye `loadMore`)
@@ -59,11 +62,27 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 - `test_shareText_includesTitleDateAndCleanedCopyright`
 - `test_shareText_whenCopyrightIsMissing_creditsNASA`
 
+### `APODSourceTests` (APOD desde `science.nasa.gov`, fixtures reales + `URLProtocol` mock)
+
+- RSS: `test_feedParser_readsRecordsNewestFirstWithEasternDayIDs`, `..._mapsImageEntryToPlainTextAndOriginalImage`,
+  `..._dropsRepeatedExplanationLabelAndIgnoresLinkedVideoFiles`, `..._mapsIframeEntryToVideoWithPoster`
+- WordPress: `test_archivePost_videoDay_mapsEmbedPosterAndCredit`, `..._oldEntry_stripsCreditLabelAndCleansText`,
+  `..._withPlaceholderFeaturedImage_usesPageImage`
+- Texto, días y URLs: `test_htmlText_dropsTagsDecodesEntitiesAndCollapsesWhitespace`,
+  `test_extractor_stripsCreditLabelsAndTitlePrefix`, `test_apodDay_usesNewYorkCalendarDay`,
+  `test_archivePostURL_coversWholeDayWithExclusiveAfterBound`, `test_imageURL_resizesOnlyCDNImages`
+- Repositorio: `test_repositoryFetchToday_readsNewestFeedEntry`, `test_repositoryFetchDate_withinFeedWindow_reusesCachedFeed`,
+  `test_repositoryFetchDate_olderThanFeed_queriesArchiveForThatDay`, `test_repositoryFetchDate_whenArchiveHasNoPost_throwsNotFound`,
+  `test_repositoryFetchToday_whenFeedFails_fallsBackToNewestArchivePost`
+
 ## Fixtures
 
-Respuestas reales recortadas, utiles para tests y para documentar el contrato de cada feed:
+Respuestas reales recortadas, utiles para tests y para documentar el contrato de cada feed.
+`APODSourceTests` lee las de APOD desde `docs/fixtures` (ruta relativa a `#filePath`):
 
-- `docs/fixtures/apod-sample.json`
+- `docs/fixtures/apod-basic-sample.xml` (RSS: imagen, imagen con `.mp4` enlazados en el texto y video con `<iframe>`;
+  `content:encoded` recortado al `<title>` y al `<iframe>`)
+- `docs/fixtures/apod-wp-sample.json` (WordPress: video de 2026, archivo de 2004 y 1995 con imagen destacada placeholder)
 - `docs/fixtures/epic-sample.json`
 - `docs/fixtures/rovers-msl-sample.json` (Curiosity, `raw_image_items`)
 - `docs/fixtures/rovers-mars2020-sample.json` (Perseverance, `rss/api`)

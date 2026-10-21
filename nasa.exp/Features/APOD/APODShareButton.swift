@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-/// Shares the downloaded APOD image with its caption, falling back to the media URL
+/// Shares the downloaded APOD image with its caption, falling back to the article link
 /// while the image downloads, when the download fails, or for videos.
 struct APODShareButton: View {
     let entry: APODEntry
@@ -38,7 +38,7 @@ struct APODShareButton: View {
     }
 
     private func prepareImage() async {
-        guard case .image = entry.media, let imageURL = entry.shareURL else {
+        guard case let .image(imageURL, _) = entry.media else {
             preparedImage = nil
             return
         }

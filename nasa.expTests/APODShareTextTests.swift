@@ -15,14 +15,14 @@ final class APODShareTextTests: XCTestCase {
     }
 
     private func makeEntry(copyright: String?) -> APODEntry {
-        APODEntry(dto: APODResponseDTO(
+        APODEntry(record: APODRecord(
+            id: "2026-03-13",
             title: "Nebula",
             explanation: "A bright nebula.",
-            date: "2026-03-13",
-            mediaType: "image",
-            url: "https://example.com/apod.jpg",
-            hdurl: nil,
-            copyright: copyright
+            credit: copyright,
+            pageURL: URL(string: "https://example.com/apod-2026-march-13/"),
+            imageURL: URL(string: "https://example.com/apod.jpg"),
+            videoURL: nil
         ))
     }
 }

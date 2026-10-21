@@ -40,7 +40,8 @@ enum FavoriteStore {
             latitude: draft.latitude,
             longitude: draft.longitude,
             thumbnailURLString: draft.thumbnailURL?.absoluteString,
-            hdMediaURLString: draft.hdMediaURL?.absoluteString
+            hdMediaURLString: draft.hdMediaURL?.absoluteString,
+            pageURLString: draft.pageURL?.absoluteString
         )
 
         context.insert(favorite)

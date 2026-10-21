@@ -5,32 +5,40 @@ import XCTest
 
 @MainActor
 final class APODHDImageTests: XCTestCase {
-    func test_entryFromDTO_keepsStandardURLAndHDURLSeparate() {
-        let entry = Self.makeEntry(hdurl: "https://apod.nasa.gov/apod/image/2603/nebula_hd.jpg")
+    func test_entryFromRecord_showsResizedImageAndKeepsOriginalAsHD() {
+        let entry = Self.makeEntry()
 
         guard case let .image(url, hdURL) = entry.media else {
             return XCTFail("Expected image media")
         }
-        XCTAssertEqual(url.absoluteString, "https://apod.nasa.gov/apod/image/2603/nebula.jpg")
-        XCTAssertEqual(hdURL?.absoluteString, "https://apod.nasa.gov/apod/image/2603/nebula_hd.jpg")
-        XCTAssertEqual(entry.shareURL, url)
+        XCTAssertEqual(url.absoluteString, Self.screenURL)
+        XCTAssertEqual(hdURL?.absoluteString, Self.originalURL)
+        XCTAssertEqual(entry.shareURL?.absoluteString, "https://science.nasa.gov/image-article/apod-2026-march-13-nebula/")
     }
 
-    func test_entryFromDTO_withoutHDURL_hasNilHDURL() {
-        let entry = Self.makeEntry(hdurl: nil)
+    func test_entryFromRecord_withNonCDNImage_usesSameURLForScreenAndHD() {
+        let entry = APODEntry(record: APODRecord(
+            id: "2026-03-13",
+            title: "Nebula",
+            explanation: "A bright nebula.",
+            credit: nil,
+            pageURL: nil,
+            imageURL: URL(string: "https://example.com/nebula.jpg"),
+            videoURL: nil
+        ))
 
-        guard case let .image(_, hdURL) = entry.media else {
+        guard case let .image(url, hdURL) = entry.media else {
             return XCTFail("Expected image media")
         }
-        XCTAssertNil(hdURL)
+        XCTAssertEqual(url, hdURL)
     }
 
     func test_favoriteDraft_carriesHDURLAndRoundTripsThroughStore() throws {
-        let original = Self.makeEntry(hdurl: "https://apod.nasa.gov/apod/image/2603/nebula_hd.jpg")
+        let original = Self.makeEntry()
         let draft = original.favoriteDraft
 
-        XCTAssertEqual(draft.mediaURL?.absoluteString, "https://apod.nasa.gov/apod/image/2603/nebula.jpg")
-        XCTAssertEqual(draft.hdMediaURL?.absoluteString, "https://apod.nasa.gov/apod/image/2603/nebula_hd.jpg")
+        XCTAssertEqual(draft.mediaURL?.absoluteString, Self.screenURL)
+        XCTAssertEqual(draft.hdMediaURL?.absoluteString, Self.originalURL)
 
         let container = try ModelContainer(
             for: FavoriteItem.self,
@@ -40,13 +48,13 @@ final class APODHDImageTests: XCTestCase {
         FavoriteStore.add(draft, in: context)
 
         let item = try XCTUnwrap(try context.fetch(FetchDescriptor<FavoriteItem>()).first)
-        XCTAssertEqual(item.hdMediaURLString, "https://apod.nasa.gov/apod/image/2603/nebula_hd.jpg")
+        XCTAssertEqual(item.hdMediaURLString, Self.originalURL)
 
         guard case let .image(url, hdURL) = APODEntry(favoriteItem: item).media else {
             return XCTFail("Expected image media")
         }
-        XCTAssertEqual(url.absoluteString, "https://apod.nasa.gov/apod/image/2603/nebula.jpg")
-        XCTAssertEqual(hdURL?.absoluteString, "https://apod.nasa.gov/apod/image/2603/nebula_hd.jpg")
+        XCTAssertEqual(url.absoluteString, Self.screenURL)
+        XCTAssertEqual(hdURL?.absoluteString, Self.originalURL)
     }
 
     func test_legacyFavoriteWithoutHDURL_rebuildsImageWithNilHDURL() {
@@ -66,15 +74,18 @@ final class APODHDImageTests: XCTestCase {
         XCTAssertNil(hdURL)
     }
 
-    private static func makeEntry(hdurl: String?) -> APODEntry {
-        APODEntry(dto: APODResponseDTO(
+    private static let originalURL = "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/march/nebula.jpg"
+    private static let screenURL = originalURL + "?w=1280&fit=clip"
+
+    private static func makeEntry() -> APODEntry {
+        APODEntry(record: APODRecord(
+            id: "2026-03-13",
             title: "Nebula",
             explanation: "A bright nebula.",
-            date: "2026-03-13",
-            mediaType: "image",
-            url: "https://apod.nasa.gov/apod/image/2603/nebula.jpg",
-            hdurl: hdurl,
-            copyright: "Jane Doe"
+            credit: "Jane Doe",
+            pageURL: URL(string: "https://science.nasa.gov/image-article/apod-2026-march-13-nebula/"),
+            imageURL: URL(string: originalURL),
+            videoURL: nil
         ))
     }
 }

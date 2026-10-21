@@ -168,14 +168,14 @@ private final class DateRecordingAPODRepository: APODRepositoryProtocol {
     }
 
     private func makeEntry(date: String) -> APODEntry {
-        APODEntry(dto: APODResponseDTO(
+        APODEntry(record: APODRecord(
+            id: date,
             title: "APOD \(date)",
             explanation: "Sample",
-            date: date,
-            mediaType: "image",
-            url: "https://example.com/\(date).jpg",
-            hdurl: nil,
-            copyright: nil
+            credit: nil,
+            pageURL: URL(string: "https://example.com/apod-\(date)/"),
+            imageURL: URL(string: "https://example.com/\(date).jpg"),
+            videoURL: nil
         ))
     }
 }

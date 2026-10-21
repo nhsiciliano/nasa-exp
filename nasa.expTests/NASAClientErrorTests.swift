@@ -30,7 +30,7 @@ final class NASAClientErrorTests: XCTestCase {
             (Self.response(for: request, statusCode: 429), Data())
         }
 
-        let error = await fetchError { try await $0.fetch(APODResponseDTO.self, endpoint: .apod(date: nil)) }
+        let error = await fetchError { try await $0.fetch(EmptyPayload.self, endpoint: .epicLatest) }
 
         guard case let .rateLimited(retryAfter) = error else {
             return XCTFail("Expected rateLimited, got \(String(describing: error))")
@@ -45,7 +45,7 @@ final class NASAClientErrorTests: XCTestCase {
             (Self.response(for: request, statusCode: 403), Data(#"{"error":{"code":"API_KEY_INVALID"}}"#.utf8))
         }
 
-        let error = await fetchError { try await $0.fetch(APODResponseDTO.self, endpoint: .apod(date: nil)) }
+        let error = await fetchError { try await $0.fetch(EmptyPayload.self, endpoint: .epicLatest) }
 
         guard case .invalidAPIKey = error else {
             return XCTFail("Expected invalidAPIKey, got \(String(describing: error))")
