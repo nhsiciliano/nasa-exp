@@ -207,6 +207,14 @@ struct RoversHomeView: View {
                                 RoverPhotoCard(photo: photo)
                             }
                             .buttonStyle(.plain)
+                            .onAppear {
+                                guard photo.id == feed.photos.last?.id else {
+                                    return
+                                }
+                                Task {
+                                    await viewModel.loadMoreIfNeeded(after: photo)
+                                }
+                            }
                         }
                     }
 

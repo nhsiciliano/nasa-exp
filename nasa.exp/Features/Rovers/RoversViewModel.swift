@@ -125,6 +125,18 @@ final class RoversViewModel: ObservableObject {
         isSearching = false
     }
 
+    /// Infinite scroll hook: loads the next page once the last card shows up. After a failed page
+    /// it stays quiet so the manual "Cargar más" button is the retry path.
+    func loadMoreIfNeeded(after photo: RoverPhoto) async {
+        guard case let .loaded(feed) = state,
+              photo.id == feed.photos.last?.id,
+              loadMoreErrorMessage == nil else {
+            return
+        }
+
+        await loadMore()
+    }
+
     func loadMore() async {
         guard case var .loaded(feed) = state, feed.hasMore, !isLoadingMore, !isSearching else {
             return
