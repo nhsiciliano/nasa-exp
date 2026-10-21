@@ -4,6 +4,7 @@ import SwiftData
 struct RoverPhotoDetailView: View {
     let photo: RoverPhoto
     @State private var isFavorite = false
+    @State private var showsFullscreenImage = false
     @Environment(\.modelContext) private var modelContext
 
     var body: some View {
@@ -12,34 +13,15 @@ struct RoverPhotoDetailView: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: AppSpacing.large) {
-                    AsyncImage(url: photo.imageURL) { phase in
-                        switch phase {
-                        case let .success(image):
-                            image
-                                .resizable()
-                                .scaledToFit()
-                        case .failure:
-                            HeroCard(
-                                title: "No se pudo cargar la foto",
-                                subtitle: "Intentá nuevamente en unos segundos.",
-                                symbolName: "photo.badge.exclamationmark"
-                            )
-                        case .empty:
-                            ProgressView()
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 260)
-                                .tint(AppColors.accent)
-                                .background(AppColors.cardBackground)
-                                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                        @unknown default:
-                            EmptyView()
-                        }
+                    Button {
+                        showsFullscreenImage = true
+                    } label: {
+                        photoView
                     }
-                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
-                            .stroke(AppColors.border, lineWidth: 1)
-                    }
+                    .buttonStyle(.plain)
+                    .disabled(photo.imageURL == nil)
+                    .accessibilityLabel("Abrir foto a pantalla completa")
+                    .accessibilityHint("Permite hacer zoom con pellizco o doble toque")
 
                     SectionHeader(title: "\(photo.roverName) · \(photo.cameraName)", subtitle: photo.displayDate)
 
@@ -92,6 +74,43 @@ struct RoverPhotoDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             isFavorite = FavoriteStore.contains(photo.favoriteDraft, in: modelContext)
+        }
+        .fullScreenCover(isPresented: $showsFullscreenImage) {
+            FullscreenImageViewer(
+                url: photo.imageURL,
+                accessibilityLabel: "Foto de \(photo.roverName), \(photo.cameraFullName), \(photo.solLabel)"
+            )
+        }
+    }
+
+    private var photoView: some View {
+        AsyncImage(url: photo.imageURL) { phase in
+            switch phase {
+            case let .success(image):
+                image
+                    .resizable()
+                    .scaledToFit()
+            case .failure:
+                HeroCard(
+                    title: "No se pudo cargar la foto",
+                    subtitle: "Intentá nuevamente en unos segundos.",
+                    symbolName: "photo.badge.exclamationmark"
+                )
+            case .empty:
+                ProgressView()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 260)
+                    .tint(AppColors.accent)
+                    .background(AppColors.cardBackground)
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+            @unknown default:
+                EmptyView()
+            }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(AppColors.border, lineWidth: 1)
         }
     }
 
