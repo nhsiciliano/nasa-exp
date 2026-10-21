@@ -1,4 +1,6 @@
-// Shared config for all build variants
+// Shared config for all build variants.
+// NASA_API_KEY is intentionally empty here: the real value lives in Secrets.xcconfig
+// (gitignored, see Secrets.example.xcconfig), which Debug/Release include after this file.
 
-NASA_API_KEY = XMnqpMPmJD4Oenhd6IU6CS6WSTMqALym1ZUEtOV1
+NASA_API_KEY =
 INFOPLIST_KEY_NASA_API_KEY = $(NASA_API_KEY)
