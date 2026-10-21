@@ -66,7 +66,7 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | P2.6 | Rovers: pantalla completa con zoom para la foto | 🟡 Medio | Hecho | 1.0 |
 | P2.7 | Favoritos: filtro por tipo | 🟢 Bajo | Hecho | 1.0 |
 | P2.8 | Guardar imagen en Fotos con crédito (permiso `NSPhotoLibraryAddUsageDescription`) | 🟡 Medio | Pendiente | 1.0 |
-| P2.9 | Widget de APOD (WidgetKit, timeline diaria) | 🔴 Alto | Pendiente | 1.1 (hay una implementación estacionada en la rama `nhsiciliano/High-Dev`, commits f45eafc y 05c40e1, sin integrar por decisión del 2026-10-21) |
+| P2.9 | Widget de APOD (WidgetKit, timeline diaria) | 🔴 Alto | Pendiente | 1.1 (implementación estacionada en la rama `nhsiciliano/High-Dev-widget` @ 25b55c0, base anterior a P0.9, sin integrar por decisión del 2026-10-21. Para retomarla: el widget debe bajar la URL de media en vez de `shareURL`, sumar al exception set los archivos nuevos de APOD (APODDay, APODSource, APODFeedParser, APODArchivePostDTO, APODHTMLExtractor, APODFeedCache, Core/Text/HTMLText) y ya no necesita `NASA_API_KEY` ni la fase de validación) |
 | P2.10 | Visor embebido para APOD en video (YouTube/Vimeo vía WebView) | 🟡 Medio | Pendiente | 1.1 |
 | P2.11 | Soporte iPad con layout adaptativo | 🔴 Alto | Pendiente | 1.1 |
 
