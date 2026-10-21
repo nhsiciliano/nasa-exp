@@ -36,6 +36,15 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 - `test_roversViewModel_search_setsFailedStateOnError`
 - `test_epicViewModel_search_setsFailedStateOnError`
 
+### `FavoriteStoreUpsertTests` (SwiftData en memoria)
+
+- `test_upsert_legacyFavorite_fillsMissingMetadataWithoutDuplicating` (mantiene `createdAt`)
+- `test_upsert_draftWithoutMetadata_keepsStoredValues`
+- `test_upsert_legacyEPICFavoriteWithAPIKey_storesLiveURLWithoutKey`
+- `test_upsert_draftURLsWithAPIKey_dropOnlyTheKey`
+- `test_refreshIfFavorite_whenNotFavorite_returnsFalseAndStoresNothing`
+- `test_refreshIfFavorite_whenFavorite_returnsTrueAndFillsMetadata`
+
 ### `NASAClientErrorTests` (`URLProtocol` mock)
 
 - `test_fetch_whenStatusIs429WithRetryAfterSeconds_throwsRateLimitedWithDelay`

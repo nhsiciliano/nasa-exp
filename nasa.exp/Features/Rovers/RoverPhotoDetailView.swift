@@ -3,6 +3,8 @@ import SwiftData
 
 struct RoverPhotoDetailView: View {
     let photo: RoverPhoto
+    /// False when the photo was rebuilt from its favorite, whose fallback values must not be stored.
+    var refreshesStoredFavorite = true
     @State private var isFavorite = false
     @State private var showsFullscreenImage = false
     @Environment(\.modelContext) private var modelContext
@@ -77,7 +79,9 @@ struct RoverPhotoDetailView: View {
         .navigationTitle("Detalle Rover")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            isFavorite = FavoriteStore.contains(photo.favoriteDraft, in: modelContext)
+            isFavorite = refreshesStoredFavorite
+                ? FavoriteStore.refreshIfFavorite(photo.favoriteDraft, in: modelContext)
+                : FavoriteStore.contains(photo.favoriteDraft, in: modelContext)
         }
         .fullScreenCover(isPresented: $showsFullscreenImage) {
             FullscreenImageViewer(
@@ -136,7 +140,7 @@ struct RoverPhotoDetailView: View {
         if isFavorite {
             FavoriteStore.remove(photo.favoriteDraft, in: modelContext)
         } else {
-            FavoriteStore.add(photo.favoriteDraft, in: modelContext)
+            FavoriteStore.upsert(photo.favoriteDraft, in: modelContext)
         }
 
         isFavorite.toggle()

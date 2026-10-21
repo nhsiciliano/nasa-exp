@@ -3,6 +3,8 @@ import SwiftData
 
 struct EPICDetailView: View {
     let entry: EPICEntry
+    /// False when the entry was rebuilt from its favorite, whose fallback values must not be stored.
+    var refreshesStoredFavorite = true
 
     @Environment(\.modelContext) private var modelContext
     @State private var isFavorite = false
@@ -89,7 +91,9 @@ struct EPICDetailView: View {
         .navigationTitle("Detalle EPIC")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            isFavorite = FavoriteStore.contains(entry.favoriteDraft, in: modelContext)
+            isFavorite = refreshesStoredFavorite
+                ? FavoriteStore.refreshIfFavorite(entry.favoriteDraft, in: modelContext)
+                : FavoriteStore.contains(entry.favoriteDraft, in: modelContext)
         }
     }
 
@@ -97,7 +101,7 @@ struct EPICDetailView: View {
         if isFavorite {
             FavoriteStore.remove(entry.favoriteDraft, in: modelContext)
         } else {
-            FavoriteStore.add(entry.favoriteDraft, in: modelContext)
+            FavoriteStore.upsert(entry.favoriteDraft, in: modelContext)
         }
 
         isFavorite.toggle()

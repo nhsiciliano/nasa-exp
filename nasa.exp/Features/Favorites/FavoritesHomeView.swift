@@ -110,11 +110,11 @@ struct FavoritesHomeView: View {
     private func favoriteDestination(for item: FavoriteItem) -> some View {
         switch item.contentType {
         case .apod:
-            APODDetailView(entry: APODEntry(favoriteItem: item))
+            APODDetailView(entry: APODEntry(favoriteItem: item), refreshesStoredFavorite: false)
         case .rover:
-            RoverPhotoDetailView(photo: RoverPhoto(favoriteItem: item))
+            RoverPhotoDetailView(photo: RoverPhoto(favoriteItem: item), refreshesStoredFavorite: false)
         case .epic:
-            EPICDetailView(entry: EPICEntry(favoriteItem: item))
+            EPICDetailView(entry: EPICEntry(favoriteItem: item), refreshesStoredFavorite: false)
         }
     }
 }

@@ -22,7 +22,7 @@ final class NASAExpStoreAndViewModelTests: XCTestCase {
 
         XCTAssertFalse(FavoriteStore.contains(draft, in: context))
 
-        FavoriteStore.add(draft, in: context)
+        FavoriteStore.upsert(draft, in: context)
 
         XCTAssertTrue(FavoriteStore.contains(draft, in: context))
 
@@ -256,7 +256,7 @@ final class NASAExpStoreAndViewModelTests: XCTestCase {
             latitude: 12.34,
             longitude: -56.78
         )
-        FavoriteStore.add(newDraft, in: context)
+        FavoriteStore.upsert(newDraft, in: context)
 
         XCTAssertTrue(FavoriteStore.contains(newDraft, in: context))
         XCTAssertEqual(try context.fetchCount(FetchDescriptor<FavoriteItem>()), 2)
@@ -270,7 +270,7 @@ final class NASAExpStoreAndViewModelTests: XCTestCase {
     /// so the values come back from the store instead of the inserted instance.
     private func roundTrip<Model>(_ draft: FavoriteDraft, rebuild: (FavoriteItem) -> Model) throws -> Model {
         let container = try makeInMemoryFavoritesContainer()
-        FavoriteStore.add(draft, in: ModelContext(container))
+        FavoriteStore.upsert(draft, in: ModelContext(container))
 
         let readContext = ModelContext(container)
         let stored = try readContext.fetch(FetchDescriptor<FavoriteItem>())

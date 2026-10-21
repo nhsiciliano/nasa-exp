@@ -45,7 +45,7 @@ final class APODHDImageTests: XCTestCase {
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
         let context = ModelContext(container)
-        FavoriteStore.add(draft, in: context)
+        FavoriteStore.upsert(draft, in: context)
 
         let item = try XCTUnwrap(try context.fetch(FetchDescriptor<FavoriteItem>()).first)
         XCTAssertEqual(item.hdMediaURLString, Self.originalURL)

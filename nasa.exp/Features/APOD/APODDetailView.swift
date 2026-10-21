@@ -3,6 +3,8 @@ import SwiftData
 
 struct APODDetailView: View {
     let entry: APODEntry
+    /// False when the entry was rebuilt from its favorite, whose fallback values must not be stored.
+    var refreshesStoredFavorite = true
 
     @State private var showsFullscreenImage = false
     @State private var isFavorite = false
@@ -70,7 +72,9 @@ struct APODDetailView: View {
         .navigationTitle("Detalle APOD")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            isFavorite = FavoriteStore.contains(entry.favoriteDraft, in: modelContext)
+            isFavorite = refreshesStoredFavorite
+                ? FavoriteStore.refreshIfFavorite(entry.favoriteDraft, in: modelContext)
+                : FavoriteStore.contains(entry.favoriteDraft, in: modelContext)
         }
         .fullScreenCover(isPresented: $showsFullscreenImage) {
             fullscreenImageView
@@ -198,7 +202,7 @@ struct APODDetailView: View {
         if isFavorite {
             FavoriteStore.remove(entry.favoriteDraft, in: modelContext)
         } else {
-            FavoriteStore.add(entry.favoriteDraft, in: modelContext)
+            FavoriteStore.upsert(entry.favoriteDraft, in: modelContext)
         }
 
         isFavorite.toggle()
