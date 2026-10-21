@@ -1,3 +1,6 @@
 Config/Secrets.xcconfig
 
 .DS_Store
+
+# Xcode per-user state
+xcuserdata/
