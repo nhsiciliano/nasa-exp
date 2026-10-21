@@ -197,6 +197,10 @@ private struct MockAPODRepository: APODRepositoryProtocol {
     func fetchToday() async throws -> APODEntry {
         try result.get()
     }
+
+    func fetch(date: Date) async throws -> APODEntry {
+        try result.get()
+    }
 }
 
 private final class MockRoversRepository: RoversRepositoryProtocol {
