@@ -10,6 +10,8 @@ enum NASAAPIError: LocalizedError {
     case invalidAPIKey
     case serverError(statusCode: Int)
     case decodingError(Error)
+    /// The request worked but NASA has nothing for it, such as a day without an APOD.
+    case notFound
 
     var errorDescription: String? {
         switch self {
@@ -31,6 +33,8 @@ enum NASAAPIError: LocalizedError {
             return "NASA API devolvió estado HTTP \(statusCode). Probá de nuevo en unos segundos."
         case let .decodingError(error):
             return "No se pudo leer la respuesta: \(error.localizedDescription)"
+        case .notFound:
+            return "NASA no publicó contenido para esa fecha. Probá con otro día."
         }
     }
 

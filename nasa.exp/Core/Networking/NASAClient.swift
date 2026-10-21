@@ -15,19 +15,33 @@ nonisolated struct NASAClient {
     /// Fetches and decodes a resource from `api.nasa.gov`, attaching the configured API key.
     func fetch<T: Decodable>(_ type: T.Type, endpoint: NASAEndpoint) async throws -> T {
         let request = try NASARequestBuilder.makeURLRequest(for: endpoint)
-        return try await fetch(type, request: request, usesAPIKey: true)
+        return try decode(type, from: await data(for: request, usesAPIKey: true))
     }
 
     /// Fetches and decodes a resource from an arbitrary public NASA URL that needs no API key
     /// (for example the Mars raw image feeds hosted on `mars.nasa.gov`).
     func fetch<T: Decodable>(_ type: T.Type, url: URL) async throws -> T {
+        try decode(type, from: await fetchData(url: url))
+    }
+
+    /// Downloads a public NASA resource that is not JSON (for example the APOD RSS feed on
+    /// `science.nasa.gov`), with the same error mapping as the JSON requests.
+    func fetchData(url: URL) async throws -> Data {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.timeoutInterval = 30
-        return try await fetch(type, request: request, usesAPIKey: false)
+        return try await data(for: request, usesAPIKey: false)
     }
 
-    private func fetch<T: Decodable>(_ type: T.Type, request: URLRequest, usesAPIKey: Bool) async throws -> T {
+    private func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
+        do {
+            return try decoder.decode(type, from: data)
+        } catch {
+            throw NASAAPIError.decodingError(error)
+        }
+    }
+
+    private func data(for request: URLRequest, usesAPIKey: Bool) async throws -> Data {
         let data: Data
         let response: URLResponse
 
@@ -56,11 +70,7 @@ nonisolated struct NASAClient {
             throw NASAAPIError.serverError(statusCode: httpResponse.statusCode)
         }
 
-        do {
-            return try decoder.decode(type, from: data)
-        } catch {
-            throw NASAAPIError.decodingError(error)
-        }
+        return data
     }
 
     private static let offlineErrorCodes: Set<URLError.Code> = [
