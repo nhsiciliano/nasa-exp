@@ -85,7 +85,12 @@ final class RoversViewModel: ObservableObject {
         await search()
     }
 
-    func search() async {
+    /// Pull to refresh: the current photos stay on screen until the new response arrives.
+    func refresh() async {
+        await search(keepingContent: true)
+    }
+
+    func search(keepingContent: Bool = false) async {
         guard !isSearching else {
             return
         }
@@ -94,7 +99,10 @@ final class RoversViewModel: ObservableObject {
         let generation = searchGeneration
         isSearching = true
         loadMoreErrorMessage = nil
-        state = .loading
+
+        if !(keepingContent && isShowingFeed) {
+            state = .loading
+        }
         sol = clampedSol(sol)
 
         do {
@@ -194,6 +202,13 @@ final class RoversViewModel: ObservableObject {
         }
 
         await search()
+    }
+
+    private var isShowingFeed: Bool {
+        if case .loaded = state {
+            return true
+        }
+        return false
     }
 
     private func clampedSol(_ value: Int) -> Int {

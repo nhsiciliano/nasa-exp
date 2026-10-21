@@ -23,7 +23,7 @@ struct RoversHomeView: View {
                 .padding(AppSpacing.large)
             }
             .refreshable {
-                await viewModel.search()
+                await viewModel.refresh()
             }
             .scrollDismissesKeyboard(.interactively)
         }

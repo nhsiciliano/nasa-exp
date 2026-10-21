@@ -67,19 +67,20 @@ final class APODViewModel: ObservableObject {
         await refresh()
     }
 
+    /// Pull to refresh: the current entry stays on screen until the new response arrives.
     func refresh() async {
-        await load(date: selectedDate)
+        await load(date: selectedDate, keepingContent: true)
     }
 
-    func load(date: Date) async {
+    func load(date: Date, keepingContent: Bool = false) async {
         let day = min(max(calendar.startOfDay(for: date), firstAvailableDate), latestDate)
 
         // NASA's "today" may not exist yet for an explicit date, so the latest day always asks for today.
         if calendar.isDate(day, inSameDayAs: latestDate) {
-            await loadLatest()
+            await loadLatest(keepingContent: keepingContent)
         } else {
             selectedDate = day
-            await perform { try await $0.fetch(date: day) }
+            await perform(keepingContent: keepingContent) { try await $0.fetch(date: day) }
         }
     }
 
@@ -110,10 +111,10 @@ final class APODViewModel: ObservableObject {
         await load(date: randomDay)
     }
 
-    private func loadLatest() async {
+    private func loadLatest(keepingContent: Bool) async {
         selectedDate = latestDate
 
-        guard let entry = await perform({ try await $0.fetchToday() }) else {
+        guard let entry = await perform(keepingContent: keepingContent, { try await $0.fetchToday() }) else {
             return
         }
 
@@ -124,10 +125,16 @@ final class APODViewModel: ObservableObject {
 
     /// Runs a request and publishes its outcome unless a newer request started meanwhile.
     @discardableResult
-    private func perform(_ request: (APODRepositoryProtocol) async throws -> APODEntry) async -> APODEntry? {
+    private func perform(
+        keepingContent: Bool = false,
+        _ request: (APODRepositoryProtocol) async throws -> APODEntry
+    ) async -> APODEntry? {
         latestRequestID += 1
         let requestID = latestRequestID
-        state = .loading
+
+        if !(keepingContent && isShowingEntry) {
+            state = .loading
+        }
 
         do {
             let entry = try await request(repository)
@@ -146,6 +153,13 @@ final class APODViewModel: ObservableObject {
             state = .failed(message)
             return nil
         }
+    }
+
+    private var isShowingEntry: Bool {
+        if case .loaded = state {
+            return true
+        }
+        return false
     }
 
     private func day(byAdding days: Int) -> Date? {

@@ -58,7 +58,12 @@ final class EPICViewModel: ObservableObject {
         }
     }
 
-    func search() async {
+    /// Pull to refresh: the current results stay on screen until the new response arrives.
+    func refresh() async {
+        await search(keepingContent: true)
+    }
+
+    func search(keepingContent: Bool = false) async {
         guard !isSearching else {
             return
         }
@@ -66,6 +71,9 @@ final class EPICViewModel: ObservableObject {
         debounceTask?.cancel()
         isSearching = true
         defer { isSearching = false }
+
+        // Only the first pass repeats the date on screen; later passes follow a new date.
+        var keepsContent = keepingContent
 
         // The date can change while a request is in flight, so keep going until the result matches it.
         repeat {
@@ -75,7 +83,11 @@ final class EPICViewModel: ObservableObject {
 
             let day = Calendar.current.startOfDay(for: selectedDate)
             requestedDay = day
-            state = .loading
+
+            if !(keepsContent && isShowingEntries) {
+                state = .loading
+            }
+            keepsContent = false
 
             do {
                 state = .loaded(try await repository.fetchEntries(for: selectedDate))
@@ -83,6 +95,13 @@ final class EPICViewModel: ObservableObject {
                 state = .failed(Self.message(for: error))
             }
         } while Calendar.current.startOfDay(for: selectedDate) != requestedDay
+    }
+
+    private var isShowingEntries: Bool {
+        if case .loaded = state {
+            return true
+        }
+        return false
     }
 
     private func scheduleSearchForSelectedDate() {
