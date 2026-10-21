@@ -21,6 +21,7 @@ nonisolated struct EPICEntry: Identifiable {
     let latitude: Double
     let longitude: Double
     let imageURL: URL?
+    let thumbnailURL: URL?
 
     var displayDate: String {
         EPICEntry.displayFormatter.string(from: date)
@@ -54,7 +55,7 @@ nonisolated extension EPICEntry {
     init(dto: EPICEntryDTO) {
         let parsedDate = EPICEntry.apiFormatter.date(from: dto.date) ?? .now
         let imagePath = EPICEntry.imagePathFormatter.string(from: parsedDate)
-        let imageURLString = "https://epic.gsfc.nasa.gov/archive/natural/\(imagePath)/png/\(dto.image).png?api_key=\(NASAEnvironment.apiKey)"
+        let archivePath = "https://epic.gsfc.nasa.gov/archive/natural/\(imagePath)"
 
         self.id = dto.identifier
         self.title = "EPIC - \(dto.identifier)"
@@ -62,7 +63,8 @@ nonisolated extension EPICEntry {
         self.date = parsedDate
         self.latitude = dto.centroidCoordinates.lat
         self.longitude = dto.centroidCoordinates.lon
-        self.imageURL = URL(string: imageURLString)
+        self.imageURL = URL(string: "\(archivePath)/png/\(dto.image).png")
+        self.thumbnailURL = URL(string: "\(archivePath)/thumbs/\(dto.image).jpg")
     }
 
     init(favoriteItem: FavoriteItem) {
@@ -73,6 +75,7 @@ nonisolated extension EPICEntry {
         self.latitude = 0
         self.longitude = 0
         self.imageURL = favoriteItem.mediaURL
+        self.thumbnailURL = nil
     }
 
     private static let apiFormatter: DateFormatter = {

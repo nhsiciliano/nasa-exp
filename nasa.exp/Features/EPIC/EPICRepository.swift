@@ -2,6 +2,7 @@ import Foundation
 
 nonisolated protocol EPICRepositoryProtocol {
     func fetchEntries(for date: Date) async throws -> [EPICEntry]
+    func fetchLatest() async throws -> [EPICEntry]
 }
 
 nonisolated struct EPICRepository: EPICRepositoryProtocol {
@@ -21,6 +22,12 @@ nonisolated struct EPICRepository: EPICRepositoryProtocol {
             return []
         }
 
+        return entries.map(EPICEntry.init(dto:))
+    }
+
+    /// The unfiltered endpoint returns the entries of the most recent day with imagery.
+    func fetchLatest() async throws -> [EPICEntry] {
+        let entries = try await client.fetch([EPICEntryDTO].self, endpoint: .epicLatest)
         return entries.map(EPICEntry.init(dto:))
     }
 

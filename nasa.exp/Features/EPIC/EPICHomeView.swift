@@ -129,7 +129,7 @@ private struct EPICCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: AppSpacing.small) {
-            AsyncImage(url: entry.imageURL) { phase in
+            AsyncImage(url: entry.thumbnailURL ?? entry.imageURL) { phase in
                 switch phase {
                 case let .success(image):
                     image

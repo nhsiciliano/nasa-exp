@@ -253,6 +253,10 @@ private struct MockEPICRepository: EPICRepositoryProtocol {
     func fetchEntries(for date: Date) async throws -> [EPICEntry] {
         try result.get()
     }
+
+    func fetchLatest() async throws -> [EPICEntry] {
+        try result.get()
+    }
 }
 
 private enum MockError: LocalizedError {

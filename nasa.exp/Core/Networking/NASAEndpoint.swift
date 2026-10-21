@@ -3,6 +3,7 @@ import Foundation
 nonisolated enum NASAEndpoint {
     case apod(date: String?)
     case epicNatural(date: String)
+    case epicLatest
 
     var path: String {
         switch self {
@@ -10,6 +11,8 @@ nonisolated enum NASAEndpoint {
             return "/planetary/apod"
         case let .epicNatural(date):
             return "/EPIC/api/natural/date/\(date)"
+        case .epicLatest:
+            return "/EPIC/api/natural"
         }
     }
 
@@ -22,7 +25,7 @@ nonisolated enum NASAEndpoint {
                 items.append(URLQueryItem(name: "date", value: date))
             }
 
-        case .epicNatural:
+        case .epicNatural, .epicLatest:
             break
         }
 
