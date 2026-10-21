@@ -1,0 +1,54 @@
+{
+  "sourceLanguage" : "es",
+  "strings" : {
+    "Foto astronómica del día" : {
+      "comment" : "Widget name in the widget gallery, and title while the widget is loading.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Astronomy Picture of the Day"
+          }
+        }
+      }
+    },
+    "La imagen de APOD de hoy, actualizada cada día." : {
+      "comment" : "Widget description in the widget gallery.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today's APOD image, updated every day."
+          }
+        }
+      }
+    },
+    "Lo intentamos de nuevo en un rato." : {
+      "comment" : "Widget failure state, below the error title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll try again in a while."
+          }
+        }
+      }
+    },
+    "No pudimos cargar la foto del día" : {
+      "comment" : "Widget failure state title, when today's APOD could not be loaded.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't load today's picture"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

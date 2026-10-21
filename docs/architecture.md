@@ -114,6 +114,36 @@ nasa.exp/
       FavoritesViewModel.swift
 ```
 
+### Widget de APOD (`nasa.expWidget`)
+
+- Extensión de WidgetKit embebida en la app (`den-mobile.nasa-exp.widget`), tamaños small y medium, solo
+  iPhone. Su Info.plist es `Config/WidgetInfo.plist`.
+- No tiene red propia: compila los archivos de la app que lista el exception set de la carpeta `nasa.exp`
+  en `project.pbxproj` (`Exceptions for "nasa.exp" folder in "nasa.expWidget" target`): `AppTab`, el design
+  system, `NASAClient` y sus tipos, `HTMLText`, la fuente de APOD (`APODRepository`, `APODSource`, `APODDay`,
+  `APODFeedParser`, `APODArchivePostDTO`, `APODHTMLExtractor`, `APODFeedCache`, `APODModels`) y
+  `ImageDownsampler`, `APODPublicationSchedule` y `APODWidgetContent`. Si uno de esos archivos empieza a usar
+  otro tipo de la app, hay que sumarlo al exception set o el target del widget deja de compilar.
+- Sin API key: APOD sale de `science.nasa.gov`, así que el widget no lleva `NASA_API_KEY` en su plist ni la
+  fase "Validate NASA API Key".
+- Timeline: una entrada por día. `APODWidgetContentLoader` pide `fetchToday()`, baja la copia de pantalla
+  de la imagen (`w=1280`, nunca `hdURL` ni el link del artículo) y la decodifica con `ImageDownsampler`
+  (ImageIO) directo al tamaño del widget. Los videos muestran título y un ícono de play. El próximo
+  refresh es a las 00:15 de New York del día siguiente (`APODPublicationSchedule`); si la carga falla o
+  la entrada todavía es la del día anterior, reintenta en una hora.
+- Tocar el widget abre `nasaexp://apod`.
+- Textos: catálogo propio `nasa.expWidget/Localizable.xcstrings` (español fuente, inglés traducido). El
+  target tiene `SWIFT_EMIT_LOC_STRINGS = NO` para que Xcode no copie a ese catálogo los textos de los
+  archivos compartidos, que el widget no muestra; las claves nuevas se agregan a mano
+  (`extractionState: manual`).
+
+### Deep links
+
+- Esquema `nasaexp` registrado en `Config/Info.plist`: `nasaexp://<tab>` con los mismos nombres que
+  `-initialTab` (`apod`, `rovers`, `epic`, `favorites`). `AppTab(url:)` lo parsea con
+  `AppTab(launchArgument:)` y `AppRootView` cambia de pestaña en `onOpenURL`.
+- Prueba manual: `xcrun simctl openurl "iPhone 17" nasaexp://apod`.
+
 ## 4) Integracion con API NASA
 
 ### Endpoints en uso
