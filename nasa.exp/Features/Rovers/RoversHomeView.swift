@@ -207,6 +207,7 @@ struct RoversHomeView: View {
                                 RoverPhotoCard(photo: photo)
                             }
                             .buttonStyle(.plain)
+                            .accessibilityIdentifier("rovers.photoCard")
                             .onAppear {
                                 guard photo.id == feed.photos.last?.id else {
                                     return
@@ -238,6 +239,7 @@ struct RoversHomeView: View {
                     ActionCapsule(title: "Reintentar", systemImage: "arrow.clockwise")
                 }
                 .accessibilityHint("Vuelve a consultar la galería del rover")
+                .accessibilityIdentifier("rovers.retry")
             }
         }
     }

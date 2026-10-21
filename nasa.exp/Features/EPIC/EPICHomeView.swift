@@ -99,6 +99,7 @@ struct EPICHomeView: View {
                             EPICCard(entry: entry)
                         }
                         .buttonStyle(.plain)
+                        .accessibilityIdentifier("epic.card")
                     }
                 }
             }
@@ -119,6 +120,7 @@ struct EPICHomeView: View {
                     ActionCapsule(title: "Reintentar", systemImage: "arrow.clockwise")
                 }
                 .accessibilityHint("Vuelve a consultar el archivo EPIC")
+                .accessibilityIdentifier("epic.retry")
             }
         }
     }

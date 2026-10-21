@@ -59,6 +59,14 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 - `test_shareText_includesTitleDateAndCleanedCopyright`
 - `test_shareText_whenCopyrightIsMissing_creditsNASA`
 
+### `NASAExpSmokeUITests` (target `nasa.expUITests`, XCUITest)
+
+- `test_eachTab_opensItsScreen`
+- `test_roversTab_opensPhotoDetail`
+- `test_epicTab_opensImageDetail`
+
+Corren contra los feeds reales con el idioma fijado en español (`-AppleLanguages (es)`). Si un feed muestra su estado de error (por ejemplo el 429 de `DEMO_KEY`), el test de detalle se marca como skipped en vez de fallar. Para correr solo los unit tests, que son más rápidos: `-only-testing:nasa.expTests`.
+
 ## Fixtures
 
 Respuestas reales recortadas, utiles para tests y para documentar el contrato de cada feed:
