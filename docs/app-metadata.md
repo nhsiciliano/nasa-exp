@@ -54,7 +54,7 @@ NASA Exp is not an official NASA app and is not affiliated with or endorsed by N
 
 ## Review Notes
 
-- Uses NASA public APIs (api.nasa.gov for APOD and EPIC, mars.nasa.gov raw image feeds for rovers)
+- Uses NASA public services (science.nasa.gov for APOD, api.nasa.gov for EPIC, mars.nasa.gov raw image feeds for rovers)
 - Not an official NASA app. The disclaimer is in the App Store description (last paragraph) and in the app under Favorites > info button (About screen, with version, sources and links)
 - The app icon is original artwork (dark orbital disc, cyan ring, amber flare); it does not use the NASA "meatball" or "worm" logos, so no NASA branding permission is needed
 - Favorites are stored locally on device
