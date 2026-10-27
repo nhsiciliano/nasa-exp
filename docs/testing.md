@@ -213,6 +213,19 @@ Resultado del 2026-10-21 (Xcode 27.1, SDK iphoneos27.1), `** ARCHIVE SUCCEEDED *
 - `UserDefaults` solo se usa para `-initialTab` dentro de `#if DEBUG` y no aparece en el binario Release, así que el manifiesto no necesita declararlo.
 - Tamaño: `.app` 1,5 MB (binario 1,0 MB, `Assets.car` 436 KB); el `.xcarchive` completo con dSYM, 7,5 MB.
 
+## Ciclo de cambios y TestFlight
+
+El bundle de producción es `den-mobile.nasaexp` (widget `den-mobile.nasaexp.widget`). Los cambios se hacen en una rama de trabajo (`nhsiciliano/lead-dev`) y se llevan a `main` cuando la suite está verde. Para cada build que se sube a TestFlight:
+
+1. Suite completa verde en la rama (comando en "Test (full suite)").
+2. Subir `CURRENT_PROJECT_VERSION` en `Config/Base.xcconfig`. Es el único lugar: todos los targets lo heredan, así que la app y el widget quedan con el mismo número. App Store Connect rechaza un número de build ya usado para la misma `MARKETING_VERSION`.
+3. Commit, por ejemplo `Build 2`.
+4. En Xcode, destino "Any iOS Device (arm64)" → Product → Archive → Distribute App → App Store Connect → Upload. Con "Automatically manage signing" Xcode firma la app y el widget con los perfiles de distribución.
+5. Esperar el mail de "build is ready" (10 a 30 minutos). Si el grupo interno de TestFlight tiene distribución automática, los testers reciben el build sin más pasos; si no, asignarlo en TestFlight → grupo → Builds.
+6. "What to Test": resumen de los cambios, con la checklist de `docs/qa-checklist.md` como guía.
+
+`MARKETING_VERSION` recién cambia (1.1, 1.2, …) cuando se publica una versión nueva en el App Store; mientras tanto solo sube el número de build.
+
 ## Pendientes
 
 Ver `docs/production-plan.md`, items P1.12 (smoke test de UI) e I.4 (tests de errores 429/403, migracion de favoritos y formateadores por locale).
