@@ -104,7 +104,8 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 
 ## Estado de ramas (2026-10-21)
 
-- `main` = `nhsiciliano/planner` = `72ad6b1`: olas 1, 2 y 3 integradas. Suite completa verde (100 unit tests, 5 UI tests). Sin push.
+- `main` = `nhsiciliano/planner`: olas 1, 2 y 3 integradas. Suite completa verde (112 unit tests, 5 UI tests). Sin push.
+- 2026-10-27: bundle IDs renombrados a `den-mobile.nasaexp` y `den-mobile.nasaexp.widget` (ver Notas de integración). Los UI tests de Favoritos ya no dependen de favoritos guardados en el simulador.
 - Ola 3 entregada e integrada la tarde del 2026-10-21 (low-dev P1.10, P1.14, P1.15; mid-dev P1.16, P1.17; high-dev P2.9). Las tres sesiones quedaron sin tareas.
 - Archive de Release generado desde `72ad6b1` con `-allowProvisioningUpdates`: ARCHIVE SUCCEEDED, app y widget firmados con el equipo `C9SN4BNWU9`, versión 1.0 (1). Queda I.5 (subir a TestFlight desde el Organizer).
 

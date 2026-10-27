@@ -27,7 +27,8 @@ final class NASAExpSmokeUITests: XCTestCase {
         XCTAssertTrue(element("Seleccionar fecha EPIC").waitForExistence(timeout: 10), "EPIC date picker missing")
 
         openTab("Favoritos")
-        XCTAssertTrue(element("Filtrar favoritos por tipo").waitForExistence(timeout: 10), "Favorites filter missing")
+        // The type filter only appears once something is saved; the About button is on both states.
+        XCTAssertTrue(element("Acerca de NASA Exp").waitForExistence(timeout: 10), "Favorites screen missing")
     }
 
     func test_roversTab_opensPhotoDetail() throws {

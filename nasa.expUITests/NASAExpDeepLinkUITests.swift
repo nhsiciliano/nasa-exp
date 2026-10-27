@@ -18,7 +18,7 @@ final class NASAExpDeepLinkUITests: XCTestCase {
         XCTAssertTrue(element("Seleccionar rover").waitForExistence(timeout: 10), "App did not start on Rovers")
 
         app.open(try XCTUnwrap(URL(string: "nasaexp://favorites")))
-        XCTAssertTrue(element("Filtrar favoritos por tipo").waitForExistence(timeout: 10), "nasaexp://favorites did not open Favorites")
+        XCTAssertTrue(element("Acerca de NASA Exp").waitForExistence(timeout: 10), "nasaexp://favorites did not open Favorites")
 
         app.open(try XCTUnwrap(URL(string: "nasaexp://apod")))
         XCTAssertTrue(element("Fecha aleatoria").waitForExistence(timeout: 10), "nasaexp://apod did not open APOD")
