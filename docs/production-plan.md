@@ -113,7 +113,7 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 - `FavoriteItemDetailView.swift` era código muerto (Favoritos navega a los detalles nativos, que ya tienen "Quitar de favoritos"). Borrado el 2026-10-21.
 - El detalle APOD reconstruido desde un favorito muestra la imagen estándar, no HD. Agregar la columna `hdurl` cuando entre P1.2.
 - Widget: los días de video muestran título e ícono sin el póster. Follow-up chico, sin asignar.
-- TestFlight: el archive firma `den-mobile.nasa-exp` y `den-mobile.nasa-exp.widget`; hace falta `-allowProvisioningUpdates` o un perfil para el widget. El primer intento con provisioning automático puede fallar mientras se crea el perfil del widget; el segundo pasa.
+- TestFlight: el archive firma `den-mobile.nasaexp` y `den-mobile.nasaexp.widget` (los IDs originales `den-mobile.nasa-exp*` quedaron bloqueados en App Store Connect al borrar el registro de la app el 2026-10-27); hace falta `-allowProvisioningUpdates` o un perfil para el widget. El primer intento con provisioning automático puede fallar mientras se crea el perfil del widget; el segundo pasa.
 
 ## Decisiones tomadas
 

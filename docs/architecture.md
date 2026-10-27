@@ -116,7 +116,7 @@ nasa.exp/
 
 ### Widget de APOD (`nasa.expWidget`)
 
-- Extensión de WidgetKit embebida en la app (`den-mobile.nasa-exp.widget`), tamaños small y medium, solo
+- Extensión de WidgetKit embebida en la app (`den-mobile.nasaexp.widget`), tamaños small y medium, solo
   iPhone. Su Info.plist es `Config/WidgetInfo.plist`.
 - No tiene red propia: compila los archivos de la app que lista el exception set de la carpeta `nasa.exp`
   en `project.pbxproj` (`Exceptions for "nasa.exp" folder in "nasa.expWidget" target`): `AppTab`, el design

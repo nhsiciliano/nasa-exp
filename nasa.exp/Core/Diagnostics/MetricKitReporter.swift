@@ -12,7 +12,7 @@ nonisolated final class MetricKitReporter: NSObject, MXMetricManagerSubscriber, 
     }
 
     private let directoryURL: URL
-    private let logger = Logger(subsystem: "den-mobile.nasa-exp", category: "MetricKit")
+    private let logger = Logger(subsystem: "den-mobile.nasaexp", category: "MetricKit")
 
     init(directoryURL: URL = MetricKitReporter.defaultDirectoryURL) {
         self.directoryURL = directoryURL

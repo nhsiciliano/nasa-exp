@@ -103,7 +103,7 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 Debug builds accept `-initialTab apod|rovers|epic|favorites` as a launch argument:
 
 ```bash
-xcrun simctl launch "iPhone 17" den-mobile.nasa-exp -initialTab rovers
+xcrun simctl launch "iPhone 17" den-mobile.nasaexp -initialTab rovers
 ```
 
 Single-test notes:

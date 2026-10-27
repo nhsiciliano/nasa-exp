@@ -162,7 +162,7 @@ Respuestas reales recortadas, utiles para tests y para documentar el contrato de
 Los builds Debug aceptan `-initialTab` para abrir una pestaña directamente:
 
 ```bash
-xcrun simctl launch "iPhone 17" den-mobile.nasa-exp -initialTab rovers
+xcrun simctl launch "iPhone 17" den-mobile.nasaexp -initialTab rovers
 xcrun simctl io "iPhone 17" screenshot rovers.png
 ```
 
