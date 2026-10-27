@@ -39,11 +39,11 @@ NASA Exp is not an official NASA app and is not affiliated with or endorsed by N
 
 ### Icon direction
 
-- dark orbital disc
-- cyan energy ring
-- white signal cross at center
-- warm amber star flare
-- should read clearly at small sizes and still feel premium at 1024x1024
+- Orbit design (chosen 2026-10-27 among three candidates, see `docs/design/icon-candidates/`)
+- thick tilted cyan orbital stroke with an open end
+- warm amber luminous body at the upper-right end of the orbit
+- deep navy background (#070D1F); dark and tinted variants share the same alpha mask
+- reads clearly at 60 pt and still feels premium at 1024x1024
 
 ### Launch screen direction
 
@@ -56,7 +56,7 @@ NASA Exp is not an official NASA app and is not affiliated with or endorsed by N
 
 - Uses NASA public services (science.nasa.gov for APOD, api.nasa.gov for EPIC, mars.nasa.gov raw image feeds for rovers)
 - Not an official NASA app. The disclaimer is in the App Store description (last paragraph) and in the app under Favorites > info button (About screen, with version, sources and links)
-- The app icon is original artwork (dark orbital disc, cyan ring, amber flare); it does not use the NASA "meatball" or "worm" logos, so no NASA branding permission is needed
+- The app icon is original artwork (cyan orbital stroke with an amber body); it does not use the NASA "meatball" or "worm" logos, so no NASA branding permission is needed
 - Favorites are stored locally on device
 - No account required
 - No user-generated content
