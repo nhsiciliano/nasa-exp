@@ -47,6 +47,12 @@ nonisolated struct APODTimelineProvider: TimelineProvider {
 
 nonisolated extension APODWidgetContent {
     static var placeholder: APODWidgetContent {
-        APODWidgetContent(title: String(localized: "Foto astronómica del día"), displayDate: "APOD", media: .openInApp)
+        APODWidgetContent(
+            title: String(localized: "Foto astronómica del día"),
+            displayDate: "APOD",
+            credit: "NASA",
+            isVideo: false,
+            media: .openInApp
+        )
     }
 }

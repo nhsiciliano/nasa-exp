@@ -5,13 +5,17 @@ import UIKit
 /// What the APOD widget shows for today's entry.
 nonisolated struct APODWidgetContent {
     enum Media {
+        /// The picture, or the poster frame on video days.
         case image(UIImage)
-        /// Videos and interactive entries: the widget shows the title and invites to open the app.
+        /// Entries without a still: the widget shows the title and invites to open the app.
         case openInApp
     }
 
     let title: String
     let displayDate: String
+    /// Always shown: on video days the poster is often a third-party frame.
+    let credit: String
+    let isVideo: Bool
     let media: Media
 }
 
@@ -60,18 +64,23 @@ nonisolated struct APODWidgetContentLoader {
 
     private func content(for entry: APODEntry, imagePixelSize: CGSize) async throws -> APODWidgetContent {
         let media: APODWidgetContent.Media
-        switch entry.media {
-        case let .image(imageURL, _):
-            // The screen-sized copy; `hdURL` is the full original, which can weigh several MB.
-            let data = try await loadData(imageURL)
+        // The screen-sized copy or poster; `hdURL` is the full original, which can weigh several MB.
+        if let stillURL = entry.stillImageURL {
+            let data = try await loadData(stillURL)
             guard let image = ImageDownsampler.downsample(data, filling: imagePixelSize) else {
                 throw APODWidgetError.undecodableImage
             }
             media = .image(UIImage(cgImage: image))
-        case .video, .unsupported:
+        } else {
             media = .openInApp
         }
 
-        return APODWidgetContent(title: entry.title, displayDate: entry.displayDate, media: media)
+        return APODWidgetContent(
+            title: entry.title,
+            displayDate: entry.displayDate,
+            credit: entry.shareCredit,
+            isVideo: entry.isVideo,
+            media: media
+        )
     }
 }

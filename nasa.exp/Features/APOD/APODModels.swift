@@ -55,6 +55,37 @@ nonisolated struct APODEntry: Identifiable {
         self.thumbnailURL = thumbnailURL
     }
 
+    var isVideo: Bool {
+        if case .video = media {
+            return true
+        }
+        return false
+    }
+
+    /// The still that stands for the entry when it is shared, saved or shown in the widget: the
+    /// screen-sized image, or the poster frame of a video. For videos the thumbnail is the reduced
+    /// poster, so it is resized back to screen width (a no-op for posters outside the APOD CDN).
+    var stillImageURL: URL? {
+        switch media {
+        case let .image(url, _):
+            return url
+        case .video:
+            return thumbnailURL.map { APODImageURL.resized($0, width: APODEntry.screenImageWidth) }
+        case .unsupported:
+            return nil
+        }
+    }
+
+    /// The credit line on one line, or "NASA" when the entry has none. Shown wherever the
+    /// picture travels without the app around it: shares, saved copies and the widget.
+    var shareCredit: String {
+        let credit = (copyright ?? "")
+            .split(whereSeparator: \.isWhitespace)
+            .joined(separator: " ")
+
+        return credit.isEmpty ? "NASA" : credit
+    }
+
     var displayDate: String {
         APODEntry.displayFormatter.string(from: date)
     }

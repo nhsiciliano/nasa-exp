@@ -70,7 +70,7 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | P2.6 | Rovers: pantalla completa con zoom para la foto | 🟡 Medio | Hecho | 1.0 |
 | P2.7 | Favoritos: filtro por tipo | 🟢 Bajo | Hecho | 1.0 |
 | P2.8 | Guardar imagen en Fotos con crédito (permiso `NSPhotoLibraryAddUsageDescription`) | 🟡 Medio | Hecho | 1.0 |
-| P2.9 | Widget de APOD (WidgetKit, timeline diaria) y deep links `nasaexp://` | 🔴 Alto | Hecho | Target `nasa.expWidget` (small y medium), refresh 00:15 New York, catálogo propio es/en, sin API key. Follow-up: póster en días de video. |
+| P2.9 | Widget de APOD (WidgetKit, timeline diaria) y deep links `nasaexp://` | 🔴 Alto | Hecho | Target `nasa.expWidget` (small y medium), refresh 00:15 New York, catálogo propio es/en, sin API key. Póster en días de video: R1.1. |
 | P2.10 | Visor embebido para APOD en video (YouTube/Vimeo vía WebView) | 🟡 Medio | Hecho | 1.0 (YouTube vía youtube-nocookie, Vimeo; fallback al enlace) |
 | P2.11 | Soporte iPad con layout adaptativo | 🔴 Alto | Pendiente | 1.1 |
 
@@ -80,7 +80,7 @@ Alcance confirmado a partir de `docs/feature-research.md` (ranking de high-dev, 
 
 | # | Tarea | Dificultad | Estado | Notas |
 |---|---|---|---|---|
-| R1.1 | Póster en días de video: compartir y guardar usan el póster con título y crédito, y el widget APOD muestra el póster en vez del degradado | 🟢 Bajo | Pendiente | Cierra el follow-up de P2.9. El póster ya llega del RSS/WordPress y se guarda como thumbnail en favoritos. Crédito siempre visible. |
+| R1.1 | Póster en días de video: compartir y guardar usan el póster con título y crédito, y el widget APOD muestra el póster en vez del degradado | 🟢 Bajo | Hecho | `APODEntry.stillImageURL` (poster a `w=1280` desde el thumbnail). El JPEG compartido lleva título y crédito embebidos (`PhotoLibrarySaver.jpegData`) y en video el mensaje suma el link del artículo. El widget muestra el poster con ícono de play y el crédito siempre visible. |
 | R1.2 | Widgets de Rovers y EPIC (small y medium) con deep link a su pestaña | 🟡 Medio | Pendiente | Reusa `ImageDownsampler`, timeline y deep links de P2.9. EPIC desde `epic.gsfc.nasa.gov` (sin key, el widget no debe recibir `NASA_API_KEY`). Rovers con `num=1` y tolerancia al timeout del feed. Refresco cada pocas horas. Tests del loader de cada fuente. |
 | R1.3 | Notificación diaria del APOD, opt-in desde Acerca de, a la hora local elegida, que abre `nasaexp://apod` | 🟡 Medio | Pendiente | Notificación local genérica como base, más `BGAppRefreshTask` que la reemplaza con el título real cuando iOS lo permite. Reusa `APODPublicationSchedule`. Permiso contextual (guideline 4.5.4). Tests del contenido y de la reprogramación. |
 

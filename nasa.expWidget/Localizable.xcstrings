@@ -1,6 +1,18 @@
 {
   "sourceLanguage" : "es",
   "strings" : {
+    "Crédito: %@" : {
+      "comment" : "Credit line of today's picture, always shown at the bottom of the widget.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Credit: %@"
+          }
+        }
+      }
+    },
     "Foto astronómica del día" : {
       "comment" : "Widget name in the widget gallery, and title while the widget is loading.",
       "extractionState" : "manual",

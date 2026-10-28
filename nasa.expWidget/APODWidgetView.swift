@@ -27,7 +27,7 @@ struct APODWidgetView: View {
 
             Spacer(minLength: 0)
 
-            if case .openInApp = content.media {
+            if content.isVideo {
                 Image(systemName: "play.rectangle.fill")
                     .font(.title2)
                     .foregroundStyle(AppColors.accent)
@@ -41,6 +41,11 @@ struct APODWidgetView: View {
 
             Text(content.displayDate)
                 .font(AppTypography.caption)
+                .foregroundStyle(AppColors.textSecondary)
+                .lineLimit(1)
+
+            Text("Crédito: \(content.credit)")
+                .font(AppTypography.micro)
                 .foregroundStyle(AppColors.textSecondary)
                 .lineLimit(1)
         }

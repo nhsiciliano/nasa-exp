@@ -51,7 +51,7 @@ struct APODDetailView: View {
                         accessibilityLabel: String(localized: "Compartir APOD")
                     )
 
-                    if let photoSaveItem {
+                    if let photoSaveItem = entry.photoSaveItem {
                         SaveToPhotosButton(item: photoSaveItem)
                     }
 
@@ -79,14 +79,6 @@ struct APODDetailView: View {
         .fullScreenCover(isPresented: $showsFullscreenImage) {
             fullscreenImageView
         }
-    }
-
-    private var photoSaveItem: PhotoSaveItem? {
-        guard case let .image(url, hdURL) = entry.media else {
-            return nil
-        }
-
-        return PhotoSaveItem(imageURL: hdURL ?? url, title: entry.title, caption: entry.shareText, credit: entry.shareCredit)
     }
 
     @ViewBuilder

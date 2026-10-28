@@ -128,7 +128,9 @@ nasa.exp/
   fase "Validate NASA API Key".
 - Timeline: una entrada por día. `APODWidgetContentLoader` pide `fetchToday()`, baja la copia de pantalla
   de la imagen (`w=1280`, nunca `hdURL` ni el link del artículo) y la decodifica con `ImageDownsampler`
-  (ImageIO) directo al tamaño del widget. Los videos muestran título y un ícono de play. El próximo
+  (ImageIO) directo al tamaño del widget. En días de video usa el poster de la misma forma
+  (`stillImageURL`) con un ícono de play; solo un video sin poster queda en el degradado. El crédito
+  (`shareCredit`, "NASA" si no hay) se ve siempre debajo de la fecha. El próximo
   refresh es a las 00:15 de New York del día siguiente (`APODPublicationSchedule`); si la carga falla o
   la entrada todavía es la del día anterior, reintenta en una hora.
 - Tocar el widget abre `nasaexp://apod`.
@@ -181,6 +183,12 @@ nasa.exp/
   es video si su HTML (`content:encoded` en el RSS, `content.rendered` en la WP) tiene un `<iframe>`;
   se mapea a `.video(url)` con la URL https del embed. Los `.mp4` enlazados en la explicación no
   cuentan como video. El poster se usa como thumbnail.
+- Compartir y guardar (R1.1): `APODEntry.stillImageURL` es la imagen de pantalla o, en días de video,
+  el poster a `w=1280` (sale del thumbnail; los posters fuera del CDN quedan como vienen). Compartir
+  manda ese JPEG con título, caption y crédito embebidos con `PhotoLibrarySaver.jpegData` (los mismos
+  metadatos IPTC/TIFF que la copia en Fotos), y el mensaje `shareMessage`, que en video suma el link
+  del artículo. Guardar en Fotos usa el original de la imagen o el poster. Un video sin poster
+  comparte solo el link y no ofrece guardar.
 - Imágenes: `assets.science.nasa.gov` redimensiona con `?w=&fit=clip` sin agrandar. En pantalla se usa
   `w=1280`, en pantalla completa el original sin query y en listas `w=480`. Las imágenes de archivo
   bajo `content/dam` ignoran el query y sirven el original. Si un post no tiene imagen destacada,

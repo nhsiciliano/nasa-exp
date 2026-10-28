@@ -124,7 +124,46 @@ final class NASAExpWidgetTests: XCTestCase {
         XCTAssertEqual(requestedURLs, [APODImageURL.resized(Self.originalImageURL, width: APODEntry.screenImageWidth)])
     }
 
-    func test_widgetLoader_withVideoEntry_opensInAppWithoutDownloading() async throws {
+    func test_widgetLoader_withVideoEntry_showsScreenWidthPosterAndCredit() async throws {
+        let entry = makeEntry(
+            media: .video(try XCTUnwrap(URL(string: "https://www.youtube.com/embed/launch"))),
+            copyright: "Jane Doe",
+            thumbnailURL: APODImageURL.resized(Self.originalImageURL, width: APODEntry.thumbnailWidth)
+        )
+        let imageData = try makePNGData(width: 600, height: 400)
+        let requests = RequestLog()
+        let loader = APODWidgetContentLoader(repository: StubAPODRepository(result: .success(entry))) { url in
+            await requests.record(url)
+            return imageData
+        }
+
+        let update = await loader.load(now: try utcDate("2026-10-21T19:00:00Z"), imagePixelSize: CGSize(width: 200, height: 100))
+
+        let content = try XCTUnwrap(update.content)
+        guard case let .image(image) = content.media else {
+            return XCTFail("Expected the poster")
+        }
+        XCTAssertEqual(image.cgImage?.width, 200)
+        XCTAssertTrue(content.isVideo)
+        XCTAssertEqual(content.credit, "Jane Doe")
+        // The poster at screen width, not the 480 px list thumbnail.
+        let requestedURLs = await requests.urls
+        XCTAssertEqual(requestedURLs, [Self.screenImageURL])
+    }
+
+    func test_widgetLoader_withImageEntryWithoutCredit_creditsNASA() async throws {
+        let entry = makeEntry(media: .image(url: Self.screenImageURL, hdURL: nil))
+        let imageData = try makePNGData(width: 600, height: 400)
+        let loader = APODWidgetContentLoader(repository: StubAPODRepository(result: .success(entry))) { _ in imageData }
+
+        let update = await loader.load(now: try utcDate("2026-10-21T19:00:00Z"), imagePixelSize: CGSize(width: 200, height: 100))
+
+        let content = try XCTUnwrap(update.content)
+        XCTAssertEqual(content.credit, "NASA")
+        XCTAssertFalse(content.isVideo)
+    }
+
+    func test_widgetLoader_withVideoEntryWithoutPoster_opensInAppWithoutDownloading() async throws {
         let entry = makeEntry(media: .video(try XCTUnwrap(URL(string: "https://www.youtube.com/embed/launch"))))
         let requests = RequestLog()
         let loader = APODWidgetContentLoader(repository: StubAPODRepository(result: .success(entry))) { url in
@@ -134,9 +173,11 @@ final class NASAExpWidgetTests: XCTestCase {
 
         let update = await loader.load(now: try utcDate("2026-10-21T19:00:00Z"), imagePixelSize: CGSize(width: 200, height: 100))
 
-        guard case .openInApp = try XCTUnwrap(update.content).media else {
+        let content = try XCTUnwrap(update.content)
+        guard case .openInApp = content.media else {
             return XCTFail("Expected openInApp media")
         }
+        XCTAssertTrue(content.isVideo)
         let requestedURLs = await requests.urls
         XCTAssertTrue(requestedURLs.isEmpty)
     }
@@ -165,15 +206,16 @@ final class NASAExpWidgetTests: XCTestCase {
     private static let screenImageURL = URL(string: "https://assets.science.nasa.gov/content/dam/science/cds/apod/2026/10/nebula.jpg?w=1280&fit=clip")!
     private static let pageURL = URL(string: "https://science.nasa.gov/image-article/nebula/")!
 
-    private func makeEntry(media: APODEntry.Media) -> APODEntry {
+    private func makeEntry(media: APODEntry.Media, copyright: String? = nil, thumbnailURL: URL? = nil) -> APODEntry {
         APODEntry(
             id: "2026-10-21",
             title: "Nebula",
             explanation: "A bright nebula.",
             date: APODEntry.apiFormatter.date(from: "2026-10-21") ?? .now,
-            copyright: nil,
+            copyright: copyright,
             media: media,
-            shareURL: Self.pageURL
+            shareURL: Self.pageURL,
+            thumbnailURL: thumbnailURL
         )
     }
 

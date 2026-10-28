@@ -14,13 +14,17 @@ nonisolated struct APODShareImage: Transferable {
         .suggestedFileName { $0.fileName }
     }
 
+    /// Downloads the image (or the poster of a video) and embeds title, caption and credit,
+    /// the same metadata a copy saved to Photos carries.
     @concurrent
     static func make(for entry: APODEntry, from url: URL) async throws -> (shareImage: APODShareImage, preview: UIImage) {
         let image = try await RemoteImageLoader.loadImage(from: url)
-
-        guard let jpegData = image.jpegData(compressionQuality: 0.9) else {
-            throw RemoteImageError.undecodableImage
-        }
+        let jpegData = try PhotoLibrarySaver.jpegData(
+            from: image,
+            title: entry.title,
+            caption: entry.shareMessage,
+            credit: entry.shareCredit
+        )
 
         return (APODShareImage(jpegData: jpegData, fileName: "APOD-\(entry.id).jpg"), image)
     }
@@ -32,11 +36,24 @@ nonisolated extension APODEntry {
         String(localized: "\(title) · APOD \(displayDate) · Crédito: \(shareCredit)")
     }
 
-    var shareCredit: String {
-        let credit = (copyright ?? "")
-            .split(whereSeparator: \.isWhitespace)
-            .joined(separator: " ")
+    /// What goes with a shared or saved still. On video days the still is only the poster,
+    /// so the article link, where the video plays, goes along with the caption.
+    var shareMessage: String {
+        guard isVideo, let shareURL else {
+            return shareText
+        }
+        return "\(shareText)\n\(shareURL.absoluteString)"
+    }
 
-        return credit.isEmpty ? "NASA" : credit
+    /// The copy saved to Photos: the full original of an image, or the poster of a video.
+    var photoSaveItem: PhotoSaveItem? {
+        let imageURL: URL?
+        if case let .image(url, hdURL) = media {
+            imageURL = hdURL ?? url
+        } else {
+            imageURL = stillImageURL
+        }
+
+        return imageURL.map { PhotoSaveItem(imageURL: $0, title: title, caption: shareMessage, credit: shareCredit) }
     }
 }

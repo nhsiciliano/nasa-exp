@@ -1,8 +1,8 @@
 import SwiftUI
 import UIKit
 
-/// Shares the downloaded APOD image with its caption, falling back to the article link
-/// while the image downloads, when the download fails, or for videos.
+/// Shares the downloaded APOD image, or the poster on video days, with its caption, falling back
+/// to the article link while the image downloads, when the download fails, or without a still.
 struct APODShareButton: View {
     let entry: APODEntry
     let title: String
@@ -16,7 +16,7 @@ struct APODShareButton: View {
                 ShareLink(
                     item: preparedImage.shareImage,
                     subject: Text(entry.title),
-                    message: Text(entry.shareText),
+                    message: Text(entry.shareMessage),
                     preview: SharePreview(entry.title, image: Image(uiImage: preparedImage.preview))
                 ) {
                     label
@@ -38,7 +38,7 @@ struct APODShareButton: View {
     }
 
     private func prepareImage() async {
-        guard case let .image(imageURL, _) = entry.media else {
+        guard let imageURL = entry.stillImageURL else {
             preparedImage = nil
             return
         }

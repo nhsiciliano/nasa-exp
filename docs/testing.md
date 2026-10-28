@@ -70,6 +70,8 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 
 - `test_shareText_includesTitleDateAndCleanedCopyright`
 - `test_shareText_whenCopyrightIsMissing_creditsNASA`
+- `test_videoEntry_usesScreenWidthPosterForShareAndSave`, `test_videoEntry_shareMessageAddsArticleLinkToCaption`,
+  `test_videoEntryWithoutPoster_hasNothingToShareOrSave`, `test_imageEntry_sharesScreenImageAndSavesOriginal` (R1.1)
 
 ### `APODSourceTests` (APOD desde `science.nasa.gov`, fixtures reales + `URLProtocol` mock)
 
@@ -125,7 +127,9 @@ Fijan la salida en `es_ES` y `en_US` con zona UTC usando `displayDate(locale:tim
   `test_downsample_whenTargetIsLarger_keepsResolutionAndCropsAspect`, `test_downsample_whenDataIsNotAnImage_returnsNil`
 - `APODWidgetContentLoader`: `test_widgetLoader_withImageEntry_downsamplesScreenSizedImage`,
   `test_widgetLoader_withRecordFromSource_requestsScreenWidthCopyOfOriginal`,
-  `test_widgetLoader_withVideoEntry_opensInAppWithoutDownloading`,
+  `test_widgetLoader_withVideoEntry_showsScreenWidthPosterAndCredit`,
+  `test_widgetLoader_withImageEntryWithoutCredit_creditsNASA`,
+  `test_widgetLoader_withVideoEntryWithoutPoster_opensInAppWithoutDownloading`,
   `test_widgetLoader_whenFetchOrImageFails_returnsNoContentAndRetries`
 
 ### `NASAExpDeepLinkUITests` (target `nasa.expUITests`)
