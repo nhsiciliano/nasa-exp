@@ -114,12 +114,11 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 | mid-dev | P0.8, P2.1, P2.2, P2.6, I.2 | P1.8, P1.12, P2.8, P2.10, I.4 |
 | high-dev | P1.5, P2.7 | P0.9, luego P2.9 (P2.11 queda para después de 1.0). 2026-10-28: R1.1, R1.2, R1.3 en ese orden |
 
-## Estado de ramas (2026-10-21)
+## Estado de ramas (2026-10-28)
 
-- `main` = `nhsiciliano/planner`: olas 1, 2 y 3 integradas. Suite completa verde (112 unit tests, 5 UI tests). Sin push.
-- 2026-10-27: bundle IDs renombrados a `den-mobile.nasaexp` y `den-mobile.nasaexp.widget` (ver Notas de integración). Los UI tests de Favoritos ya no dependen de favoritos guardados en el simulador.
-- Ola 3 entregada e integrada la tarde del 2026-10-21 (low-dev P1.10, P1.14, P1.15; mid-dev P1.16, P1.17; high-dev P2.9). Las tres sesiones quedaron sin tareas.
-- Archive de Release generado desde `72ad6b1` con `-allowProvisioningUpdates`: ARCHIVE SUCCEEDED, app y widget firmados con el equipo `C9SN4BNWU9`, versión 1.0 (1). Queda I.5 (subir a TestFlight desde el Organizer).
+- `main` = `c635fc4`: 1.0 tal como se subió a TestFlight (build 1, bundle `den-mobile.nasa-exp`, luego bloqueado).
+- `nhsiciliano/lead-dev` (rama de trabajo): bundle IDs `den-mobile.nasaexp`, versión centralizada en `Config/Base.xcconfig` (build 2), ícono Órbita y launch screen, R1.1, R1.2 y R1.3 integradas. Suite completa verde (139 unit tests, 5 UI tests). Pendiente de prueba manual y de llevar a `main` cuando el usuario lo decida. Sin push.
+- Ramas de sesión: `nhsiciliano/High-Dev` (R1.1–R1.3, ya integradas), `nhsiciliano/Nasa-Exp-Image` (íconos, integrada). Las tres sesiones de desarrollo quedaron sin tareas.
 
 ## Notas de integración
 
