@@ -74,6 +74,7 @@
 				Core/Networking/NASAEndpoint.swift,
 				Core/Networking/NASARequestBuilder.swift,
 				Core/Text/HTMLText.swift,
+				Core/Widgets/PhotoWidgetUpdate.swift,
 				Features/APOD/APODArchivePostDTO.swift,
 				Features/APOD/APODDay.swift,
 				Features/APOD/APODFeedCache.swift,
@@ -84,6 +85,11 @@
 				Features/APOD/APODRepository.swift,
 				Features/APOD/APODSource.swift,
 				Features/APOD/APODWidgetContent.swift,
+				Features/EPIC/EPICModels.swift,
+				Features/EPIC/EPICWidgetContent.swift,
+				Features/Rovers/MarsRawImagesRequest.swift,
+				Features/Rovers/RoversModels.swift,
+				Features/Rovers/RoversWidgetContent.swift,
 			);
 			target = 8AF0C8A12F6A400100A1A1A1 /* nasa.expWidget */;
 		};

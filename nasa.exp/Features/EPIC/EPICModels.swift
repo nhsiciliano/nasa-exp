@@ -36,19 +36,19 @@ nonisolated struct EPICEntry: Identifiable {
         "Lat \(String(format: "%.2f", latitude)) | Lon \(String(format: "%.2f", longitude))"
     }
 
-    var favoriteDraft: FavoriteDraft {
-        FavoriteDraft(
-            contentType: .epic,
-            remoteID: id,
-            title: title,
-            subtitle: displayDate,
-            details: caption,
-            mediaURL: imageURL,
-            originalDate: date,
-            latitude: latitude,
-            longitude: longitude,
-            thumbnailURL: thumbnailURL
-        )
+    /// The 1080 px JPEG of the same frame. The archive keeps `png/` (2048 px, a few MB),
+    /// `jpg/` and `thumbs/` (120 px) side by side under the day's folder.
+    var jpegURL: URL? {
+        guard let imageURL, imageURL.pathExtension == "png" else {
+            return nil
+        }
+
+        return imageURL
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appending(path: "jpg")
+            .appending(path: imageURL.deletingPathExtension().lastPathComponent)
+            .appendingPathExtension("jpg")
     }
 
     private static let displayFormatter = makeDisplayFormatter(locale: .current, timeZone: .current)
@@ -77,17 +77,6 @@ nonisolated extension EPICEntry {
         self.longitude = dto.centroidCoordinates.lon
         self.imageURL = URL(string: "\(archivePath)/png/\(dto.image).png")
         self.thumbnailURL = URL(string: "\(archivePath)/thumbs/\(dto.image).jpg")
-    }
-
-    init(favoriteItem: FavoriteItem) {
-        self.id = favoriteItem.remoteID
-        self.title = favoriteItem.title
-        self.caption = favoriteItem.details
-        self.date = favoriteItem.originalDate ?? .now
-        self.latitude = favoriteItem.latitude ?? 0
-        self.longitude = favoriteItem.longitude ?? 0
-        self.imageURL = favoriteItem.mediaURL
-        self.thumbnailURL = favoriteItem.thumbnailURL
     }
 
     private static let apiFormatter: DateFormatter = {

@@ -132,6 +132,17 @@ Fijan la salida en `es_ES` y `en_US` con zona UTC usando `displayDate(locale:tim
   `test_widgetLoader_withVideoEntryWithoutPoster_opensInAppWithoutDownloading`,
   `test_widgetLoader_whenFetchOrImageFails_returnsNoContentAndRetries`
 
+### `PhotoWidgetLoaderTests` (loaders de los widgets de Rovers y EPIC, R1.2)
+
+Usan las respuestas reales de `docs/fixtures` y un servidor stub que registra cada URL pedida.
+
+- `test_roversLoader_requestsOnePhotoPerRoverAndShowsTheNewest` (`num=1` / `per_page=1`, gana la foto más reciente)
+- `test_roversLoader_whenOneFeedTimesOut_showsTheOtherRover` (y usa el `large` de 1200 px de Mars 2020)
+- `test_roversLoader_whenBothFeedsOrTheImageFail_returnsNoContentAndRetries`
+- `test_epicLoader_requestsKeylessFeedAndJPEGOfLatestImage` (sin `api.nasa.gov` ni `api_key`)
+- `test_epicLoader_whenFeedIsEmptyOrFails_returnsNoContentAndRetries`
+- `test_epicEntry_jpegURL_pointsToTheJPGFolderOfTheSameFrame`
+
 ### `NASAExpDeepLinkUITests` (target `nasa.expUITests`)
 
 - `test_openURL_selectsTabOfDeepLink`: arranca en Rovers y abre `nasaexp://favorites` y `nasaexp://apod`
@@ -158,6 +169,8 @@ Respuestas reales recortadas, utiles para tests y para documentar el contrato de
   `content:encoded` recortado al `<title>` y al `<iframe>`)
 - `docs/fixtures/apod-wp-sample.json` (WordPress: video de 2026, archivo de 2004 y 1995 con imagen destacada placeholder)
 - `docs/fixtures/epic-sample.json`
+- `docs/fixtures/epic-gsfc-natural-sample.json` (`epic.gsfc.nasa.gov/api/natural` del 2026-10-26: primera y
+  última imagen del día, sin los bloques de posiciones J2000)
 - `docs/fixtures/rovers-msl-sample.json` (Curiosity, `raw_image_items`)
 - `docs/fixtures/rovers-mars2020-sample.json` (Perseverance, `rss/api`)
 
@@ -176,8 +189,9 @@ Con la app instalada, los deep links del widget se prueban con `openurl` (en cua
 xcrun simctl openurl "iPhone 17" nasaexp://apod
 ```
 
-El widget se agrega desde la home del simulador: mantener presionado el fondo, "Editar" → "Agregar widget",
-buscar "NASA Exp" y elegir small o medium.
+Los widgets (APOD, Rovers y EPIC) se agregan desde la home del simulador: mantener presionado el fondo,
+"Editar" → "Agregar widget", buscar "NASA Exp" y elegir el widget y el tamaño. Con ui-automation es más
+fiable mantener presionado el ícono de NASA Exp, que ofrece los tamaños del widget directamente.
 
 ## CI
 

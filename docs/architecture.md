@@ -114,18 +114,27 @@ nasa.exp/
       FavoritesViewModel.swift
 ```
 
-### Widget de APOD (`nasa.expWidget`)
+### Widgets (`nasa.expWidget`)
 
-- Extensión de WidgetKit embebida en la app (`den-mobile.nasaexp.widget`), tamaños small y medium, solo
-  iPhone. Su Info.plist es `Config/WidgetInfo.plist`.
+- Extensión de WidgetKit embebida en la app (`den-mobile.nasaexp.widget`), solo iPhone. Su Info.plist es
+  `Config/WidgetInfo.plist`. `NASAExpWidgetBundle` (el `@main`) agrupa tres widgets, todos small y medium:
+  APOD (`APODWidget`), Rovers (`RoversWidget`) y EPIC (`EPICWidget`). Cada uno abre su pestaña
+  (`nasaexp://apod`, `nasaexp://rovers`, `nasaexp://epic`).
 - No tiene red propia: compila los archivos de la app que lista el exception set de la carpeta `nasa.exp`
   en `project.pbxproj` (`Exceptions for "nasa.exp" folder in "nasa.expWidget" target`): `AppTab`, el design
   system, `NASAClient` y sus tipos, `HTMLText`, la fuente de APOD (`APODRepository`, `APODSource`, `APODDay`,
-  `APODFeedParser`, `APODArchivePostDTO`, `APODHTMLExtractor`, `APODFeedCache`, `APODModels`) y
-  `ImageDownsampler`, `APODPublicationSchedule` y `APODWidgetContent`. Si uno de esos archivos empieza a usar
-  otro tipo de la app, hay que sumarlo al exception set o el target del widget deja de compilar.
-- Sin API key: APOD sale de `science.nasa.gov`, así que el widget no lleva `NASA_API_KEY` en su plist ni la
-  fase "Validate NASA API Key".
+  `APODFeedParser`, `APODArchivePostDTO`, `APODHTMLExtractor`, `APODFeedCache`, `APODModels`),
+  `ImageDownsampler`, `APODPublicationSchedule`, `APODWidgetContent`, los modelos de Rovers y EPIC
+  (`RoversModels`, `MarsRawImagesRequest`, `EPICModels`), sus loaders (`RoversWidgetContent`,
+  `EPICWidgetContent`) y `Core/Widgets/PhotoWidgetUpdate`. Si uno de esos archivos empieza a usar otro tipo
+  de la app, hay que sumarlo al exception set o el target del widget deja de compilar. Por eso el mapeo a
+  favoritos (SwiftData) vive aparte en `APODEntry+Favorite`, `RoverPhoto+Favorite` y `EPICEntry+Favorite`.
+- Sin API key: APOD sale de `science.nasa.gov`, Rovers de `mars.nasa.gov` y EPIC de
+  `epic.gsfc.nasa.gov/api/natural`, que sirve el mismo JSON que `api.nasa.gov/EPIC` sin key. El widget no
+  lleva `NASA_API_KEY` en su plist ni la fase "Validate NASA API Key".
+
+#### APOD
+
 - Timeline: una entrada por día. `APODWidgetContentLoader` pide `fetchToday()`, baja la copia de pantalla
   de la imagen (`w=1280`, nunca `hdURL` ni el link del artículo) y la decodifica con `ImageDownsampler`
   (ImageIO) directo al tamaño del widget. En días de video usa el poster de la misma forma
@@ -133,7 +142,27 @@ nasa.exp/
   (`shareCredit`, "NASA" si no hay) se ve siempre debajo de la fecha. El próximo
   refresh es a las 00:15 de New York del día siguiente (`APODPublicationSchedule`); si la carga falla o
   la entrada todavía es la del día anterior, reintenta en una hora.
-- Tocar el widget abre `nasaexp://apod`.
+
+#### Rovers y EPIC (R1.2)
+
+- Loaders en el target de la app (`RoversWidgetContentLoader`, `EPICWidgetContentLoader`) con un
+  `loadData` inyectable, como el de APOD; devuelven `PhotoWidgetUpdate` y bajan la imagen con
+  `PhotoWidgetImage` (`ImageDownsampler` al tamaño del widget).
+- Rovers: pide a la vez la foto más nueva de Perseverance y de Curiosity con la misma consulta que
+  `RoversRepository.fetchLatestSol` (`num=1` / `per_page=1`, comparte la caché del servidor) y muestra la
+  más reciente por fecha de captura. El feed de Mars 2020 tarda ~15 s en consultas que el servidor no tiene
+  cacheadas (`sample_type::full`), así que cada pedido tiene timeout de 20 s y un rover que falla se
+  descarta; solo si fallan los dos (o la imagen) el widget muestra su estado de error. Muestra rover,
+  cámara, sol y fecha, y crédito.
+- EPIC: la entrada más nueva del día de `api/natural`, en el JPEG de 1080 px (`EPICEntry.jpegURL`, carpeta
+  `jpg/` del archivo; no el PNG de varios MB). En small el globo llena el widget; en medium va entero a la
+  derecha (imagen cuadrada) para no cortarlo. Crédito "NASA EPIC Team".
+- Refresco cada 3 horas (`PhotoWidgetSchedule`); si la carga falla, reintenta en una hora.
+- `PhotoTimelineProvider` es el provider genérico de los dos; la UI compartida está en
+  `PhotoWidgetComponents.swift`.
+
+#### Textos
+
 - Textos: catálogo propio `nasa.expWidget/Localizable.xcstrings` (español fuente, inglés traducido). El
   target tiene `SWIFT_EMIT_LOC_STRINGS = NO` para que Xcode no copie a ese catálogo los textos de los
   archivos compartidos, que el widget no muestra; las claves nuevas se agregan a mano

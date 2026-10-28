@@ -1,7 +1,6 @@
 import SwiftUI
 import WidgetKit
 
-@main
 struct APODWidget: Widget {
     private let kind = "APODWidget"
 

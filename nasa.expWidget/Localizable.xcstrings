@@ -25,6 +25,42 @@
         }
       }
     },
+    "La Tierra desde EPIC" : {
+      "comment" : "EPIC widget name in the widget gallery.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Earth from EPIC"
+          }
+        }
+      }
+    },
+    "La Tierra desde el espacio" : {
+      "comment" : "EPIC widget title, above the date of the image.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Earth from space"
+          }
+        }
+      }
+    },
+    "La foto más reciente de Perseverance o Curiosity, actualizada cada pocas horas." : {
+      "comment" : "Rovers widget description in the widget gallery.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The newest raw photo from Perseverance or Curiosity, updated every few hours."
+          }
+        }
+      }
+    },
     "La imagen de APOD de hoy, actualizada cada día." : {
       "comment" : "Widget description in the widget gallery.",
       "extractionState" : "manual",
@@ -37,14 +73,38 @@
         }
       }
     },
+    "La última imagen completa de la Tierra que tomó EPIC." : {
+      "comment" : "EPIC widget description in the widget gallery.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The latest full-disk image of Earth taken by EPIC."
+          }
+        }
+      }
+    },
     "Lo intentamos de nuevo en un rato." : {
-      "comment" : "Widget failure state, below the error title.",
+      "comment" : "Failure state of every widget, below the error title.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "We'll try again in a while."
+          }
+        }
+      }
+    },
+    "No pudimos cargar la foto de Marte" : {
+      "comment" : "Rovers widget failure state title, when neither rover feed could be loaded.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't load the Mars photo"
           }
         }
       }
@@ -57,6 +117,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "We couldn't load today's picture"
+          }
+        }
+      }
+    },
+    "No pudimos cargar la imagen de la Tierra" : {
+      "comment" : "EPIC widget failure state title, when the latest image could not be loaded.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't load the Earth image"
+          }
+        }
+      }
+    },
+    "Última foto de Marte" : {
+      "comment" : "Rovers widget name in the widget gallery.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latest from Mars"
           }
         }
       }

@@ -2,38 +2,38 @@ import Foundation
 
 nonisolated struct NASAClient {
     private let session: URLSession
-    private let decoder: JSONDecoder
 
     init(session: URLSession = .shared) {
         self.session = session
-
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        self.decoder = decoder
     }
 
     /// Fetches and decodes a resource from `api.nasa.gov`, attaching the configured API key.
     func fetch<T: Decodable>(_ type: T.Type, endpoint: NASAEndpoint) async throws -> T {
         let request = try NASARequestBuilder.makeURLRequest(for: endpoint)
-        return try decode(type, from: await data(for: request, usesAPIKey: true))
+        return try Self.decode(type, from: await data(for: request, usesAPIKey: true))
     }
 
     /// Fetches and decodes a resource from an arbitrary public NASA URL that needs no API key
     /// (for example the Mars raw image feeds hosted on `mars.nasa.gov`).
     func fetch<T: Decodable>(_ type: T.Type, url: URL) async throws -> T {
-        try decode(type, from: await fetchData(url: url))
+        try Self.decode(type, from: await fetchData(url: url))
     }
 
     /// Downloads a public NASA resource that is not JSON (for example the APOD RSS feed on
     /// `science.nasa.gov`), with the same error mapping as the JSON requests.
-    func fetchData(url: URL) async throws -> Data {
+    func fetchData(url: URL, timeout: TimeInterval = 30) async throws -> Data {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.timeoutInterval = 30
+        request.timeoutInterval = timeout
         return try await data(for: request, usesAPIKey: false)
     }
 
-    private func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
+    /// Decodes a response body like `fetch` does, for callers that download the data themselves
+    /// (the widget loaders, which take an injectable data loader).
+    static func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
         do {
             return try decoder.decode(type, from: data)
         } catch {
