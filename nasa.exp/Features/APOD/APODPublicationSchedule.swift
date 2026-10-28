@@ -22,6 +22,12 @@ nonisolated enum APODPublicationSchedule {
         return nextPublication(after: now)
     }
 
+    /// Id of the newest entry that is already out at `instant`: until `publicationDelay` after
+    /// Eastern midnight, that is still the previous day's.
+    static func latestEntryID(at instant: Date) -> String {
+        APODDay.id(for: instant.addingTimeInterval(-publicationDelay))
+    }
+
     /// When the entry for the next US Eastern day is expected.
     static func nextPublication(after now: Date) -> Date {
         let startOfDay = calendar.startOfDay(for: now)

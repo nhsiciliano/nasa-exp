@@ -175,6 +175,30 @@ nasa.exp/
   `AppTab(launchArgument:)` y `AppRootView` cambia de pestaña en `onOpenURL`.
 - Prueba manual: `xcrun simctl openurl "iPhone 17" nasaexp://apod`.
 
+### Notificación diaria del APOD (R1.3)
+
+- Opt-in desde Acerca de (`DailyReminderSection` y `DailyReminderViewModel`): el permiso de notificaciones se
+  pide recién al activar el switch, nunca al arrancar (guideline 4.5.4). Si el usuario lo niega, el switch
+  queda apagado y la sección ofrece abrir Ajustes. La hora es local y se elige con un `DatePicker`; debajo se
+  muestra a qué hora local sale la foto nueva (00:15 de New York, `APODPublicationSchedule`).
+- Preferencias en `UserDefaults` (`APODDailyReminderStore`), porque la actualización en segundo plano las
+  necesita sin la UI. Es el motivo de la entrada `NSPrivacyAccessedAPICategoryUserDefaults` / `CA92.1` en
+  `nasa.exp/PrivacyInfo.xcprivacy`.
+- Ventana en vez de trigger repetido: `APODDailyReminder` arma una notificación local por día para los
+  próximos 14 (`apod.daily.yyyy-MM-dd`, `UNCalendarNotificationTrigger` sin repetir). Un trigger repetido no
+  deja cambiar el texto de un solo día. Cada una lleva el texto genérico ("Ya está publicada la imagen de
+  hoy.") y abre `nasaexp://apod`.
+- Título real: cuando se conoce la entrada más nueva, la notificación del día en que esa entrada ya está
+  publicada (`APODPublicationSchedule.latestEntryID(at:)`, el día de New York 15 minutos antes de la hora del
+  aviso) pasa a mostrar su título. A la 01:00 de Buenos Aires todavía es el APOD del día anterior.
+- `APODDailyReminderRefresher` rehace la ventana: al abrir la app y desde un `BGAppRefreshTask`
+  (`$(PRODUCT_BUNDLE_IDENTIFIER).apod-refresh` en `BGTaskSchedulerPermittedIdentifiers`, `UIBackgroundModes`
+  `fetch`), que se pide para después de la próxima publicación. iOS decide cuándo corre; si no corre, el aviso
+  sale igual con el texto genérico. Si la descarga falla, la ventana se renueva con el texto genérico.
+- Tocar la notificación: `AppNotificationDelegate` (`UIApplicationDelegateAdaptor`) es el delegate de
+  `UNUserNotificationCenter` desde el arranque y abre el link, que llega al mismo `onOpenURL` que el widget.
+  Con la app abierta la notificación se muestra como banner.
+
 ## 4) Integracion con API NASA
 
 ### Endpoints en uso

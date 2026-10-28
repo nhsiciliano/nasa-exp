@@ -68,6 +68,8 @@ struct AboutView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
 
+                    DailyReminderSection()
+
                     SurfacePanel {
                         VStack(alignment: .leading, spacing: AppSpacing.medium) {
                             InfoPill(text: String(localized: "FUENTES"))

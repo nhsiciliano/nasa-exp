@@ -10,6 +10,8 @@ import SwiftData
 
 @main
 struct nasa_expApp: App {
+    @UIApplicationDelegateAdaptor(AppNotificationDelegate.self) private var notificationDelegate
+
     init() {
         URLCache.shared = URLCache(
             memoryCapacity: 50 * 1024 * 1024,
@@ -21,7 +23,14 @@ struct nasa_expApp: App {
     var body: some Scene {
         WindowGroup {
             AppRootView()
+                .task {
+                    // Tops up the daily reminder window; does nothing until the user opts in.
+                    await APODDailyReminderRefresher().refresh()
+                }
         }
         .modelContainer(for: FavoriteItem.self)
+        .backgroundTask(.appRefresh(APODDailyReminderRefresher.taskIdentifier)) {
+            await APODDailyReminderRefresher().refresh()
+        }
     }
 }

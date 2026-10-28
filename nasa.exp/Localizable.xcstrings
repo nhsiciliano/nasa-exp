@@ -201,6 +201,16 @@
         }
       }
     },
+    "Avisarme con la foto del día" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notify me with the picture of the day"
+          }
+        }
+      }
+    },
     "Busca imágenes de la Tierra para la fecha seleccionada" : {
       "localizations" : {
         "en" : {
@@ -851,6 +861,16 @@
         }
       }
     },
+    "Foto astronómica del día" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Astronomy Picture of the Day"
+          }
+        }
+      }
+    },
     "Foto de %@, %@, %@" : {
       "localizations" : {
         "en" : {
@@ -977,6 +997,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Add to favorites"
+          }
+        }
+      }
+    },
+    "Hora del aviso" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification time"
           }
         }
       }
@@ -1111,12 +1141,32 @@
         }
       }
     },
+    "La foto nueva sale todos los días a partir de las %@, en tu hora." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A new picture comes out every day from %@, your time."
+          }
+        }
+      }
+    },
     "La respuesta del servidor es inválida." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "The server response is invalid."
+          }
+        }
+      }
+    },
+    "Las notificaciones de NASA Exp están desactivadas. Podés activarlas en Ajustes." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications for NASA Exp are turned off. You can turn them on in Settings."
           }
         }
       }
@@ -1207,6 +1257,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "NASA rejected the app's access key. Try again later; if it keeps happening, update the app."
+          }
+        }
+      }
+    },
+    "NOTIFICACIÓN DIARIA" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DAILY NOTIFICATION"
           }
         }
       }
@@ -1807,6 +1867,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Checks the astronomy picture for the chosen date again"
+          }
+        }
+      }
+    },
+    "Ya está publicada la imagen de hoy." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today's picture is out."
           }
         }
       }

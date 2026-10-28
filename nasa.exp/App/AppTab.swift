@@ -1,6 +1,6 @@
 import Foundation
 
-enum AppTab: String {
+nonisolated enum AppTab: String {
     case apod
     case rovers
     case epic

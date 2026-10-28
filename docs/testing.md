@@ -143,6 +143,20 @@ Usan las respuestas reales de `docs/fixtures` y un servidor stub que registra ca
 - `test_epicLoader_whenFeedIsEmptyOrFails_returnsNoContentAndRetries`
 - `test_epicEntry_jpegURL_pointsToTheJPGFolderOfTheSameFrame`
 
+### `APODDailyReminderTests` (notificación diaria del APOD, R1.3)
+
+- Contenido: `test_requests_fillTheWindowFromTodayAtTheChosenLocalTime`, `test_requests_whenTodaysTimeHasPassed_startTomorrow`,
+  `test_requests_acrossDaylightSavingEnd_keepTheLocalTime` (Madrid), `test_requests_titleOnlyTheDayWhoseEntryIsAlreadyOut`
+  (01:00 en Buenos Aires todavía es el APOD de ayer), `test_requests_beforeTheEntryOfThatDayIsOut_keepTheGenericText`,
+  `test_latestEntryID_switchesAfterThePublicationDelay`, `test_requests_whenDisabled_isEmpty`
+- Reprogramación: `test_reschedule_replacesOnlyTheReminderRequests`, `test_reschedule_whenDisabled_removesTheWindowWithoutAddingRequests`,
+  `test_refresh_whenEnabled_titlesTheNextReminderAndAsksForTheNextBackgroundRefresh`,
+  `test_refresh_whenFetchFails_stillSchedulesTheGenericWindow`, `test_refresh_whenDisabled_doesNothing`
+- Opt-in: `test_enable_whenPermissionIsDenied_staysOffAndPointsToSettings`,
+  `test_enableThenChangeTime_savesAndReschedulesAtTheNewTime`, `test_store_withoutSavedSettings_returnsDefaultOff`
+
+Usan un `UNUserNotificationCenter` falso (`APODReminderNotificationCenter`) y `UserDefaults` en un suite propio por test.
+
 ### `NASAExpDeepLinkUITests` (target `nasa.expUITests`)
 
 - `test_openURL_selectsTabOfDeepLink`: arranca en Rovers y abre `nasaexp://favorites` y `nasaexp://apod`
@@ -189,6 +203,10 @@ Con la app instalada, los deep links del widget se prueban con `openurl` (en cua
 xcrun simctl openurl "iPhone 17" nasaexp://apod
 ```
 
+La notificación diaria se activa en Favoritos → Acerca de; la primera vez aparece el pedido de permiso del
+sistema. Para probar el toque sin esperar a la hora elegida, se puede mandar una notificación con el mismo
+`userInfo` (`"url": "nasaexp://apod"`) con `xcrun simctl push "iPhone 17" den-mobile.nasaexp payload.json`.
+
 Los widgets (APOD, Rovers y EPIC) se agregan desde la home del simulador: mantener presionado el fondo,
 "Editar" → "Agregar widget", buscar "NASA Exp" y elegir el widget y el tamaño. Con ui-automation es más
 fiable mantener presionado el ícono de NASA Exp, que ofrece los tamaños del widget directamente.
@@ -229,6 +247,8 @@ Resultado del 2026-10-21 (Xcode 27.1, SDK iphoneos27.1), `** ARCHIVE SUCCEEDED *
 - `Info.plist`: `UIDeviceFamily` = [1] (solo iPhone), solo orientación vertical, `MinimumOSVersion` 17.0, `arm64`, `ITSAppUsesNonExemptEncryption` = false, versión 1.0 (1). Sin `UISupportedInterfaceOrientations~ipad` ni otras claves de iPad, salvo `CFBundleIcons~ipad` y `AppIcon76x76@2x~ipad.png`, que agrega `actool` a partir del ícono universal de 1024 aunque el target es solo iPhone. App Store Connect no las rechaza.
 - Dentro del `.app`: `PrivacyInfo.xcprivacy` (sin tracking, sin datos recolectados, sin APIs con motivo requerido), `en.lproj/Localizable.strings` (173 textos), `InfoPlist.strings` en `es.lproj` y `en.lproj`. El español no tiene `Localizable.strings` porque es el idioma fuente: las claves ya son el texto.
 - `UserDefaults` solo se usa para `-initialTab` dentro de `#if DEBUG` y no aparece en el binario Release, así que el manifiesto no necesita declararlo.
+  Desde R1.3 (1.1) la preferencia de la notificación diaria también vive en `UserDefaults`, y el manifiesto declara
+  `NSPrivacyAccessedAPICategoryUserDefaults` con el motivo `CA92.1`.
 - Tamaño: `.app` 1,5 MB (binario 1,0 MB, `Assets.car` 436 KB); el `.xcarchive` completo con dSYM, 7,5 MB.
 
 ## Ciclo de cambios y TestFlight

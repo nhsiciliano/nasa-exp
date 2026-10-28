@@ -379,7 +379,8 @@ Dos datos transversales importan para casi todas las propuestas:
   00:05 ET).
 - **Valor:** alto. Es el hábito diario que sostiene la retención de una app de "foto del día".
 - **Riesgos:** la guideline 4.5.4 prohíbe usar las notificaciones para marketing (esta no lo es) y exige que sean
-  opt-in. Hay que actualizar `PrivacyInfo.xcprivacy` solo si se agregan APIs con motivo requerido (no es el caso).
+  opt-in. Hay que actualizar `PrivacyInfo.xcprivacy` solo si se agregan APIs con motivo requerido. Al implementarla
+  (R1.3) hizo falta: la preferencia vive en `UserDefaults` (motivo `CA92.1`).
 
 ### B6. Modo sin conexión con caché de imágenes
 
