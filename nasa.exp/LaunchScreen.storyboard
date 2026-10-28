@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="LaunchGlyph" translatesAutoresizingMaskIntoConstraints="NO" id="9Zx-9m-PeR">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="LaunchOrbit" translatesAutoresizingMaskIntoConstraints="NO" id="9Zx-9m-PeR">
                                 <rect key="frame" x="88.5" y="207" width="216" height="216"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="216" id="L3R-5r-R7l"/>
@@ -51,9 +51,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchGlyph" width="512" height="512"/>
+        <image name="LaunchOrbit" width="216" height="216"/>
         <namedColor name="LaunchBackground">
-            <color red="0.012" green="0.043" blue="0.106" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.027" green="0.051" blue="0.122" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

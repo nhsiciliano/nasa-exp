@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "LaunchGlyph.png",
+      "filename" : "LaunchOrbit.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "LaunchOrbit@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "LaunchOrbit@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

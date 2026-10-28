@@ -47,10 +47,12 @@ NASA Exp is not an official NASA app and is not affiliated with or endorsed by N
 
 ### Launch screen direction
 
-- deep space background
-- centered glowing launch glyph
+- deep space background, the same #070D1F as the icon so the glyph blends in
+- centered Orbit glyph (`LaunchOrbit` imageset, opaque 1x/2x/3x from `docs/design/icon-candidates/final/3-orbita-final.png`)
 - minimal text lockup: NASA EXP
 - no busy UI or fake loading indicators
+- the storyboard image must be opaque: a transparent PNG rendered blank in the launch screen (iOS 27 simulator, 2026-10-28)
+- iOS caches the rendered launch screen per asset name; rename the imageset when the art changes, or users who update keep the old one
 
 ## Review Notes
 
