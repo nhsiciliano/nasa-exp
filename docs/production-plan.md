@@ -1,6 +1,6 @@
 # Plan de producción - NASA Exp
 
-Última actualización: 2026-10-21.
+Última actualización: 2026-10-28.
 
 Escala de dificultad usada en todo el documento:
 
@@ -74,6 +74,18 @@ Estado: `Hecho`, `Pendiente`, `En curso`.
 | P2.10 | Visor embebido para APOD en video (YouTube/Vimeo vía WebView) | 🟡 Medio | Hecho | 1.0 (YouTube vía youtube-nocookie, Vimeo; fallback al enlace) |
 | P2.11 | Soporte iPad con layout adaptativo | 🔴 Alto | Pendiente | 1.1 |
 
+## R1.1 · Release 1.1 (2026-10-28)
+
+Alcance confirmado a partir de `docs/feature-research.md` (ranking de high-dev, fuentes verificadas el 2026-10-27). Rama de trabajo `nhsiciliano/lead-dev`; cada tarea se entrega como commit separado para integrarla de a una.
+
+| # | Tarea | Dificultad | Estado | Notas |
+|---|---|---|---|---|
+| R1.1 | Póster en días de video: compartir y guardar usan el póster con título y crédito, y el widget APOD muestra el póster en vez del degradado | 🟢 Bajo | Pendiente | Cierra el follow-up de P2.9. El póster ya llega del RSS/WordPress y se guarda como thumbnail en favoritos. Crédito siempre visible. |
+| R1.2 | Widgets de Rovers y EPIC (small y medium) con deep link a su pestaña | 🟡 Medio | Pendiente | Reusa `ImageDownsampler`, timeline y deep links de P2.9. EPIC desde `epic.gsfc.nasa.gov` (sin key, el widget no debe recibir `NASA_API_KEY`). Rovers con `num=1` y tolerancia al timeout del feed. Refresco cada pocas horas. Tests del loader de cada fuente. |
+| R1.3 | Notificación diaria del APOD, opt-in desde Acerca de, a la hora local elegida, que abre `nasaexp://apod` | 🟡 Medio | Pendiente | Notificación local genérica como base, más `BGAppRefreshTask` que la reemplaza con el título real cuando iOS lo permite. Reusa `APODPublicationSchedule`. Permiso contextual (guideline 4.5.4). Tests del contenido y de la reprogramación. |
+
+Pendientes para 1.2 (ver el relevamiento): buscador de la NASA Image and Video Library, App Intents, lanzamientos con Live Activity, EONET + GIBS, más cámaras de Mars 2020 e Ingenuity, Spotlight de favoritos, ESA/Webb y ESA/Hubble, NeoWs, modo sin conexión, iPad (P2.11).
+
 ## Infraestructura
 
 | # | Tarea | Dificultad | Estado | Notas |
@@ -100,7 +112,7 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 |---|---|---|
 | low-dev | P0.3, P0.4, P0.5, P0.6, P0.7, P1.1, P1.3, P1.6, P1.11, I.1, I.3, P2.3, P2.4, P2.5 | P1.2, P1.7, P1.9, I.5 |
 | mid-dev | P0.8, P2.1, P2.2, P2.6, I.2 | P1.8, P1.12, P2.8, P2.10, I.4 |
-| high-dev | P1.5, P2.7 | P0.9, luego P2.9 (P2.11 queda para después de 1.0) |
+| high-dev | P1.5, P2.7 | P0.9, luego P2.9 (P2.11 queda para después de 1.0). 2026-10-28: R1.1, R1.2, R1.3 en ese orden |
 
 ## Estado de ramas (2026-10-21)
 
@@ -113,7 +125,7 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 
 - `FavoriteItemDetailView.swift` era código muerto (Favoritos navega a los detalles nativos, que ya tienen "Quitar de favoritos"). Borrado el 2026-10-21.
 - El detalle APOD reconstruido desde un favorito muestra la imagen estándar, no HD. Agregar la columna `hdurl` cuando entre P1.2.
-- Widget: los días de video muestran título e ícono sin el póster. Follow-up chico, sin asignar.
+- Widget: los días de video muestran título e ícono sin el póster. Pasa a R1.1.
 - TestFlight: el archive firma `den-mobile.nasaexp` y `den-mobile.nasaexp.widget` (los IDs originales `den-mobile.nasa-exp*` quedaron bloqueados en App Store Connect al borrar el registro de la app el 2026-10-27); hace falta `-allowProvisioningUpdates` o un perfil para el widget. El primer intento con provisioning automático puede fallar mientras se crea el perfil del widget; el segundo pasa.
 
 ## Decisiones tomadas
