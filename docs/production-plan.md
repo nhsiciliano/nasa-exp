@@ -116,9 +116,18 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 
 ## Estado de ramas (2026-10-29)
 
-- `main` = `nhsiciliano/lead-dev` = `9167f5b`: 1.1 lista para subir a TestFlight como 1.0 (2). Bundle IDs `den-mobile.nasaexp`, versión centralizada en `Config/Base.xcconfig` (build 2), ícono Órbita y launch screen, R1.1, R1.2 y R1.3 integradas. Suite completa verde (139 unit tests, 5 UI tests) y prueba manual del usuario aprobada el 2026-10-29. Fast-forward a `main` hecho el 2026-10-29; sin push.
+- `main` = `nhsiciliano/lead-dev`: 1.1 más el arreglo de Perseverance (S.3), build 3 (`CURRENT_PROJECT_VERSION = 3`). El build 2 que está en TestFlight tiene Perseverance roto desde el 2026-10-29 por el cambio del feed; hay que subir el 3 antes de enviar a revisión. Bundle IDs `den-mobile.nasaexp`, versión centralizada en `Config/Base.xcconfig` (build 2), ícono Órbita y launch screen, R1.1, R1.2 y R1.3 integradas. Suite completa verde (139 unit tests, 5 UI tests) y prueba manual del usuario aprobada el 2026-10-29. Fast-forward a `main` hecho el 2026-10-29; sin push.
 - Ramas de sesión: `nhsiciliano/High-Dev` (R1.1–R1.3, ya integradas), `nhsiciliano/Nasa-Exp-Image` (íconos, integrada). Las tres sesiones de desarrollo quedaron sin tareas.
-- Próximo build: subir el archive desde Xcode con el flujo de `docs/testing.md`; para el siguiente, subir `CURRENT_PROJECT_VERSION` a 3 en `Config/Base.xcconfig`.
+- Próximo build: archivar y subir el 3 desde Xcode con el flujo de `docs/testing.md`; para el siguiente, subir `CURRENT_PROJECT_VERSION` a 4 en `Config/Base.xcconfig`.
+
+## Envío a App Store (2026-10-29)
+
+| # | Tarea | Dificultad | Estado | Notas |
+|---|---|---|---|---|
+| S.1 | Política de privacidad y página de soporte publicadas en GitHub Pages | 🟢 Bajo | Hecho | `docs/privacy-policy.html`, `docs/index.html`, `.nojekyll`; Pages desde `docs/` en `main`. |
+| S.2 | Capturas 6.9" (iPhone 17 Pro Max, 1320 x 2868) | 🟢 Bajo | Hecho | 8 capturas en `docs/app-store/screenshots-6.9/`, orden y checklist en `docs/app-store/README.md`. |
+| S.3 | Rovers: el feed de Mars 2020 pasó a devolver `per_page` como texto y Perseverance fallaba al decodificar en la app y en el widget | 🟢 Bajo | Hecho | Detectado al capturar. `Mars2020RawImagesResponseDTO` acepta Int o String en la paginación; test de regresión; fixture actualizado. Requiere build 3. |
+| S.4 | Completar la ficha en App Store Connect y enviar a revisión | 🟢 Bajo | Pendiente | Checklist en `docs/app-store/README.md`. Lo hace el usuario con el build 3. |
 
 ## Notas de integración
 

@@ -35,6 +35,16 @@ NASA Exp is intended for users interested in astronomy, planetary science, and s
 
 NASA Exp is not an official NASA app and is not affiliated with or endorsed by NASA. Images and data come from public NASA services (science.nasa.gov, mars.nasa.gov, api.nasa.gov) and keep their original credits.
 
+### URLs
+
+- Privacy Policy URL: https://nhsiciliano.github.io/nasa-exp/privacy-policy.html (source: `docs/privacy-policy.html`, served by GitHub Pages from `docs/` on `main`; English with a Spanish section)
+- Support URL: https://github.com/nhsiciliano/nasa-exp
+- Marketing URL (optional): https://nhsiciliano.github.io/nasa-exp/
+
+### Screenshots
+
+- 6.9" set (1320 x 2868) in `docs/app-store/screenshots-6.9/`, upload order and the App Store Connect checklist in `docs/app-store/README.md`.
+
 ## Visual Identity
 
 ### Icon direction
@@ -63,3 +73,4 @@ NASA Exp is not an official NASA app and is not affiliated with or endorsed by N
 - No account required
 - No user-generated content
 - Educational/scientific reference content only
+- Privacy: nothing collected ("Data Not Collected" in App Privacy); the policy page lists the NASA hosts the app talks to and the on-device data

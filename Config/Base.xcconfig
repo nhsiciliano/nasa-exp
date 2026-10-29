@@ -8,4 +8,4 @@ INFOPLIST_KEY_NASA_API_KEY = $(NASA_API_KEY)
 // Version shown in the App Store and the build number for TestFlight. Every target reads these,
 // so a new TestFlight build only needs CURRENT_PROJECT_VERSION bumped here.
 MARKETING_VERSION = 1.0
-CURRENT_PROJECT_VERSION = 2
+CURRENT_PROJECT_VERSION = 3
