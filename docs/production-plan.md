@@ -114,11 +114,11 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 | mid-dev | P0.8, P2.1, P2.2, P2.6, I.2 | P1.8, P1.12, P2.8, P2.10, I.4 |
 | high-dev | P1.5, P2.7 | P0.9, luego P2.9 (P2.11 queda para después de 1.0). 2026-10-28: R1.1, R1.2, R1.3 en ese orden |
 
-## Estado de ramas (2026-10-28)
+## Estado de ramas (2026-10-29)
 
-- `main` = `c635fc4`: 1.0 tal como se subió a TestFlight (build 1, bundle `den-mobile.nasa-exp`, luego bloqueado).
-- `nhsiciliano/lead-dev` (rama de trabajo): bundle IDs `den-mobile.nasaexp`, versión centralizada en `Config/Base.xcconfig` (build 2), ícono Órbita y launch screen, R1.1, R1.2 y R1.3 integradas. Suite completa verde (139 unit tests, 5 UI tests). Pendiente de prueba manual y de llevar a `main` cuando el usuario lo decida. Sin push.
+- `main` = `nhsiciliano/lead-dev` = `9167f5b`: 1.1 lista para subir a TestFlight como 1.0 (2). Bundle IDs `den-mobile.nasaexp`, versión centralizada en `Config/Base.xcconfig` (build 2), ícono Órbita y launch screen, R1.1, R1.2 y R1.3 integradas. Suite completa verde (139 unit tests, 5 UI tests) y prueba manual del usuario aprobada el 2026-10-29. Fast-forward a `main` hecho el 2026-10-29; sin push.
 - Ramas de sesión: `nhsiciliano/High-Dev` (R1.1–R1.3, ya integradas), `nhsiciliano/Nasa-Exp-Image` (íconos, integrada). Las tres sesiones de desarrollo quedaron sin tareas.
+- Próximo build: subir el archive desde Xcode con el flujo de `docs/testing.md`; para el siguiente, subir `CURRENT_PROJECT_VERSION` a 3 en `Config/Base.xcconfig`.
 
 ## Notas de integración
 
