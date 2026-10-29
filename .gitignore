@@ -4,3 +4,6 @@ Config/Secrets.xcconfig
 
 # Xcode per-user state
 xcuserdata/
+
+# Xcode Cloud workflow state (not used)
+nasa.exp.xcodeproj/xcshareddata/xcodecloud/
