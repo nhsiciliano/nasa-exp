@@ -47,6 +47,22 @@ final class NASAExpDecodingTests: XCTestCase {
         XCTAssertTrue(photo.displayDate.hasPrefix("Sol 5050"))
     }
 
+    func test_roversDecoding_acceptsStringPaginationFromMars2020Feed() throws {
+        // Live shape since 2026-10-29: `per_page` is a string and an out-of-range sol adds `error_message`.
+        let json = """
+        {"images":[],"per_page":"24","error_message":"No more images.","total_results":0,"type":"mars2020-images-list-1.1","page":0,"mission":"mars2020","total_images":1054854}
+        """.data(using: .utf8)!
+
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        let dto = try decoder.decode(Mars2020RawImagesResponseDTO.self, from: json)
+
+        XCTAssertTrue(dto.images.isEmpty)
+        XCTAssertEqual(dto.perPage, 24)
+        XCTAssertEqual(dto.totalResults, 0)
+        XCTAssertEqual(dto.page, 0)
+    }
+
     func test_roversDecoding_mapsPerseveranceRawImage() throws {
         let json = """
         {

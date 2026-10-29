@@ -24,7 +24,7 @@
       "site": 92
     }
   ],
-  "per_page": 1,
+  "per_page": "1",
   "total_results": 576687,
   "type": "mars2020-images-list-1.1",
   "page": 0,

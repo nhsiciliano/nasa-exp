@@ -186,6 +186,42 @@ nonisolated struct Mars2020RawImagesResponseDTO: Decodable {
     let totalResults: Int?
     let page: Int?
     let perPage: Int?
+
+    private enum CodingKeys: String, CodingKey {
+        case images, totalResults, page, perPage
+    }
+
+    init(images: [Mars2020RawImageDTO], totalResults: Int?, page: Int?, perPage: Int?) {
+        self.images = images
+        self.totalResults = totalResults
+        self.page = page
+        self.perPage = perPage
+    }
+
+    /// The feed is not consistent about number types: since late October 2026 `per_page` arrives
+    /// as a string ("24") while `page` and `total_results` stay numeric, and an out-of-range sol
+    /// adds `error_message`. Pagination fields accept either form so a type change never hides
+    /// the photos.
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        images = try container.decode([Mars2020RawImageDTO].self, forKey: .images)
+        totalResults = try Self.lenientInt(in: container, forKey: .totalResults)
+        page = try Self.lenientInt(in: container, forKey: .page)
+        perPage = try Self.lenientInt(in: container, forKey: .perPage)
+    }
+
+    private static func lenientInt(
+        in container: KeyedDecodingContainer<CodingKeys>,
+        forKey key: CodingKeys
+    ) throws -> Int? {
+        if let value = try? container.decodeIfPresent(Int.self, forKey: key) {
+            return value
+        }
+        if let text = try? container.decodeIfPresent(String.self, forKey: key) {
+            return Int(text.trimmingCharacters(in: .whitespaces))
+        }
+        return nil
+    }
 }
 
 nonisolated struct Mars2020RawImageDTO: Decodable {
