@@ -28,14 +28,28 @@ in dark mode with the status bar overridden to 9:41. Upload in this order:
 7. `07-rovers-grid.jpg` — Perseverance photo grid, sol 2023
 8. `08-about.jpg` — About sheet: disclaimer, daily notification, sources
 
-The 6.9" set also covers the 6.5"/6.7" slots (App Store Connect scales it down). No iPad set:
-the app ships iPhone-only.
+Since late 2026 App Store Connect's primary iPhone slot is "iPhone with Dynamic Island (medium
+display)", which accepts 1206 x 2622 (6.1"/6.3") and is reused for every other iPhone size and
+language. The 6.9" files were resized to 1206 x 2622 with `sips -z 2622 1206` and uploaded there
+on 2026-10-30 (the aspect ratio differs by 0.1%, no visible distortion). No iPad set: the app
+ships iPhone-only.
 
 To regenerate: build Debug for a 6.9" simulator, launch with `-initialTab <tab>`, use
 `xcrun simctl status_bar <udid> override --time 9:41 --batteryLevel 100 --batteryState charged --cellularBars 4 --wifiBars 3`
 and `xcrun simctl io <udid> screenshot <file>`.
 
-## App Store Connect checklist (1.0, build 2)
+## App Store Connect state (2026-10-30)
+
+Filled in and saved: screenshots (8), promotional text, description, keywords, support and
+marketing URLs, copyright, review contact, review notes, build 1.0 (3); App Privacy published as
+"Data Not Collected" with the policy URL; price $0.00 in 175 countries, available everywhere;
+name, subtitle, categories Education + Reference, age rating 4+, content rights.
+
+Left for the user: the release option (currently "automatic"; "manual" is the safer default for a
+first launch), the Digital Services Act trader declaration under App Information > "Reglamento de
+Servicios Digitales" (needed for EU availability), and the "Añadir a revisión" button.
+
+## App Store Connect checklist (1.0, build 3)
 
 - App Information: name `NASA Exp`, subtitle from `docs/app-metadata.md`, primary category
   Education, secondary Reference. Content rights: does not contain third-party content that
