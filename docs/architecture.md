@@ -172,7 +172,8 @@ nasa.exp/
 
 - Esquema `nasaexp` registrado en `Config/Info.plist`: `nasaexp://<tab>` con los mismos nombres que
   `-initialTab` (`apod`, `rovers`, `epic`, `favorites`). `AppTab(url:)` lo parsea con
-  `AppTab(launchArgument:)` y `AppRootView` cambia de pestaña en `onOpenURL`.
+  `AppTab(launchArgument:)`. `onOpenURL` se lo pasa a `AppDeepLinkRouter`, igual que el toque de la
+  notificación diaria, y `AppRootView` cambia de pestaña (ver "Tocar la notificación" más abajo).
 - Prueba manual: `xcrun simctl openurl "iPhone 17" nasaexp://apod`.
 
 ### Notificación diaria del APOD (R1.3)
@@ -196,8 +197,21 @@ nasa.exp/
   `fetch`), que se pide para después de la próxima publicación. iOS decide cuándo corre; si no corre, el aviso
   sale igual con el texto genérico. Si la descarga falla, la ventana se renueva con el texto genérico.
 - Tocar la notificación: `AppNotificationDelegate` (`UIApplicationDelegateAdaptor`) es el delegate de
-  `UNUserNotificationCenter` desde el arranque y abre el link, que llega al mismo `onOpenURL` que el widget.
-  Con la app abierta la notificación se muestra como banner.
+  `UNUserNotificationCenter` desde el arranque. Lee el link del `userInfo` y se lo pasa a
+  `AppDeepLinkRouter`, dentro del proceso (sin `UIApplication.open`). Con la app abierta la notificación se
+  muestra como banner.
+  - Usa las variantes de `willPresent`/`didReceive` con completion handler y lo llama antes de volver, en
+    main. Con las variantes `async`, Swift llama el handler desde el pool de concurrencia, y al volver del
+    segundo plano o arrancar en frío UIKit cortaba la app con `NSInternalInconsistencyException` "Call
+    must be made on main thread" (`-[UIApplication _updateSnapshotAndStateRestorationWithAction:]`). Era el
+    error del build 3.
+  - `AppDeepLinkRouter` (`ObservableObject`, del delegate, inyectado como `environmentObject`) guarda la
+    pestaña pendiente. `AppRootView` la consume una sola vez al aparecer (arranque en frío: el toque llega
+    antes que la vista) y en cada cambio. `onOpenURL` (widget, `simctl openurl`) pasa por el mismo router.
+  - `nasaexp://apod`, desde la notificación o el widget, deja la pestaña Hoy en la raíz de su
+    `NavigationStack` (el detalle se abre con `NavigationLink(value:)`, y el router vacía el path) y llama
+    `APODViewModel.showLatest()`: vuelve a pedir la entrada más reciente aunque ya esté elegida, sin sacar de
+    pantalla la que se ve hasta que llega la respuesta, como `refresh()`.
 
 ## 4) Integracion con API NASA
 

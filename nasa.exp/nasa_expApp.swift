@@ -23,6 +23,7 @@ struct nasa_expApp: App {
     var body: some Scene {
         WindowGroup {
             AppRootView()
+                .environmentObject(notificationDelegate.deepLinkRouter)
                 .task {
                     // Tops up the daily reminder window; does nothing until the user opts in.
                     await APODDailyReminderRefresher().refresh()

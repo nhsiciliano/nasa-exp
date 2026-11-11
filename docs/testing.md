@@ -65,6 +65,8 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 - `test_load_clampsDatesOutsideTheArchive`
 - `test_goToRandomDate_loadsDayAtInjectedOffsetWithinArchive`
 - `test_load_whenRequestFails_showsErrorAndKeepsSelectedDate`
+- `test_showLatest_whenAnOlderDayIsSelected_returnsToTheLatestEntry` (link `nasaexp://apod` con otra fecha elegida)
+- `test_showLatest_whenANewerEntryCameOutWhileInBackground_loadsIt` (`loadIfNeeded` no vuelve a pedir; `showLatest` sí)
 
 ### `APODShareTextTests`
 
@@ -116,6 +118,15 @@ Fijan la salida en `es_ES` y `en_US` con zona UTC usando `displayDate(locale:tim
 - `test_appTabFromURL_whenOtherSchemeOrUnknownTab_returnsNil`
 - `test_appTabDeepLinkURL_roundTripsForEveryTab`
 - `test_appTabFromLaunchArgument_matchesDeepLinkNames`
+
+### `AppDeepLinkRouterTests` (toque de la notificación diaria y links del widget)
+
+- `userInfo` → destino: `test_urlFromNotificationUserInfo_whenDailyReminderLink_returnsAPODLink`,
+  `test_urlFromNotificationUserInfo_whenLinkMissingOrNotText_returnsNil`,
+  `test_openNotification_whenDailyReminder_leavesAPODPending`, `test_openNotification_whenLinkIsNotATab_leavesNothingPending`
+- Destino pendiente: `test_consumePendingTab_whenTapArrivedBeforeTheRootView_returnsItOnlyOnce` (arranque en frío),
+  `test_open_whenSameLinkArrivesAgainAfterConsuming_isPendingAgain`, `test_open_whenWidgetLinkFollowsNotification_keepsTheLatestLink`,
+  `test_open_whenOtherScheme_keepsPendingTab`
 
 ### `NASAExpWidgetTests` (lógica del widget de APOD, que vive en el target de la app)
 
@@ -206,6 +217,31 @@ xcrun simctl openurl "iPhone 17" nasaexp://apod
 La notificación diaria se activa en Favoritos → Acerca de; la primera vez aparece el pedido de permiso del
 sistema. Para probar el toque sin esperar a la hora elegida, se puede mandar una notificación con el mismo
 `userInfo` (`"url": "nasaexp://apod"`) con `xcrun simctl push "iPhone 17" den-mobile.nasaexp payload.json`.
+
+Prueba del toque (el crash del build 3 solo aparecía con la app en segundo plano o terminada, no en primer plano):
+
+```json
+{
+  "Simulator Target Bundle": "den-mobile.nasaexp",
+  "aps": { "alert": { "title": "Foto astronómica del día", "body": "Ya está publicada la imagen de hoy." }, "sound": "default" },
+  "url": "nasaexp://apod"
+}
+```
+
+1. Segundo plano: en Hoy elegir un día anterior y abrir el detalle, pasar a otra pestaña, Home y esperar un rato
+   para que la app quede suspendida. Mandar el push y tocar el banner.
+2. Terminada: `xcrun simctl terminate "iPhone 17" den-mobile.nasaexp`, push y toque. Para comprobar que el
+   destino pendiente se consume, arrancar desde otra pestaña:
+   `xcrun simctl spawn "iPhone 17" defaults write den-mobile.nasaexp initialTab rovers` (solo Debug; borrarlo
+   después con `defaults delete`).
+3. Primer plano: push con la app abierta en otra pestaña y tocar el banner.
+
+En los tres casos tiene que quedar en Hoy, en la raíz y con la entrada más reciente, con el mismo PID antes y
+después del toque (`xcrun simctl spawn "iPhone 17" launchctl list | grep nasaexp`) y sin reporte nuevo
+`nasa.exp-*.ips` en `~/Library/Logs/DiagnosticReports`. Con la app en segundo plano el banner aparece en el
+árbol de accesibilidad del sistema: `axe describe-ui` (incluido en mobilebuildmcp) da su `frame` y `axe tap -x -y`
+lo toca. En primer plano no aparece ahí: tocar arriba al centro (`-x 201 -y 92` en el iPhone 17) mientras se ve.
+Bajo carga el banner puede tardar 5 a 8 segundos en aparecer.
 
 Los widgets (APOD, Rovers y EPIC) se agregan desde la home del simulador: mantener presionado el fondo,
 "Editar" → "Agregar widget", buscar "NASA Exp" y elegir el widget y el tamaño. Con ui-automation es más

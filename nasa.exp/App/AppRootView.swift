@@ -1,16 +1,21 @@
 import SwiftUI
 
 struct AppRootView: View {
+    @EnvironmentObject private var deepLinkRouter: AppDeepLinkRouter
     @State private var selectedTab: AppTab = AppRootView.initialTab()
+    @State private var apodPath = NavigationPath()
+    /// Bumped by every `nasaexp://apod` link so the APOD tab goes back to the latest entry.
+    @State private var apodLatestRequest = 0
 
     var body: some View {
         ZStack {
             SpaceBackground()
 
             TabView(selection: $selectedTab) {
-                rootNavigation {
-                    APODHomeView()
+                NavigationStack(path: $apodPath) {
+                    APODHomeView(latestRequest: apodLatestRequest)
                 }
+                .rootNavigationChrome()
                 .tabItem {
                     Label(AppTab.apod.title, systemImage: AppTab.apod.systemImage)
                 }
@@ -47,9 +52,24 @@ struct AppRootView: View {
         .toolbarBackground(.visible, for: .tabBar)
         .toolbarColorScheme(.dark, for: .tabBar)
         .onOpenURL { url in
-            if let tab = AppTab(url: url) {
-                selectedTab = tab
-            }
+            deepLinkRouter.open(url)
+        }
+        // A notification tap that launches the app can arrive before this view exists.
+        .onAppear(perform: showPendingDeepLink)
+        .onChange(of: deepLinkRouter.pendingTab) {
+            showPendingDeepLink()
+        }
+    }
+
+    private func showPendingDeepLink() {
+        guard let tab = deepLinkRouter.consumePendingTab() else {
+            return
+        }
+
+        selectedTab = tab
+        if tab == .apod {
+            apodPath = NavigationPath()
+            apodLatestRequest += 1
         }
     }
 
@@ -68,11 +88,18 @@ struct AppRootView: View {
         NavigationStack {
             content()
         }
-        .toolbarBackground(.hidden, for: .navigationBar)
-        .toolbarColorScheme(.dark, for: .navigationBar)
+        .rootNavigationChrome()
+    }
+}
+
+private extension View {
+    func rootNavigationChrome() -> some View {
+        toolbarBackground(.hidden, for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar)
     }
 }
 
 #Preview {
     AppRootView()
+        .environmentObject(AppDeepLinkRouter())
 }

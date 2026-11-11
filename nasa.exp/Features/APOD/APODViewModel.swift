@@ -72,6 +72,13 @@ final class APODViewModel: ObservableObject {
         await load(date: selectedDate, keepingContent: true)
     }
 
+    /// Widget and notification links: back to the most recent entry, asking NASA again even if it
+    /// is already selected, since the app may have been in the background since an older one.
+    /// Whatever is on screen stays until the response arrives, as in `refresh()`.
+    func showLatest() async {
+        await load(date: latestDate, keepingContent: true)
+    }
+
     func load(date: Date, keepingContent: Bool = false) async {
         let day = min(max(calendar.startOfDay(for: date), firstAvailableDate), latestDate)
 

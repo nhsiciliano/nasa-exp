@@ -3,6 +3,12 @@ import SwiftUI
 @MainActor
 struct APODHomeView: View {
     @StateObject private var viewModel = APODViewModel()
+    /// Changes each time a `nasaexp://apod` link (widget or daily notification) opens the tab.
+    private let latestRequest: Int
+
+    init(latestRequest: Int = 0) {
+        self.latestRequest = latestRequest
+    }
 
     var body: some View {
         ZStack {
@@ -29,6 +35,14 @@ struct APODHomeView: View {
         .appScreenChromeSpacing()
         .task {
             await viewModel.loadIfNeeded()
+        }
+        .onChange(of: latestRequest) {
+            Task {
+                await viewModel.showLatest()
+            }
+        }
+        .navigationDestination(for: APODEntry.self) { entry in
+            APODDetailView(entry: entry)
         }
     }
 
@@ -237,9 +251,8 @@ struct APODHomeView: View {
             .textSelection(.enabled)
             .accessibilityLabel("Resumen del APOD. \(entry.explanation)")
 
-        NavigationLink {
-            APODDetailView(entry: entry)
-        } label: {
+        // A value link, so resetting the tab's path (deep links) also closes the detail.
+        NavigationLink(value: entry) {
             ActionCapsule(
                 title: String(localized: "Ver detalle completo"),
                 systemImage: "arrow.right.circle.fill",

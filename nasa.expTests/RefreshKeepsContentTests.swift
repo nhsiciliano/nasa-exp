@@ -26,6 +26,30 @@ final class RefreshKeepsContentTests: XCTestCase {
         }
     }
 
+    func test_apodShowLatest_fromAnOlderDay_keepsThatEntryWhileRequestIsInFlight() async throws {
+        let gate = RequestGate()
+        let viewModel = APODViewModel(repository: GatedAPODRepository(gate: gate))
+        await viewModel.loadIfNeeded()
+        await viewModel.goToPreviousDay()
+
+        gate.close()
+        let showLatest = Task { await viewModel.showLatest() }
+        try await waitUntil { gate.waitingCount == 1 }
+
+        guard case let .loaded(entry) = viewModel.state, entry.id == "2026-03-12" else {
+            gate.open()
+            return XCTFail("Expected the older entry to stay on screen until the latest arrives")
+        }
+
+        gate.open()
+        await showLatest.value
+
+        guard case let .loaded(latest) = viewModel.state else {
+            return XCTFail("Expected loaded state after showing the latest entry")
+        }
+        XCTAssertEqual(latest.id, "2026-03-13")
+    }
+
     func test_apodLoadingAnotherDate_showsLoadingState() async throws {
         let gate = RequestGate()
         let viewModel = APODViewModel(repository: GatedAPODRepository(gate: gate))

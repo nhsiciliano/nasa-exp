@@ -108,6 +108,39 @@ final class APODViewModelTests: XCTestCase {
         XCTAssertEqual(repository.requestedDates, [day(1995, 6, 26)])
     }
 
+    func test_showLatest_whenAnOlderDayIsSelected_returnsToTheLatestEntry() async {
+        let repository = DateRecordingAPODRepository(todayDate: "2026-10-21")
+        let viewModel = makeViewModel(repository: repository, now: day(2026, 10, 21))
+        await viewModel.loadIfNeeded()
+        await viewModel.load(date: day(2020, 2, 29))
+
+        await viewModel.showLatest()
+
+        XCTAssertTrue(viewModel.isShowingLatest)
+        XCTAssertEqual(viewModel.selectedDate, day(2026, 10, 21))
+        XCTAssertEqual(repository.todayRequestCount, 2)
+        XCTAssertEqual(loadedEntryID(viewModel), "2026-10-21")
+    }
+
+    func test_showLatest_whenANewerEntryCameOutWhileInBackground_loadsIt() async {
+        // Loaded yesterday, then the app stayed in the background until the next APOD was out.
+        let repository = DateRecordingAPODRepository(todayDate: "2026-10-21")
+        let viewModel = makeViewModel(repository: repository, now: day(2026, 10, 21))
+        await viewModel.loadIfNeeded()
+        repository.todayDate = "2026-10-22"
+
+        await viewModel.loadIfNeeded()
+        XCTAssertEqual(loadedEntryID(viewModel), "2026-10-21", "loadIfNeeded keeps the loaded entry")
+
+        await viewModel.showLatest()
+
+        XCTAssertEqual(loadedEntryID(viewModel), "2026-10-22")
+        XCTAssertEqual(viewModel.latestDate, day(2026, 10, 22))
+        XCTAssertEqual(viewModel.selectedDate, day(2026, 10, 22))
+        XCTAssertTrue(viewModel.isShowingLatest)
+        XCTAssertTrue(repository.requestedDates.isEmpty)
+    }
+
     func test_load_whenRequestFails_showsErrorAndKeepsSelectedDate() async {
         let repository = DateRecordingAPODRepository(todayDate: "2026-10-21", dateError: NASAAPIError.rateLimited(retryAfter: nil))
         let viewModel = makeViewModel(repository: repository, now: day(2026, 10, 21))
@@ -140,7 +173,7 @@ final class APODViewModelTests: XCTestCase {
 }
 
 private final class DateRecordingAPODRepository: APODRepositoryProtocol {
-    let todayDate: String
+    var todayDate: String
     let dateError: Error?
     private(set) var todayRequestCount = 0
     private(set) var requestedDates: [Date] = []

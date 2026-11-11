@@ -16,8 +16,9 @@ nonisolated struct APODRecord: Sendable {
     let videoURL: URL?
 }
 
-nonisolated struct APODEntry: Identifiable {
-    enum Media {
+/// `Hashable` so the APOD tab can push the detail as a navigation value.
+nonisolated struct APODEntry: Identifiable, Hashable {
+    enum Media: Hashable {
         case image(url: URL, hdURL: URL?)
         case video(URL)
         case unsupported
