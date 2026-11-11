@@ -114,7 +114,15 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 | mid-dev | P0.8, P2.1, P2.2, P2.6, I.2 | P1.8, P1.12, P2.8, P2.10, I.4 |
 | high-dev | P1.5, P2.7 | P0.9, luego P2.9 (P2.11 queda para después de 1.0). 2026-10-28: R1.1, R1.2, R1.3 en ese orden |
 
-## Estado de ramas (2026-10-29)
+## Estado de ramas (2026-11-11)
+
+- `nhsiciliano/lead-dev`: `main` más el arreglo del toque de la notificación diaria (S.5) y el build 4
+  (`CURRENT_PROJECT_VERSION = 4`). Suite completa verde (151 unit tests, 5 UI tests), analyze y build Release
+  sin warnings. Commits locales, sin push y sin mover `main`.
+- `main` (97665c5) tiene el build 3, que es el seleccionado en App Store Connect: hay que subir el 4 y
+  reemplazarlo antes de enviar a revisión.
+
+Anterior (2026-10-29):
 
 - `main` = `nhsiciliano/lead-dev`: 1.1 más el arreglo de Perseverance (S.3), build 3 (`CURRENT_PROJECT_VERSION = 3`). El build 2 que está en TestFlight tiene Perseverance roto desde el 2026-10-29 por el cambio del feed; hay que subir el 3 antes de enviar a revisión. Bundle IDs `den-mobile.nasaexp`, versión centralizada en `Config/Base.xcconfig` (build 2), ícono Órbita y launch screen, R1.1, R1.2 y R1.3 integradas. Suite completa verde (139 unit tests, 5 UI tests) y prueba manual del usuario aprobada el 2026-10-29. Fast-forward a `main` hecho el 2026-10-29; sin push.
 - Ramas de sesión: `nhsiciliano/High-Dev` (R1.1–R1.3, ya integradas), `nhsiciliano/Nasa-Exp-Image` (íconos, integrada). Las tres sesiones de desarrollo quedaron sin tareas.
@@ -127,7 +135,8 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 | S.1 | Política de privacidad y página de soporte publicadas en GitHub Pages | 🟢 Bajo | Hecho | `docs/privacy-policy.html`, `docs/index.html`, `.nojekyll`; Pages desde `docs/` en `main`. |
 | S.2 | Capturas 6.9" (iPhone 17 Pro Max, 1320 x 2868) | 🟢 Bajo | Hecho | 8 capturas en `docs/app-store/screenshots-6.9/`, orden y checklist en `docs/app-store/README.md`. |
 | S.3 | Rovers: el feed de Mars 2020 pasó a devolver `per_page` como texto y Perseverance fallaba al decodificar en la app y en el widget | 🟢 Bajo | Hecho | Detectado al capturar. `Mars2020RawImagesResponseDTO` acepta Int o String en la paginación; test de regresión; fixture actualizado. Requiere build 3. |
-| S.4 | Completar la ficha en App Store Connect y enviar a revisión | 🟢 Bajo | Pendiente | Checklist en `docs/app-store/README.md`. Lo hace el usuario con el build 3. |
+| S.4 | Completar la ficha en App Store Connect y enviar a revisión | 🟢 Bajo | Pendiente | Checklist en `docs/app-store/README.md`. Lo hace el usuario, ahora con el build 4 (S.5). |
+| S.5 | Notificación diaria: tocarla con la app en segundo plano o cerrada la cerraba (TestFlight, build 3) | 🟡 Medio | Hecho | `didReceive` `async` devolvía el completion fuera de main y UIKit tiraba `NSInternalInconsistencyException`. Ahora el delegate usa los completion handlers en main y el toque va por `AppDeepLinkRouter` dentro del proceso: Hoy, raíz del stack, última entrada (también desde el widget). Tests en `AppDeepLinkRouterTests` y `APODViewModelTests`; prueba en `docs/testing.md`. Requiere build 4. |
 
 ## Notas de integración
 

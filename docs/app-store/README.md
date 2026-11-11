@@ -49,6 +49,10 @@ Left for the user: the release option (currently "automatic"; "manual" is the sa
 first launch), the Digital Services Act trader declaration under App Information > "Reglamento de
 Servicios Digitales" (needed for EU availability), and the "Añadir a revisión" button.
 
+2026-11-11: build 3 crashes when the daily notification is tapped with the app in the background
+or not running (S.5 in `docs/production-plan.md`). Upload build 4 and select it in place of build 3
+before sending to review.
+
 ## App Store Connect checklist (1.0, build 3)
 
 - App Information: name `NASA Exp`, subtitle from `docs/app-metadata.md`, primary category
