@@ -63,6 +63,31 @@ final class APODSourceTests: XCTestCase {
         )
     }
 
+    func test_feedParser_imageOutsideTheAPODFolder_isTheEntryImage() throws {
+        // 2026-11-11 reused a Hubble mission asset (path outside /cds/apod/, with a %20) and the app
+        // showed "Formato no soportado".
+        let record = try XCTUnwrap(APODFeedParser.records(from: fixture("apod-basic-ngc4449.xml")).first)
+        let entry = APODEntry(record: record)
+
+        XCTAssertEqual(record.id, "2026-11-11")
+        XCTAssertEqual(
+            record.imageURL?.absoluteString,
+            "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/galaxies/irregular/NGC%204449.jpg"
+        )
+        guard case let .image(url, hdURL) = entry.media else {
+            return XCTFail("Expected image media, got \(entry.media)")
+        }
+        XCTAssertEqual(
+            url.absoluteString,
+            "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/galaxies/irregular/NGC%204449.jpg?w=1280&fit=clip"
+        )
+        XCTAssertEqual(hdURL, record.imageURL)
+        XCTAssertEqual(
+            entry.thumbnailURL?.absoluteString,
+            "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/galaxies/irregular/NGC%204449.jpg?w=480&fit=clip"
+        )
+    }
+
     // MARK: - WordPress archive
 
     func test_archivePost_videoDay_mapsEmbedPosterAndCredit() throws {
@@ -109,6 +134,50 @@ final class APODSourceTests: XCTestCase {
         XCTAssertNil(record.videoURL)
     }
 
+    func test_archivePost_withOnlyThePlaceholder_hasNoImage() throws {
+        let page = "<p><strong>Explanation:</strong> A video day.</p><iframe src=\"https://www.youtube.com/embed/x\"></iframe>"
+
+        let imageURL = APODHTMLExtractor.imageURL(preferring: [Self.placeholder], inHTML: page)
+
+        XCTAssertNil(imageURL)
+    }
+
+    // MARK: - Image selection
+
+    func test_imageURL_whenExplicitImageIsNotOnThePage_prefersThePageImage() throws {
+        // Guards against a site-wide default image that is not the known placeholder: the article's own
+        // picture wins over an explicit field it does not show.
+        let explicit = "https://assets.science.nasa.gov/dynamicimage/assets/science/misc/default-card.png?w=594&h=516"
+        let page = "<img src=\"https://assets.science.nasa.gov/content/dam/science/cds/apod/apod/1995/june/e_lens.gif\">"
+
+        let imageURL = APODHTMLExtractor.imageURL(preferring: [explicit], inHTML: page)
+
+        XCTAssertEqual(imageURL?.absoluteString, "https://assets.science.nasa.gov/content/dam/science/cds/apod/apod/1995/june/e_lens.gif")
+    }
+
+    func test_imageURL_whenThePageHasNoImage_usesTheExplicitImageFromAnyFolder() throws {
+        // Some feed pages carry no <img> at all (2026-10-16, 2026-10-28): `apod:hdurl` is all there is.
+        let explicit = "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/webb/M42.png?w=1600&#038;h=1000"
+
+        let imageURL = APODHTMLExtractor.imageURL(preferring: [explicit], inHTML: "<title>APOD</title>")
+
+        XCTAssertEqual(imageURL?.absoluteString, "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/webb/M42.png")
+    }
+
+    func test_imageURL_skipsImagesOutsideTheNASAAssetsHost() throws {
+        let page = """
+        <img src="https://www.facebook.com/tr?id=1&ev=PageView">
+        <img src="https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/galaxies/irregular/NGC%204449.jpg">
+        """
+
+        let imageURL = APODHTMLExtractor.imageURL(preferring: [nil], inHTML: page)
+
+        XCTAssertEqual(
+            imageURL?.absoluteString,
+            "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/galaxies/irregular/NGC%204449.jpg"
+        )
+    }
+
     // MARK: - Text and URLs
 
     func test_htmlText_dropsTagsDecodesEntitiesAndCollapsesWhitespace() {
@@ -150,8 +219,27 @@ final class APODSourceTests: XCTestCase {
         XCTAssertEqual(APODImageURL.original(cdn).absoluteString, "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/IC63.png")
         XCTAssertEqual(APODImageURL.resized(other, width: 1280), other)
         XCTAssertTrue(APODImageURL.isAPODImage(cdn))
-        XCTAssertFalse(APODImageURL.isAPODImage(try XCTUnwrap(URL(string: "https://assets.science.nasa.gov/dynamicimage/assets/science/astro/programs/cosmic-origins/images/misc/news-thumbnail.png"))))
+        XCTAssertTrue(APODImageURL.isAPODImage(try XCTUnwrap(URL(string: "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/galaxies/irregular/NGC%204449.jpg"))))
+        XCTAssertFalse(APODImageURL.isAPODImage(try XCTUnwrap(URL(string: Self.placeholder))))
+        XCTAssertFalse(APODImageURL.isAPODImage(try XCTUnwrap(URL(string: "https://assets.science.nasa.gov/content/dam/science/astro/programs/cosmic-origins/images/misc/news-thumbnail.png"))))
+        XCTAssertFalse(APODImageURL.isAPODImage(other))
     }
+
+    func test_imageURL_withHubbleAssetAndEncodedSpace_keepsTheEncodingWhenResizing() throws {
+        let url = try XCTUnwrap(URL(string: "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/galaxies/irregular/NGC%204449.jpg?w=2048&h=1320&fit=clip&crop=faces%2Cfocalpoint"))
+
+        XCTAssertEqual(
+            APODImageURL.original(url).absoluteString,
+            "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/galaxies/irregular/NGC%204449.jpg"
+        )
+        XCTAssertEqual(
+            APODImageURL.resized(url, width: 1280).absoluteString,
+            "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/galaxies/irregular/NGC%204449.jpg?w=1280&fit=clip"
+        )
+    }
+
+    /// The default featured image WordPress gives APOD posts that have none (1995-06-16, 2020-03-15).
+    private static let placeholder = "https://assets.science.nasa.gov/dynamicimage/assets/science/astro/programs/cosmic-origins/images/misc/news-thumbnail.png?w=594&h=516&fit=clip&crop=faces%2Cfocalpoint"
 
     // MARK: - Repository
 

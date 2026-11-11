@@ -62,17 +62,32 @@ nonisolated enum APODHTMLExtractor {
         return url
     }
 
-    /// The first APOD picture among `candidates` (such as the featured image) and the `<img>`
-    /// sources of `html`, as the full-size original. Placeholders and site images are skipped.
+    /// The entry's picture, as the full-size original, from `candidates` (explicit fields such as
+    /// `apod:hdurl` or the featured image) and the `<img>` sources of `html`, in this order:
+    /// 1. a candidate the page also shows,
+    /// 2. the page's own images,
+    /// 3. a candidate alone (some pages carry no `<img>`).
+    /// Only NASA asset images count, and never the WordPress placeholder (`APODImageURL.isAPODImage`).
+    /// Ranking the page first keeps a site-wide default image in a candidate field from winning over
+    /// the article's picture.
     static func imageURL(preferring candidates: [String?], inHTML html: String) -> URL? {
-        let pageImages = html
-            .matches(of: #/<img\b[^>]*\bsrc\s*=\s*["']([^"']+)["']/#.ignoresCase())
-            .map { String($0.output.1) }
+        let explicitImages = imageURLs(candidates.compactMap { $0 })
+        let pageImages = imageURLs(
+            html
+                .matches(of: #/<img\b[^>]*\bsrc\s*=\s*["']([^"']+)["']/#.ignoresCase())
+                .map { String($0.output.1) }
+        )
+        let pageOriginals = Set(pageImages.map(APODImageURL.original))
+        let shownOnPage = explicitImages.filter { pageOriginals.contains(APODImageURL.original($0)) }
 
-        return (candidates.compactMap { $0 } + pageImages)
-            .lazy
-            .compactMap { URL(string: HTMLText.decodingEntities($0)) }
-            .first(where: APODImageURL.isAPODImage)
+        return (shownOnPage + pageImages + explicitImages)
+            .first
             .map(APODImageURL.original)
+    }
+
+    private static func imageURLs(_ sources: [String]) -> [URL] {
+        sources
+            .compactMap { URL(string: HTMLText.decodingEntities($0)) }
+            .filter(APODImageURL.isAPODImage)
     }
 }

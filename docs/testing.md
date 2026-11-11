@@ -78,9 +78,14 @@ xcodebuild -project "nasa.exp.xcodeproj" \
 ### `APODSourceTests` (APOD desde `science.nasa.gov`, fixtures reales + `URLProtocol` mock)
 
 - RSS: `test_feedParser_readsRecordsNewestFirstWithEasternDayIDs`, `..._mapsImageEntryToPlainTextAndOriginalImage`,
-  `..._dropsRepeatedExplanationLabelAndIgnoresLinkedVideoFiles`, `..._mapsIframeEntryToVideoWithPoster`
+  `..._dropsRepeatedExplanationLabelAndIgnoresLinkedVideoFiles`, `..._mapsIframeEntryToVideoWithPoster`,
+  `..._imageOutsideTheAPODFolder_isTheEntryImage` (el ítem real del 2026-11-11, asset de Hubble con `%20`, que salía
+  como "Formato no soportado")
 - WordPress: `test_archivePost_videoDay_mapsEmbedPosterAndCredit`, `..._oldEntry_stripsCreditLabelAndCleansText`,
-  `..._withPlaceholderFeaturedImage_usesPageImage`
+  `..._withPlaceholderFeaturedImage_usesPageImage`, `..._withOnlyThePlaceholder_hasNoImage`
+- Elección de imagen: `test_imageURL_whenExplicitImageIsNotOnThePage_prefersThePageImage`,
+  `test_imageURL_whenThePageHasNoImage_usesTheExplicitImageFromAnyFolder`, `test_imageURL_skipsImagesOutsideTheNASAAssetsHost`,
+  `test_imageURL_withHubbleAssetAndEncodedSpace_keepsTheEncodingWhenResizing`
 - Texto, días y URLs: `test_htmlText_dropsTagsDecodesEntitiesAndCollapsesWhitespace`,
   `test_extractor_stripsCreditLabelsAndTitlePrefix`, `test_apodDay_usesNewYorkCalendarDay`,
   `test_archivePostURL_coversWholeDayWithExclusiveAfterBound`, `test_imageURL_resizesOnlyCDNImages`
@@ -192,6 +197,8 @@ Respuestas reales recortadas, utiles para tests y para documentar el contrato de
 
 - `docs/fixtures/apod-basic-sample.xml` (RSS: imagen, imagen con `.mp4` enlazados en el texto y video con `<iframe>`;
   `content:encoded` recortado al `<title>` y al `<iframe>`)
+- `docs/fixtures/apod-basic-ngc4449.xml` (RSS del 2026-11-11: `apod:hdurl` y `<IMG SRC>` en `.../missions/hubble/...`
+  con `%20`; `content:encoded` recortado al `<title>` y a la imagen)
 - `docs/fixtures/apod-wp-sample.json` (WordPress: video de 2026, archivo de 2004 y 1995 con imagen destacada placeholder)
 - `docs/fixtures/epic-sample.json`
 - `docs/fixtures/epic-gsfc-natural-sample.json` (`epic.gsfc.nasa.gov/api/natural` del 2026-10-26: primera y

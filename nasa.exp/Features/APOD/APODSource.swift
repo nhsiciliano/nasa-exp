@@ -72,9 +72,13 @@ nonisolated enum APODImageURL {
         return components.url ?? url
     }
 
-    /// Whether `url` is an APOD picture, as opposed to the generic placeholder WordPress uses
-    /// when a post has no featured image.
+    /// Whether `url` can be an APOD picture: any image on the NASA assets host (entries reuse mission
+    /// assets, not only the `/cds/apod/` folder) except the default featured image WordPress gives
+    /// posts that have none.
     static func isAPODImage(_ url: URL) -> Bool {
-        url.host == host && url.path.contains("/cds/apod/")
+        url.host == host && !url.path.hasSuffix(placeholderPathSuffix)
     }
+
+    /// The WordPress placeholder, served both from `dynamicimage` and from `content/dam`.
+    private static let placeholderPathSuffix = "/astro/programs/cosmic-origins/images/misc/news-thumbnail.png"
 }

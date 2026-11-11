@@ -258,9 +258,16 @@ nasa.exp/
   comparte solo el link y no ofrece guardar.
 - Imágenes: `assets.science.nasa.gov` redimensiona con `?w=&fit=clip` sin agrandar. En pantalla se usa
   `w=1280`, en pantalla completa el original sin query y en listas `w=480`. Las imágenes de archivo
-  bajo `content/dam` ignoran el query y sirven el original. Si un post no tiene imagen destacada,
-  la WP pone un placeholder genérico (`.../misc/news-thumbnail.png`); solo se aceptan imágenes bajo
-  `/cds/apod/`, y si no hay, se usa el `<img>` del contenido.
+  bajo `content/dam` ignoran el query y sirven el original.
+- Qué imagen es la del día (`APODHTMLExtractor.imageURL(preferring:inHTML:)`): los candidatos son el campo
+  explícito (`apod:hdurl` del RSS o `featured_image_url` de la WP) y los `<img>` de la página. Cuentan solo
+  las imágenes de `assets.science.nasa.gov`, en cualquier carpeta: las entradas reutilizan assets de
+  misiones (el 2026-11-11 fue `.../missions/hubble/...`, fuera de `/cds/apod/`). Se descarta el placeholder
+  que la WP pone cuando un post no tiene imagen destacada (`.../cosmic-origins/images/misc/news-thumbnail.png`,
+  `APODImageURL.isAPODImage`). Orden: el campo explícito si la página muestra la misma imagen, después
+  las imágenes de la página, y recién al final el campo explícito solo (hay páginas del RSS sin `<img>`).
+  Así, si la WP cambiara de placeholder, la foto del artículo le gana igual. Riesgo: un post sin `<img>`
+  propio con un placeholder nuevo mostraría ese placeholder.
 - Texto: explicación y crédito vienen en HTML. `HTMLText` quita tags y decodifica entidades sin WebKit;
   `APODHTMLExtractor` saca el párrafo "Explanation:" (sin el "Tomorrow's picture:" final) y la
   fila de crédito, normalizando el label ("Credit & Copyright:", "Image Credit:", ...).

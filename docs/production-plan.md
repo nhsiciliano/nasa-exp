@@ -116,8 +116,9 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 
 ## Estado de ramas (2026-11-11)
 
-- `nhsiciliano/lead-dev`: `main` más el arreglo del toque de la notificación diaria (S.5) y el build 4
-  (`CURRENT_PROJECT_VERSION = 4`). Suite completa verde (151 unit tests, 5 UI tests), analyze y build Release
+- `nhsiciliano/lead-dev`: `main` más el arreglo del toque de la notificación diaria (S.5), la imagen del APOD fuera de
+  `/cds/apod/` (S.6) y el build 4
+  (`CURRENT_PROJECT_VERSION = 4`). Suite completa verde (157 unit tests, 5 UI tests), analyze y build Release
   sin warnings. Commits locales, sin push y sin mover `main`.
 - `main` (97665c5) tiene el build 3, que es el seleccionado en App Store Connect: hay que subir el 4 y
   reemplazarlo antes de enviar a revisión.
@@ -137,6 +138,7 @@ Anterior (2026-10-29):
 | S.3 | Rovers: el feed de Mars 2020 pasó a devolver `per_page` como texto y Perseverance fallaba al decodificar en la app y en el widget | 🟢 Bajo | Hecho | Detectado al capturar. `Mars2020RawImagesResponseDTO` acepta Int o String en la paginación; test de regresión; fixture actualizado. Requiere build 3. |
 | S.4 | Completar la ficha en App Store Connect y enviar a revisión | 🟢 Bajo | Pendiente | Checklist en `docs/app-store/README.md`. Lo hace el usuario, ahora con el build 4 (S.5). |
 | S.5 | Notificación diaria: tocarla con la app en segundo plano o cerrada la cerraba (TestFlight, build 3) | 🟡 Medio | Hecho | `didReceive` `async` devolvía el completion fuera de main y UIKit tiraba `NSInternalInconsistencyException`. Ahora el delegate usa los completion handlers en main y el toque va por `AppDeepLinkRouter` dentro del proceso: Hoy, raíz del stack, última entrada (también desde el widget). Tests en `AppDeepLinkRouterTests` y `APODViewModelTests`; prueba en `docs/testing.md`. Requiere build 4. |
+| S.6 | APOD: el 2026-11-11 (NGC 4449) salió "Formato no soportado" porque la imagen era un asset de Hubble fuera de `/cds/apod/` | 🟢 Bajo | Hecho | El filtro aceptaba solo esa carpeta. Ahora vale cualquier imagen de `assets.science.nasa.gov` salvo el placeholder de WordPress, y gana el campo explícito si la página muestra la misma imagen, si no la imagen de la página. Feed del día: 1 de 30 sin imagen antes, 0 después; 24 días de archivo de 1996 a 2026 sin cambios. Test con el ítem real (`docs/fixtures/apod-basic-ngc4449.xml`). Va en el build 4. |
 
 ## Notas de integración
 
