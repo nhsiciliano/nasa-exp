@@ -119,9 +119,14 @@ Reparto por dificultad: 🟢 a `low-dev`, 🟡 a `mid-dev`, 🔴 a `high-dev`. C
 - `nhsiciliano/lead-dev`: `main` más el arreglo del toque de la notificación diaria (S.5), la imagen del APOD fuera de
   `/cds/apod/` (S.6) y el build 4
   (`CURRENT_PROJECT_VERSION = 4`). Suite completa verde (157 unit tests, 5 UI tests), analyze y build Release
-  sin warnings. Commits locales, sin push y sin mover `main`.
-- `main` (97665c5) tiene el build 3, que es el seleccionado en App Store Connect: hay que subir el 4 y
-  reemplazarlo antes de enviar a revisión.
+  sin warnings.
+- `main` = `nhsiciliano/lead-dev`: fast-forward y push de ambas el 2026-11-11 (código en 3ba3002), CI de `main`
+  verde. El build 4 se archivó y subió desde Xcode ese día y es el que está en revisión (S.4).
+- Ramas de sesión: los worktrees de `High-Dev`, `Low-Dev`, `Mid-Dev` y `Nasa-Exp-Image` se eliminaron el
+  2026-11-11; sus ramas locales siguen existiendo y ya están contenidas en `main`. `nhsiciliano/High-Dev-widget`
+  tiene 2 commits con otros hashes que los de `main` (P2.9 se integró con otros commits); no se comparó línea por línea.
+- Sin verificar en dispositivo real: el toque de la notificación con el build 4, el widget, y Compartir / Guardar
+  en Fotos con una imagen fuera de `/cds/apod/`.
 
 Anterior (2026-10-29):
 
@@ -136,7 +141,7 @@ Anterior (2026-10-29):
 | S.1 | Política de privacidad y página de soporte publicadas en GitHub Pages | 🟢 Bajo | Hecho | `docs/privacy-policy.html`, `docs/index.html`, `.nojekyll`; Pages desde `docs/` en `main`. |
 | S.2 | Capturas 6.9" (iPhone 17 Pro Max, 1320 x 2868) | 🟢 Bajo | Hecho | 8 capturas en `docs/app-store/screenshots-6.9/`, orden y checklist en `docs/app-store/README.md`. |
 | S.3 | Rovers: el feed de Mars 2020 pasó a devolver `per_page` como texto y Perseverance fallaba al decodificar en la app y en el widget | 🟢 Bajo | Hecho | Detectado al capturar. `Mars2020RawImagesResponseDTO` acepta Int o String en la paginación; test de regresión; fixture actualizado. Requiere build 3. |
-| S.4 | Completar la ficha en App Store Connect y enviar a revisión | 🟢 Bajo | Pendiente | Checklist en `docs/app-store/README.md`. Lo hace el usuario, ahora con el build 4 (S.5). |
+| S.4 | Completar la ficha en App Store Connect y enviar a revisión | 🟢 Bajo | En revisión | Checklist en `docs/app-store/README.md`. Enviada el 2026-10-30 con el build 3: estuvo 12 días en "Pendiente de revisión" sin respuesta de Apple. El 2026-11-11 se retiró ese envío, se seleccionó el build 4 (S.5, S.6) y se reenvió a las 16:30 con publicación manual: al aprobarse hay que publicarla a mano desde App Store Connect. |
 | S.5 | Notificación diaria: tocarla con la app en segundo plano o cerrada la cerraba (TestFlight, build 3) | 🟡 Medio | Hecho | `didReceive` `async` devolvía el completion fuera de main y UIKit tiraba `NSInternalInconsistencyException`. Ahora el delegate usa los completion handlers en main y el toque va por `AppDeepLinkRouter` dentro del proceso: Hoy, raíz del stack, última entrada (también desde el widget). Tests en `AppDeepLinkRouterTests` y `APODViewModelTests`; prueba en `docs/testing.md`. Requiere build 4. |
 | S.6 | APOD: el 2026-11-11 (NGC 4449) salió "Formato no soportado" porque la imagen era un asset de Hubble fuera de `/cds/apod/` | 🟢 Bajo | Hecho | El filtro aceptaba solo esa carpeta. Ahora vale cualquier imagen de `assets.science.nasa.gov` salvo el placeholder de WordPress, y gana el campo explícito si la página muestra la misma imagen, si no la imagen de la página. Feed del día: 1 de 30 sin imagen antes, 0 después; 24 días de archivo de 1996 a 2026 sin cambios. Test con el ítem real (`docs/fixtures/apod-basic-ngc4449.xml`). Va en el build 4. |
 
