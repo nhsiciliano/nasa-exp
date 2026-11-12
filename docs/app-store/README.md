@@ -38,6 +38,55 @@ To regenerate: build Debug for a 6.9" simulator, launch with `-initialTab <tab>`
 `xcrun simctl status_bar <udid> override --time 9:41 --batteryLevel 100 --batteryState charged --cellularBars 4 --wifiBars 3`
 and `xcrun simctl io <udid> screenshot <file>`.
 
+## Landing page (Marketing URL)
+
+`docs/index.html` (English, x-default) and `docs/es/index.html` (Spanish) share
+`docs/assets/site.css` and `docs/assets/site.js`; `docs/privacy-policy.html` loads the same
+stylesheet. Hand-written HTML, no build step, relative paths only (Pages serves the site under
+`/nasa-exp/`). Preview locally with `python3 -m http.server 8000 --directory docs`. Before
+pushing, `grep -nE '(href|src)="/' docs/*.html docs/es/*.html` must print nothing.
+
+Images in `docs/assets/img/`:
+
+- `es/` from the 6.9" set above, except `rovers-grid`: the 6.9" one opens with two almost black
+  thumbnails, so it was recaptured on the iPhone 17 (Perseverance, sol 2023, Mastcam-Z, scrolled
+  to the colour row). `en/` recaptured in English on the iPhone 17 simulator (Debug build,
+  `-AppleLanguages "(en)" -AppleLocale en_US -initialTab <tab>`, dark appearance, status bar at 9:41).
+- The widget shot only exists in `es/` and both pages use it. Widgets follow the system language,
+  not the app's launch arguments, so an English one needs the simulator itself in English
+  (`simctl spawn <udid> defaults write -g AppleLanguages -array en-US` plus `AppleLocale en_US`,
+  then reboot; restore `es-AR` / `es_AR` afterwards). On the iPhone 17 the widget renders in English,
+  but its home page also shows other personal apps, so that capture was not used.
+- Three widths per shot, always with `--out` and even heights (an AVIF with an odd height decodes as
+  transparent in Chrome):
+
+  ```bash
+  # es: source 1320 x 2868. en: convert the simulator PNG to JPEG first (its alpha channel
+  # also breaks the AVIF), then use the same loop.
+  for wh in 440:956 660:1434 880:1912; do
+    w=${wh%%:*}; h=${wh##*:}
+    sips -s format jpeg -s formatOptions 72 -z $h $w SRC.jpg --out docs/assets/img/es/NAME-$w.jpg
+    sips -s format avif -s formatOptions 60 -z $h $w SRC.jpg --out docs/assets/img/es/NAME-$w.avif
+  done
+  ```
+
+- Icons from `docs/design/icon-candidates/final/3-orbita-final.png`: `sips -s format png -z N N`
+  for `apple-touch-icon.png` (180), `favicon-32.png` (32) and `icon-128.png` (header and footer).
+- `og-card-en.jpg` and `og-card-es.jpg` (1200 x 630) were made separately; do not regenerate them
+  with `sips`.
+- The hero is a plain `<img>` with AVIF only and an inline `onerror` that swaps in the 880 px JPEG.
+  Inside `<picture>`, Safari on iOS also downloaded the `<img>` JPEG of the eager hero (199 KB extra).
+  The other images stay in `<picture>` with JPEG fallback; they are lazy and are not fetched twice.
+
+When the app is live:
+
+1. Set `APP_STORE_URL` in `docs/assets/site.js` to `https://apps.apple.com/app/id6827700435`. Every
+   `[data-cta]` becomes a link labelled with its `data-live-label`.
+2. In both pages, also replace the "Coming soon to the App Store" / "Próximamente en el App Store"
+   placeholders with real links, so visitors without JavaScript get them too.
+3. Add the Smart App Banner to both `<head>`s:
+   `<meta name="apple-itunes-app" content="app-id=6827700435">`.
+
 ## App Store Connect state (2026-10-30, updated 2026-11-11)
 
 Filled in and saved: screenshots (8), promotional text, description, keywords, support and

@@ -3,28 +3,498 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NASA Exp</title>
-  <style>
-    :root { color-scheme: light dark; --fg: #1b1f24; --bg: #ffffff; --muted: #57606a; --accent: #0969da; }
-    @media (prefers-color-scheme: dark) { :root { --fg: #e6edf3; --bg: #0d1117; --muted: #8b949e; --accent: #58a6ff; } }
-    body { margin: 0; padding: 48px 16px 64px; background: var(--bg); color: var(--fg); font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
-    main { max-width: 720px; margin: 0 auto; }
-    h1 { font-size: 2rem; margin: 0 0 4px; }
-    p.meta { color: var(--muted); margin: 0 0 24px; }
-    a { color: var(--accent); }
-    ul { padding-left: 20px; }
-  </style>
+  <title>NASA Exp — NASA imagery and mission data for iPhone</title>
+  <meta name="description" content="The Astronomy Picture of the Day, raw photos from the Mars rovers and Earth from NASA's EPIC camera, with favorites, widgets and a daily notification. Free, no account, no data collected.">
+  <link rel="canonical" href="https://nhsiciliano.github.io/nasa-exp/">
+  <link rel="alternate" hreflang="en" href="https://nhsiciliano.github.io/nasa-exp/">
+  <link rel="alternate" hreflang="es" href="https://nhsiciliano.github.io/nasa-exp/es/">
+  <link rel="alternate" hreflang="x-default" href="https://nhsiciliano.github.io/nasa-exp/">
+  <meta name="theme-color" content="#030817">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="NASA Exp">
+  <meta property="og:title" content="NASA Exp — NASA imagery and mission data">
+  <meta property="og:description" content="The Astronomy Picture of the Day, raw photos from the Mars rovers and Earth from NASA's EPIC camera, with favorites, widgets and a daily notification. Free, no account, no data collected.">
+  <meta property="og:url" content="https://nhsiciliano.github.io/nasa-exp/">
+  <meta property="og:image" content="https://nhsiciliano.github.io/nasa-exp/assets/img/og-card-en.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="NASA Exp — NASA imagery and mission data">
+  <meta name="twitter:card" content="summary_large_image">
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/site.js" defer></script>
 </head>
 <body>
-<main>
-  <h1>NASA Exp</h1>
-  <p class="meta">NASA imagery and mission data for iPhone</p>
-  <p>Astronomy Picture of the Day, raw photos from the Mars rovers, and Earth images from the EPIC camera, with favorites, widgets and a daily reminder. Not an official NASA app; not affiliated with or endorsed by NASA.</p>
-  <ul>
-    <li><a href="privacy-policy.html">Privacy Policy</a> · <a href="privacy-policy.html#es">Política de privacidad</a></li>
-    <li>Support and feedback: <a href="https://github.com/nhsiciliano/nasa-exp/issues">GitHub Issues</a></li>
-    <li>Source code: <a href="https://github.com/nhsiciliano/nasa-exp">github.com/nhsiciliano/nasa-exp</a></li>
-  </ul>
-</main>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./"><img src="assets/img/icon-128.png" width="32" height="32" alt="">NASA Exp</a>
+      <nav class="site-nav" aria-label="Sections">
+        <ul>
+          <li><a href="#explore">Explore</a></li>
+          <li><a href="#widgets">Widgets</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <span aria-current="true" lang="en">EN</span>
+        <a href="es/" hreflang="es" lang="es" aria-label="Español">ES</a>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"></div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="kicker">Mission feed · iPhone</p>
+          <h1 id="hero-title">NASA imagery and mission data, <em>on your iPhone</em></h1>
+          <p class="lead">The Astronomy Picture of the Day, raw photos from Curiosity and Perseverance, and Earth seen by NASA's EPIC camera, in one focused app with favorites, widgets and an optional daily notification.</p>
+          <div class="hero-actions">
+            <span class="btn btn-primary is-soon" data-cta data-live-label="Download on the App Store"><span data-cta-label>Coming soon to the App Store</span></span>
+            <a class="btn btn-secondary" href="#explore"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4v12M5 11l5 5 5-5"/></svg>Explore the app</a>
+          </div>
+          <div class="hero-meta">
+          <span class="pill">Free</span>
+          <span class="pill">No account</span>
+          <span class="pill">Data not collected</span>
+          <span class="pill">iOS 17+</span>
+          </div>
+        </div>
+        <div class="phone">
+          <div class="phone-screen">
+            <img src="assets/img/en/apod-home-660.avif" srcset="assets/img/en/apod-home-440.avif 440w, assets/img/en/apod-home-660.avif 660w, assets/img/en/apod-home-880.avif 880w" sizes="(min-width: 900px) 320px, 76vw" width="880" height="1912" alt="The Today tab of NASA Exp showing the Astronomy Picture of the Day" fetchpriority="high" decoding="async" onerror="this.onerror=null;this.removeAttribute('srcset');this.src='assets/img/en/apod-home-880.jpg'">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="explore" aria-labelledby="explore-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="kicker">Four tabs</p>
+          <h2 id="explore-title" tabindex="-1">Explore the app</h2>
+          <p>The same four tabs you find in the app: three public NASA sources and your own archive.</p>
+        </header>
+        <div class="tabs" data-tabs>
+          <div class="tablist" role="tablist" aria-label="App tabs">
+          <button type="button" role="tab" id="tab-today" aria-controls="panel-today" aria-selected="true" tabindex="0"><span class="tab-pill" aria-hidden="true"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2.5"/><path d="M8 21h8M12 17v4"/><path d="M12 8.2l.9 1.9 1.9.9-1.9.9-.9 1.9-.9-1.9-1.9-.9 1.9-.9z"/></svg><span>Today</span></button>
+          <button type="button" role="tab" id="tab-rovers" aria-controls="panel-rovers" aria-selected="false" tabindex="-1"><span class="tab-pill" aria-hidden="true"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="11" r="1.6"/><path d="M12 12.6V21"/><path d="M8.5 7.5a5 5 0 0 0 0 7M15.5 7.5a5 5 0 0 1 0 7M5.6 4.6a9 9 0 0 0 0 12.8M18.4 4.6a9 9 0 0 1 0 12.8"/></svg><span>Rovers</span></button>
+          <button type="button" role="tab" id="tab-earth" aria-controls="panel-earth" aria-selected="false" tabindex="-1"><span class="tab-pill" aria-hidden="true"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9S14.6 18.4 12 21c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></svg><span>Earth</span></button>
+          <button type="button" role="tab" id="tab-favorites" aria-controls="panel-favorites" aria-selected="false" tabindex="-1"><span class="tab-pill" aria-hidden="true"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>Favorites</span></button>
+          </div>
+        <article class="tab-panel" id="panel-today">
+          <div class="phone">
+            <div class="phone-screen">
+              <picture>
+                <source type="image/avif" srcset="assets/img/en/apod-home-440.avif 440w, assets/img/en/apod-home-660.avif 660w, assets/img/en/apod-home-880.avif 880w" sizes="(min-width: 900px) 300px, 76vw">
+                <img src="assets/img/en/apod-home-660.jpg" srcset="assets/img/en/apod-home-440.jpg 440w, assets/img/en/apod-home-660.jpg 660w, assets/img/en/apod-home-880.jpg 880w" sizes="(min-width: 900px) 300px, 76vw" width="880" height="1912" alt="Today tab with the Astronomy Picture of the Day" loading="lazy" decoding="async">
+              </picture>
+            </div>
+          </div>
+          <div class="panel-copy">
+            <p class="kicker">APOD · science.nasa.gov</p>
+            <h3>Today at NASA</h3>
+            <p>The Astronomy Picture of the Day with its title and full explanation, as NASA publishes them, and the credit when NASA gives one.</p>
+            <ul class="ticks">
+              <li>Go back day by day, pick a date or jump to a random day since 1995</li>
+              <li>Full-screen view from the details screen</li>
+              <li>YouTube and Vimeo videos play in the details screen</li>
+            </ul>
+          </div>
+        </article>
+        <article class="tab-panel" id="panel-rovers">
+          <div class="phone">
+            <div class="phone-screen">
+              <picture>
+                <source type="image/avif" srcset="assets/img/en/rovers-grid-440.avif 440w, assets/img/en/rovers-grid-660.avif 660w, assets/img/en/rovers-grid-880.avif 880w" sizes="(min-width: 900px) 300px, 76vw">
+                <img src="assets/img/en/rovers-grid-660.jpg" srcset="assets/img/en/rovers-grid-440.jpg 440w, assets/img/en/rovers-grid-660.jpg 660w, assets/img/en/rovers-grid-880.jpg 880w" sizes="(min-width: 900px) 300px, 76vw" width="880" height="1912" alt="Rovers tab with a grid of Perseverance Mastcam-Z photos from sol 2023" loading="lazy" decoding="async">
+              </picture>
+            </div>
+          </div>
+          <div class="panel-copy">
+            <p class="kicker">Mars · mars.nasa.gov</p>
+            <h3>Mars Rovers</h3>
+            <p>Raw images from Curiosity and Perseverance, straight from NASA's mission feeds, sol by sol.</p>
+            <ul class="ticks">
+              <li>Filter by sol and camera</li>
+              <li>Jump to the latest sol in one tap</li>
+              <li>Every photo with its camera, sol and Earth date</li>
+            </ul>
+          </div>
+        </article>
+        <article class="tab-panel" id="panel-earth">
+          <div class="phone">
+            <div class="phone-screen">
+              <picture>
+                <source type="image/avif" srcset="assets/img/en/epic-440.avif 440w, assets/img/en/epic-660.avif 660w, assets/img/en/epic-880.avif 880w" sizes="(min-width: 900px) 300px, 76vw">
+                <img src="assets/img/en/epic-660.jpg" srcset="assets/img/en/epic-440.jpg 440w, assets/img/en/epic-660.jpg 660w, assets/img/en/epic-880.jpg 880w" sizes="(min-width: 900px) 300px, 76vw" width="880" height="1912" alt="Earth tab with EPIC images of the whole planet for a date" loading="lazy" decoding="async">
+              </picture>
+            </div>
+          </div>
+          <div class="panel-copy">
+            <p class="kicker">EPIC · epic.gsfc.nasa.gov</p>
+            <h3>Earth from EPIC</h3>
+            <p>Full-disk images of Earth taken by NASA's EPIC camera.</p>
+            <ul class="ticks">
+              <li>Pick a date to see that day's images</li>
+              <li>Capture time and coordinates for each image</li>
+              <li>Save them to Photos with their title and credit</li>
+            </ul>
+          </div>
+        </article>
+        <article class="tab-panel" id="panel-favorites">
+          <div class="phone">
+            <div class="phone-screen">
+              <picture>
+                <source type="image/avif" srcset="assets/img/en/favorites-440.avif 440w, assets/img/en/favorites-660.avif 660w, assets/img/en/favorites-880.avif 880w" sizes="(min-width: 900px) 300px, 76vw">
+                <img src="assets/img/en/favorites-660.jpg" srcset="assets/img/en/favorites-440.jpg 440w, assets/img/en/favorites-660.jpg 660w, assets/img/en/favorites-880.jpg 880w" sizes="(min-width: 900px) 300px, 76vw" width="880" height="1912" alt="Favorites tab with a saved APOD and a saved rover photo" loading="lazy" decoding="async">
+              </picture>
+            </div>
+          </div>
+          <div class="panel-copy">
+            <p class="kicker">Personal archive</p>
+            <h3>Favorites</h3>
+            <p>Keep the images you like from any tab in a private archive on your iPhone.</p>
+            <ul class="ticks">
+              <li>Filter by APOD, Rovers or EPIC</li>
+              <li>Open each one with its full details</li>
+              <li>Stored only on your device</li>
+            </ul>
+          </div>
+        </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section widgets" id="widgets" aria-labelledby="widgets-title">
+      <div class="container widgets-grid">
+        <div class="phone">
+          <div class="phone-screen">
+            <picture>
+              <source type="image/avif" srcset="assets/img/es/widget-440.avif 440w, assets/img/es/widget-660.avif 660w, assets/img/es/widget-880.avif 880w" sizes="(min-width: 900px) 300px, 76vw">
+              <img src="assets/img/es/widget-660.jpg" srcset="assets/img/es/widget-440.jpg 440w, assets/img/es/widget-660.jpg 660w, assets/img/es/widget-880.jpg 880w" sizes="(min-width: 900px) 300px, 76vw" width="880" height="1912" alt="Home Screen with the medium NASA Exp widget showing the Astronomy Picture of the Day" loading="lazy" decoding="async">
+            </picture>
+          </div>
+        </div>
+        <div>
+          <header class="section-head reveal">
+            <p class="kicker">Home Screen</p>
+            <h2 id="widgets-title" tabindex="-1">Widgets and a daily notification</h2>
+            <p>Bring NASA to your Home Screen, and get a heads-up when the new picture is out.</p>
+          </header>
+          <ul class="widget-list">
+            <li class="panel"><strong>Astronomy Picture of the Day</strong><span>Today's APOD image, updated every day.</span></li>
+            <li class="panel"><strong>Latest from Mars</strong><span>The newest raw photo from Perseverance or Curiosity, updated every few hours.</span></li>
+            <li class="panel"><strong>Earth from EPIC</strong><span>The latest full-disk image of Earth taken by EPIC.</span></li>
+          </ul>
+          <div class="notif-wrap">
+            <p class="kicker">Optional daily notification</p>
+            <div class="notif" role="img" aria-label="Example notification from NASA Exp: Astronomy Picture of the Day. Today's picture is out.">
+              <img src="assets/img/icon-128.png" width="38" height="38" alt="">
+              <span class="notif-app">NASA Exp</span>
+              <span class="notif-time">now</span>
+              <span class="notif-text"><strong>Astronomy Picture of the Day</strong>Today's picture is out.</span>
+            </div>
+            <p>Off by default. Turn it on in the app's About screen and choose the time; tapping it opens Today. All widgets come in small and medium sizes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features" aria-labelledby="features-title" data-filter-section>
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="kicker">What's inside</p>
+          <h2 id="features-title" tabindex="-1">Everything in the app</h2>
+          <p>No sign-up, no ads and nothing to set up first.</p>
+        </header>
+        <div class="chips" role="group" aria-label="Filter features">
+          <button type="button" class="chip" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" class="chip" data-filter="apod" aria-pressed="false">APOD</button>
+          <button type="button" class="chip" data-filter="mars" aria-pressed="false">Mars</button>
+          <button type="button" class="chip" data-filter="earth" aria-pressed="false">Earth</button>
+          <button type="button" class="chip" data-filter="privacy" aria-pressed="false">Privacy</button>
+        </div>
+        <p class="visually-hidden" aria-live="polite" data-filter-status data-template="Showing {n} features"></p>
+        <ul class="cards">
+          <li class="card panel" data-tags="apod mars earth">
+            <div class="tags"><span class="pill">APOD</span><span class="pill">Mars</span><span class="pill">Earth</span></div>
+            <h3>Share</h3>
+            <p>The picture of the day is shared as an image with its title and credit; rover and EPIC photos share the image link.</p>
+          </li>
+          <li class="card panel" data-tags="apod mars earth">
+            <div class="tags"><span class="pill">APOD</span><span class="pill">Mars</span><span class="pill">Earth</span></div>
+            <h3>Save to Photos</h3>
+            <p>Add images to your photo library with their title and credit.</p>
+          </li>
+          <li class="card panel" data-tags="apod mars">
+            <div class="tags"><span class="pill">APOD</span><span class="pill">Mars</span></div>
+            <h3>Full screen</h3>
+            <p>Open the picture of the day or a rover photo full screen. Rover photos also zoom with a pinch or a double tap.</p>
+          </li>
+          <li class="card panel" data-tags="apod">
+            <div class="tags"><span class="pill">APOD</span></div>
+            <h3>Videos in the details screen</h3>
+            <p>When the picture of the day is a YouTube or Vimeo video, it plays in its details screen (YouTube in privacy-enhanced mode).</p>
+          </li>
+          <li class="card panel" data-tags="apod">
+            <div class="tags"><span class="pill">APOD</span></div>
+            <h3>Any day since 1995</h3>
+            <p>Step through the archive day by day, pick a date or land on a random day.</p>
+          </li>
+          <li class="card panel" data-tags="mars">
+            <div class="tags"><span class="pill">Mars</span></div>
+            <h3>Sol and camera</h3>
+            <p>Browse Curiosity and Perseverance by Martian sol and camera, or jump to the latest sol.</p>
+          </li>
+          <li class="card panel" data-tags="earth">
+            <div class="tags"><span class="pill">Earth</span></div>
+            <h3>Earth by date</h3>
+            <p>See EPIC's full-disk images for the date you pick, with capture time and coordinates.</p>
+          </li>
+          <li class="card panel" data-tags="apod mars earth">
+            <div class="tags"><span class="pill">APOD</span><span class="pill">Mars</span><span class="pill">Earth</span></div>
+            <h3>Favorites</h3>
+            <p>Save what you like from any tab and filter your archive by type.</p>
+          </li>
+          <li class="card panel" data-tags="apod mars earth">
+            <div class="tags"><span class="pill">APOD</span><span class="pill">Mars</span><span class="pill">Earth</span></div>
+            <h3>Home Screen widgets</h3>
+            <p>Three widgets, small and medium: today's APOD, the latest from Mars and Earth from EPIC.</p>
+          </li>
+          <li class="card panel" data-tags="apod">
+            <div class="tags"><span class="pill">APOD</span></div>
+            <h3>Daily notification</h3>
+            <p>Opt in to a daily notification at the time you choose, so you know the new picture is out.</p>
+          </li>
+          <li class="card panel" data-tags="privacy">
+            <div class="tags"><span class="pill">Privacy</span></div>
+            <h3>No account</h3>
+            <p>Open the app and start exploring. There is nothing to sign up for.</p>
+          </li>
+          <li class="card panel" data-tags="privacy">
+            <div class="tags"><span class="pill">Privacy</span></div>
+            <h3>No data collected</h3>
+            <p>No analytics, ads or tracking. Favorites and settings stay on your iPhone.</p>
+          </li>
+          <li class="card panel" data-tags="privacy">
+            <div class="tags"><span class="pill">Privacy</span></div>
+            <h3>English and Spanish</h3>
+            <p>The whole interface is available in both languages.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="gallery" aria-labelledby="gallery-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="kicker">Screens</p>
+          <h2 id="gallery-title" tabindex="-1">Gallery</h2>
+          <p>Real screens from the app, captured on iPhone.</p>
+        </header>
+      </div>
+      <ul class="gallery" tabindex="0" aria-label="App screenshots, scrolls sideways">
+      <li>
+        <figure class="gallery-item">
+        <picture>
+          <source type="image/avif" srcset="assets/img/en/apod-home-440.avif 440w, assets/img/en/apod-home-660.avif 660w, assets/img/en/apod-home-880.avif 880w" sizes="210px">
+          <img src="assets/img/en/apod-home-660.jpg" srcset="assets/img/en/apod-home-440.jpg 440w, assets/img/en/apod-home-660.jpg 660w, assets/img/en/apod-home-880.jpg 880w" sizes="210px" width="880" height="1912" alt="Today at NASA with the picture of the day" loading="lazy" decoding="async">
+        </picture>
+          <figcaption>Today at NASA with the picture of the day</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="gallery-item">
+        <picture>
+          <source type="image/avif" srcset="assets/img/en/apod-detail-440.avif 440w, assets/img/en/apod-detail-660.avif 660w, assets/img/en/apod-detail-880.avif 880w" sizes="210px">
+          <img src="assets/img/en/apod-detail-660.jpg" srcset="assets/img/en/apod-detail-440.jpg 440w, assets/img/en/apod-detail-660.jpg 660w, assets/img/en/apod-detail-880.jpg 880w" sizes="210px" width="880" height="1912" alt="APOD details with title, date and image" loading="lazy" decoding="async">
+        </picture>
+          <figcaption>APOD details with title, date and image</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="gallery-item">
+        <picture>
+          <source type="image/avif" srcset="assets/img/en/rover-detail-440.avif 440w, assets/img/en/rover-detail-660.avif 660w, assets/img/en/rover-detail-880.avif 880w" sizes="210px">
+          <img src="assets/img/en/rover-detail-660.jpg" srcset="assets/img/en/rover-detail-440.jpg 440w, assets/img/en/rover-detail-660.jpg 660w, assets/img/en/rover-detail-880.jpg 880w" sizes="210px" width="880" height="1912" alt="A Perseverance Mastcam-Z photo" loading="lazy" decoding="async">
+        </picture>
+          <figcaption>A Perseverance Mastcam-Z photo</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="gallery-item">
+        <picture>
+          <source type="image/avif" srcset="assets/img/en/epic-440.avif 440w, assets/img/en/epic-660.avif 660w, assets/img/en/epic-880.avif 880w" sizes="210px">
+          <img src="assets/img/en/epic-660.jpg" srcset="assets/img/en/epic-440.jpg 440w, assets/img/en/epic-660.jpg 660w, assets/img/en/epic-880.jpg 880w" sizes="210px" width="880" height="1912" alt="Earth images from EPIC for a date" loading="lazy" decoding="async">
+        </picture>
+          <figcaption>Earth images from EPIC for a date</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="gallery-item">
+        <picture>
+          <source type="image/avif" srcset="assets/img/es/widget-440.avif 440w, assets/img/es/widget-660.avif 660w, assets/img/es/widget-880.avif 880w" sizes="210px">
+          <img src="assets/img/es/widget-660.jpg" srcset="assets/img/es/widget-440.jpg 440w, assets/img/es/widget-660.jpg 660w, assets/img/es/widget-880.jpg 880w" sizes="210px" width="880" height="1912" alt="The APOD widget on the Home Screen" loading="lazy" decoding="async">
+        </picture>
+          <figcaption>The APOD widget on the Home Screen</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="gallery-item">
+        <picture>
+          <source type="image/avif" srcset="assets/img/en/favorites-440.avif 440w, assets/img/en/favorites-660.avif 660w, assets/img/en/favorites-880.avif 880w" sizes="210px">
+          <img src="assets/img/en/favorites-660.jpg" srcset="assets/img/en/favorites-440.jpg 440w, assets/img/en/favorites-660.jpg 660w, assets/img/en/favorites-880.jpg 880w" sizes="210px" width="880" height="1912" alt="Favorites with an APOD and a rover photo" loading="lazy" decoding="async">
+        </picture>
+          <figcaption>Favorites with an APOD and a rover photo</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="gallery-item">
+        <picture>
+          <source type="image/avif" srcset="assets/img/en/rovers-grid-440.avif 440w, assets/img/en/rovers-grid-660.avif 660w, assets/img/en/rovers-grid-880.avif 880w" sizes="210px">
+          <img src="assets/img/en/rovers-grid-660.jpg" srcset="assets/img/en/rovers-grid-440.jpg 440w, assets/img/en/rovers-grid-660.jpg 660w, assets/img/en/rovers-grid-880.jpg 880w" sizes="210px" width="880" height="1912" alt="Perseverance photos from sol 2023" loading="lazy" decoding="async">
+        </picture>
+          <figcaption>Perseverance photos from sol 2023</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="gallery-item">
+        <picture>
+          <source type="image/avif" srcset="assets/img/en/about-440.avif 440w, assets/img/en/about-660.avif 660w, assets/img/en/about-880.avif 880w" sizes="210px">
+          <img src="assets/img/en/about-660.jpg" srcset="assets/img/en/about-440.jpg 440w, assets/img/en/about-660.jpg 660w, assets/img/en/about-880.jpg 880w" sizes="210px" width="880" height="1912" alt="About: notice, daily notification and sources" loading="lazy" decoding="async">
+        </picture>
+          <figcaption>About: notice, daily notification and sources</figcaption>
+        </figure>
+      </li>
+      </ul>
+    </section>
+
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="kicker">Questions</p>
+          <h2 id="faq-title" tabindex="-1">FAQ</h2>
+        </header>
+        <div class="faq-list">
+        <details>
+          <summary><span>Is NASA Exp an official NASA app?</span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg></summary>
+          <div class="faq-panel">
+            <div class="faq-inner">
+              <div><p>No. NASA Exp is not an official NASA app and is not affiliated with or endorsed by NASA. Images and data come from public NASA services (science.nasa.gov, mars.nasa.gov, api.nasa.gov) and keep their original credits.</p></div>
+            </div>
+          </div>
+        </details>
+        <details>
+          <summary><span>How much does it cost?</span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg></summary>
+          <div class="faq-panel">
+            <div class="faq-inner">
+              <div><p>Nothing. NASA Exp is free, with no ads and no in-app purchases.</p></div>
+            </div>
+          </div>
+        </details>
+        <details>
+          <summary><span>What data does it collect?</span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg></summary>
+          <div class="faq-panel">
+            <div class="faq-inner">
+              <div><p>None. There are no accounts, analytics, ads or tracking, and your favorites and settings stay on your iPhone. The details are in the <a href="privacy-policy.html">privacy policy</a>.</p></div>
+            </div>
+          </div>
+        </details>
+        <details>
+          <summary><span>Where do the images come from?</span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg></summary>
+          <div class="faq-panel">
+            <div class="faq-inner">
+              <div><p>The Astronomy Picture of the Day comes from science.nasa.gov, the rover photos from the raw-image feeds on mars.nasa.gov, and the Earth images from NASA's EPIC camera, through api.nasa.gov and epic.gsfc.nasa.gov. The picture of the day shows its credit when NASA gives one.</p></div>
+            </div>
+          </div>
+        </details>
+        <details>
+          <summary><span>Do I need an account?</span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg></summary>
+          <div class="faq-panel">
+            <div class="faq-inner">
+              <div><p>No. Open the app and start exploring.</p></div>
+            </div>
+          </div>
+        </details>
+        <details>
+          <summary><span>Which languages does it support?</span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg></summary>
+          <div class="faq-panel">
+            <div class="faq-inner">
+              <div><p>English and Spanish. Titles and explanations come from NASA and are shown as NASA publishes them, in English.</p></div>
+            </div>
+          </div>
+        </details>
+        <details>
+          <summary><span>Does it work on iPad?</span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg></summary>
+          <div class="faq-panel">
+            <div class="faq-inner">
+              <div><p>NASA Exp is designed for iPhone. There is no iPad version.</p></div>
+            </div>
+          </div>
+        </details>
+        <details>
+          <summary><span>Which iOS version do I need?</span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg></summary>
+          <div class="faq-panel">
+            <div class="faq-inner">
+              <div><p>iOS 17.0 or later.</p></div>
+            </div>
+          </div>
+        </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="cta-title">
+      <div class="container">
+        <div class="cta-band panel reveal">
+          <p class="kicker">NASA Exp 1.0</p>
+          <h2 id="cta-title">Take NASA with you</h2>
+          <p>Free on iPhone with iOS 17 or later.</p>
+          <div class="hero-actions">
+            <span class="btn btn-primary is-soon" data-cta data-live-label="Download on the App Store"><span data-cta-label>Coming soon to the App Store</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a class="brand" href="./"><img src="assets/img/icon-128.png" width="32" height="32" alt="">NASA Exp</a>
+          <p>NASA Exp is not an official NASA app and is not affiliated with or endorsed by NASA. Images and data come from public NASA services (science.nasa.gov, mars.nasa.gov, api.nasa.gov) and keep their original credits.</p>
+        </div>
+        <div>
+          <h2>Sources</h2>
+          <ul>
+            <li><a href="https://science.nasa.gov">science.nasa.gov</a></li>
+            <li><a href="https://mars.nasa.gov">mars.nasa.gov</a></li>
+            <li><a href="https://api.nasa.gov">api.nasa.gov</a></li>
+            <li><a href="https://epic.gsfc.nasa.gov">epic.gsfc.nasa.gov</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>The app</h2>
+          <ul>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="privacy-policy.html#es" lang="es" hreflang="es">Política de privacidad</a></li>
+            <li><a href="https://github.com/nhsiciliano/nasa-exp/issues">Support and feedback (GitHub Issues)</a></li>
+            <li><a href="https://github.com/nhsiciliano/nasa-exp">Source code</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer-note">© 2026 OnionDev</p>
+    </div>
+  </footer>
 </body>
 </html>

@@ -145,6 +145,18 @@ Anterior (2026-10-29):
 | S.5 | Notificación diaria: tocarla con la app en segundo plano o cerrada la cerraba (TestFlight, build 3) | 🟡 Medio | Hecho | `didReceive` `async` devolvía el completion fuera de main y UIKit tiraba `NSInternalInconsistencyException`. Ahora el delegate usa los completion handlers en main y el toque va por `AppDeepLinkRouter` dentro del proceso: Hoy, raíz del stack, última entrada (también desde el widget). Tests en `AppDeepLinkRouterTests` y `APODViewModelTests`; prueba en `docs/testing.md`. Requiere build 4. |
 | S.6 | APOD: el 2026-11-11 (NGC 4449) salió "Formato no soportado" porque la imagen era un asset de Hubble fuera de `/cds/apod/` | 🟢 Bajo | Hecho | El filtro aceptaba solo esa carpeta. Ahora vale cualquier imagen de `assets.science.nasa.gov` salvo el placeholder de WordPress, y gana el campo explícito si la página muestra la misma imagen, si no la imagen de la página. Feed del día: 1 de 30 sin imagen antes, 0 después; 24 días de archivo de 1996 a 2026 sin cambios. Test con el ítem real (`docs/fixtures/apod-basic-ngc4449.xml`). Va en el build 4. |
 
+## Landing (2026-11-12)
+
+`https://nhsiciliano.github.io/nasa-exp/` (Marketing URL de la ficha) pasa de una página de 30 líneas a una landing con la identidad de la app. HTML, CSS y JS a mano en `docs/`, sin build ni dependencias, solo rutas relativas (el sitio vive bajo `/nasa-exp/`). Navegador de referencia: Safari de iPhone.
+
+| # | Tarea | Dificultad | Estado | Notas |
+|---|---|---|---|---|
+| L.1 | Landing en inglés (`docs/index.html`) y español (`docs/es/index.html`) con CSS y JS compartidos (`docs/assets/`) | 🟡 Medio | Hecho, sin publicar | Tokens de `AppColors.swift`, siempre oscuro. Secciones: hero, Explorar (las cuatro pestañas), widgets y aviso diario, qué incluye (filtro), galería, preguntas, footer con el aviso de que no es una app oficial. `privacy-policy.html` conserva URL, contenido y `#es`; solo carga `assets/site.css`. Sin JS: todo visible, las pestañas apiladas. |
+| L.2 | Técnicas: scroll-driven (barra de progreso, revelados, galería), View Transitions (pestañas, saltos del nav, entre documentos), `<details>` animado, tarjetas con `@starting-style` | 🟡 Medio | Hecho | Mejora progresiva dentro de `prefers-reduced-motion: no-preference`. La FAQ abre con grilla `0fr → 1fr` + `@starting-style` y cierra con ~10 líneas de JS (`.is-closing`): en Safari iOS 27 la variante con `::details-content` dejaba la caja vacía durante todo el cierre. Probado en Safari iOS 27 (simulador) y Chrome de escritorio. |
+| L.3 | Imágenes: capturas en 440/660/880 px (AVIF + JPEG), ícono, favicon, apple-touch-icon | 🟢 Bajo | Hecho | Español desde `docs/app-store/screenshots-6.9/` salvo la grilla de Rovers, recapturada en el iPhone 17 porque la original abre con dos miniaturas casi negras; inglés recapturado en el iPhone 17. El widget usa la captura española en los dos idiomas: la página de inicio del iPhone 17 donde está el widget muestra otras apps personales. Tarjetas Open Graph `og-card-en/es.jpg` hechas aparte. El hero es un `<img>` solo AVIF con `onerror` al JPEG: con `<picture>`, Safari iOS bajaba también el JPEG del `srcset` (199 KB de más). Regenerar: `docs/app-store/README.md`. |
+| L.4 | Activar el botón del App Store cuando la app esté publicada | 🟢 Bajo | Pendiente | Poner la URL en `APP_STORE_URL` (`docs/assets/site.js`) y cambiar el texto "Próximamente / Coming soon" del HTML para quien navega sin JS. Agregar ahí el Smart App Banner. |
+| L.5 | Publicar la landing | 🟢 Bajo | Pendiente (usuario) | Va en vivo al avanzar `main`. |
+
 ## Notas de integración
 
 - `FavoriteItemDetailView.swift` era código muerto (Favoritos navega a los detalles nativos, que ya tienen "Quitar de favoritos"). Borrado el 2026-10-21.
