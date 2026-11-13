@@ -122,6 +122,17 @@ at the root and Spanish under `es/`.
 
 Questions and bug reports: [open an issue](https://github.com/nhsiciliano/nasa-exp/issues).
 
+## License
+
+The source code is available under the [MIT License](LICENSE). Copyright (c) 2026 OnionDev.
+
+The license covers the code only:
+
+- The name "NASA Exp" and the app icon are not included. If you publish an app based on this
+  code, give it a different name and icon.
+- Images and data from NASA services are not part of this license. They keep their own credits
+  and terms of use.
+
 ---
 
 <h1 align="center" id="espanol">NASA Exp (Español)</h1>
@@ -242,3 +253,14 @@ inglés está en la raíz y el español en `es/`.
 ## Soporte
 
 Preguntas y reportes de errores: [abre un issue](https://github.com/nhsiciliano/nasa-exp/issues).
+
+## Licencia
+
+El código fuente está disponible bajo la [licencia MIT](LICENSE). Copyright (c) 2026 OnionDev.
+
+La licencia cubre solo el código:
+
+- El nombre "NASA Exp" y el ícono de la app no están incluidos. Si publicas una app basada en
+  este código, ponle otro nombre y otro ícono.
+- Las imágenes y los datos de los servicios de la NASA no forman parte de esta licencia.
+  Conservan sus propios créditos y condiciones de uso.
