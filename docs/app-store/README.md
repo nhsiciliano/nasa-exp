@@ -78,16 +78,12 @@ Images in `docs/assets/img/`:
   Inside `<picture>`, Safari on iOS also downloaded the `<img>` JPEG of the eager hero (199 KB extra).
   The other images stay in `<picture>` with JPEG fallback; they are lazy and are not fetched twice.
 
-When the app is live:
+The App Store buttons (hero and closing band of both pages) are plain links to
+`https://apps.apple.com/app/id6827700435`, which redirects to the visitor's storefront, and both
+`<head>`s carry the Smart App Banner (`<meta name="apple-itunes-app" content="app-id=6827700435">`).
+They went in on 2026-11-13, when the app was released; before that the buttons read "Coming soon".
 
-1. Set `APP_STORE_URL` in `docs/assets/site.js` to `https://apps.apple.com/app/id6827700435`. Every
-   `[data-cta]` becomes a link labelled with its `data-live-label`.
-2. In both pages, also replace the "Coming soon to the App Store" / "Próximamente en el App Store"
-   placeholders with real links, so visitors without JavaScript get them too.
-3. Add the Smart App Banner to both `<head>`s:
-   `<meta name="apple-itunes-app" content="app-id=6827700435">`.
-
-## App Store Connect state (2026-10-30, updated 2026-11-11)
+## App Store Connect state (2026-10-30, updated 2026-11-13)
 
 Filled in and saved: screenshots (8), promotional text, description, keywords, support and
 marketing URLs, copyright, review contact, review notes, build 1.0 (3); App Privacy published as
@@ -109,6 +105,9 @@ submitted again at 16:30. Current state: "Pendiente de revisión". Once Apple ap
 version has to be released by hand from the version page.
 
 Not checked on 2026-11-11: whether the Digital Services Act trader declaration has been completed.
+
+2026-11-13: Apple approved version 1.0 (4) and the user released it by hand. The listing answers
+at `https://apps.apple.com/app/id6827700435` (checked from the US storefront).
 
 Pages: version `https://appstoreconnect.apple.com/apps/6827700435/distribution/ios/version/inflight`,
 submissions and messages from Apple `.../apps/6827700435/distribution/reviewsubmissions`. To change

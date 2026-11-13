@@ -421,12 +421,6 @@ a.btn-primary:hover {
   background: var(--accent-muted);
 }
 
-.btn-primary.is-soon {
-  color: var(--accent);
-  background: rgb(56 219 245 / 0.1);
-  box-shadow: inset 0 0 0 1px var(--border-strong);
-}
-
 .btn-secondary {
   color: var(--accent-2);
   background: rgb(255 186 77 / 0.1);

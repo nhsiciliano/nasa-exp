@@ -1,9 +1,5 @@
-// NASA Exp landing: tabs, nav jumps, feature filter, FAQ close animation and the App Store
-// button. Everything here is an enhancement; the pages are complete without it.
-
-// Fill in once the app is live (https://apps.apple.com/app/id6827700435). Every [data-cta]
-// turns from "Coming soon" into a link. Until then the buttons stay as plain text.
-const APP_STORE_URL = "";
+// NASA Exp landing: tabs, nav jumps, feature filter and FAQ close animation.
+// Everything here is an enhancement; the pages are complete without it.
 
 (() => {
   "use strict";
@@ -29,23 +25,6 @@ const APP_STORE_URL = "";
       }
     });
     return vt;
-  }
-
-  // ---------- App Store buttons ----------
-
-  function setUpCallsToAction() {
-    if (!APP_STORE_URL) {
-      return;
-    }
-
-    document.querySelectorAll("[data-cta]").forEach((placeholder) => {
-      const link = document.createElement("a");
-      link.className = placeholder.className.replace("is-soon", "").trim();
-      link.href = APP_STORE_URL;
-      link.innerHTML = placeholder.innerHTML;
-      link.querySelector("[data-cta-label]").textContent = placeholder.dataset.liveLabel;
-      placeholder.replaceWith(link);
-    });
   }
 
   // ---------- Explore tabs ----------
@@ -230,7 +209,6 @@ const APP_STORE_URL = "";
     });
   }
 
-  setUpCallsToAction();
   setUpTabs();
   setUpNavJumps();
   setUpFilter();
